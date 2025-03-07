@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/07 18:28:36 by cayamash         ###   ########.fr       */
+/*   Created: 2025/03/07 17:50:33 by cayamash          #+#    #+#             */
+/*   Updated: 2025/03/07 18:22:32 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *error)
+int	ft_arrlen(char **arr) //colocar na lib?
 {
-	printf("%s\n", error);
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	while (arr[i] != NULL)
+		i++;
+	return (i);
 }
 
-void	free_all(t_data *minishell)
+void	ft_arrfree(char **arr) //colocar na lib?
 {
-	free(minishell);
+	int	i;
+
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
-int main(int ac, char **av, char **ev)
-{
-	start(ac, av, ev);
-	return (0);
-}

@@ -6,7 +6,7 @@
 #    By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/03/06 18:33:12 by cayamash         ###   ########.fr        #
+#    Updated: 2025/03/07 18:30:37 by cayamash         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 
 #Compilers and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lreadline -lncurses
 
 #Directories
 SRC_DIR = src/
@@ -23,7 +23,7 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), main.c)
+SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c main.c)
 OBJ = $(SRC: $(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #Valgrind

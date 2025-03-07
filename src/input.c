@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/07 18:28:36 by cayamash         ###   ########.fr       */
+/*   Created: 2025/03/07 14:36:52 by cayamash          #+#    #+#             */
+/*   Updated: 2025/03/07 16:08:37 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *error)
+char	*get_input(t_data *minishell)
 {
-	printf("%s\n", error);
-	exit(EXIT_FAILURE);
-}
+	char	*input;
 
-void	free_all(t_data *minishell)
-{
-	free(minishell);
-}
-
-int main(int ac, char **av, char **ev)
-{
-	start(ac, av, ev);
-	return (0);
+	input = readline(minishell->prompt);
+	if (!input)
+		handle_error(INPUT);
+	if (*input)
+		add_history(input);
+	return (input);
 }

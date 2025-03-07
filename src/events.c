@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/07 18:28:36 by cayamash         ###   ########.fr       */
+/*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
+/*   Updated: 2025/03/07 18:28:29 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *error)
+void	execute(t_data *minishell)
 {
-	printf("%s\n", error);
-	exit(EXIT_FAILURE);
+	while (1)
+	{
+		// signals
+		minishell->input = get_input(minishell);
+		// tokenizer
+		// execute
+	}
 }
 
-void	free_all(t_data *minishell)
+void	finish(t_data *minishell)
 {
-	free(minishell);
+	free_all(minishell);
+	exit(EXIT_SUCCESS);
 }
 
-int main(int ac, char **av, char **ev)
+void	start(int ac, char **av, char **ev)
 {
-	start(ac, av, ev);
-	return (0);
+	t_data *minishell;
+
+	minishell = init(ac, av, ev); // copiar env
+	execute(minishell);
+	finish(minishell);
 }
