@@ -6,7 +6,7 @@
 #    By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/03/07 18:30:37 by cayamash         ###   ########.fr        #
+#    Updated: 2025/03/11 15:28:41 by cayamash         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,21 @@
 NAME = minishell
 
 #Compilers and flags
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -lncurses
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g3
+LDFLAGS = -lreadline -lncurses
+
+#Library
+LIBFT = lib
 
 #Directories
 SRC_DIR = src/
 OBJ_DIR = obj/
-INCLUDES = -I inc/
+INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c main.c)
-OBJ = $(SRC: $(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c main.c)
+OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #Valgrind
 VALGRIND = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
@@ -35,14 +39,17 @@ GREEN = \033[1;32m
 END = \033[0m
 
 #Rules
-all: $(NAME)
+all: libft $(NAME)
+
+libft:
+	@make -C $(LIBFT) $(NO_PRINT)
 
 val: $(NAME)
-	@$(VALGRIND) ./$(NAME) > VALGRIND.LOG 2>&1
+	@$(VALGRIND) ./$(NAME) > valgrind.log 2>&1
 
 norm:
 	@echo "\n$(BLUE)======= INCLUDES =======$(END)"
-	@norminette include | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
+	@norminette inc | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 	@echo "\n$(MAGENTA)======= SRC =======$(END)"
 	@norminette src | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 
@@ -53,21 +60,23 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 #Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
-	@echo "$(GREEN)Compiled!$(END)"
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN)Minishell Compiled!$(END)"
 
 #Clean Object
 clean:
 	@rm -rf $(OBJ_DIR)
+	@make -C $(LIBFT) clean $(NO_PRINT)
 	@echo "$(GREEN)Cleaned$(END)"
 
 #Clean all generated file
 fclean: clean
 	@rm -rf $(NAME)
+	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
 
 #Recompile everything
 re: fclean all
 
-PHONY: all clean fclean re val norm
+.PHONY: all clean fclean re val norm libft

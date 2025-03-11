@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/07 18:28:36 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:36:45 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	free_all(t_data *minishell)
 
 int main(int ac, char **av, char **ev)
 {
-	start(ac, av, ev);
+	(void)av;
+	if (ac != 1)
+		handle_error(USAGE);
+	if (!ev)
+		handle_error(EV);
+	start(ev);
 	return (0);
 }

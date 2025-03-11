@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/07 18:27:13 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:51:49 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_lev	*ft_levnew(char **arr_ev)
 	new_node = (t_lev *)malloc(sizeof(t_lev));
 	if (!new_node)
 		return (0);
-	new_node->key = arr_ev[0];
-	new_node->value = arr_ev[1];
+	new_node->key = ft_strdup(arr_ev[0]);
+	new_node->value = ft_strdup(arr_ev[1]);
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
@@ -46,7 +46,7 @@ void	ft_levadd_back(t_lev **lev, t_lev *new)
 		*lev = new;
 		return ;
 	}
-	last = ft_lstlast(*lev);
+	last = ft_levlast(*lev);
 	last->next = new;
 	new->prev = last;
 	return ;
@@ -66,25 +66,32 @@ t_lev	**init_lev(char **ev)
 	while (ev[i] != NULL)
 	{
 		arr_ev = ft_split(ev[i], '=');
-		ft_arrfree(arr_ev);
 		node = ft_levnew(arr_ev);
+		ft_arrfree(arr_ev);
 		ft_levadd_back(lev, node);
 		i++;
 	}
 	return (lev);
 }
 
-t_data	*init(int ac, char **av, char **ev)
+void	print_lev(t_lev **lev)
+{
+	t_lev *node = *lev;
+
+	while (node != NULL)
+	{
+		printf("KEY: %s, VALUE: %s\n", node->key, node->value);
+		node = node->next;
+	}
+}
+
+t_data	*init(char **ev)
 {
 	t_data	*minishell;
 
-	(void)av;
-	if (ac != 1)
-		handle_error(USAGE);
-	if (!ev)
-		handle_error(EV);
 	minishell = malloc(sizeof(t_data));
 	minishell->prompt = "minishell$ ";
 	minishell->lev = init_lev(ev);
+	//print_lev(minishell->lev);
 	return (minishell);
 }

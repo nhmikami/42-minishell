@@ -1,7 +1,7 @@
 NAME		=	libft.a
 LIB			=	ar rcs
 RM			=	rm -f
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
 SRCS		=	ft_atoi.c \
@@ -21,7 +21,7 @@ SRCS		=	ft_atoi.c \
 			ft_lstlast_bonus.c \
 			ft_lstmap_bonus.c \
 			ft_lstnew_bonus.c \
-			ft_lstsize_bonus.c
+			ft_lstsize_bonus.c \
 			ft_memchr.c \
 			ft_memcmp.c \
 			ft_memcpy.c \
@@ -51,8 +51,15 @@ SRCS		=	ft_atoi.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
+#Style
+GREEN		:= \033[1;32m
+END			:= \033[-m
+
+.SILENT:
+
 $(NAME):	$(OBJS)
 			$(LIB) $(NAME) $(OBJS)
+			@echo "$(GREEN)Libft Compiled!$(END)"
 
 all:		$(NAME)
 

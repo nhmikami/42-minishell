@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/07 18:28:29 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:56:08 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	execute(t_data *minishell)
 	{
 		// signals
 		minishell->input = get_input(minishell);
-		// tokenizer
+		// if ()
+		// 	minishell->token = tokenizer(minishell->input); //tokenizer
 		// execute
 	}
 }
@@ -29,11 +30,11 @@ void	finish(t_data *minishell)
 	exit(EXIT_SUCCESS);
 }
 
-void	start(int ac, char **av, char **ev)
+void	start(char **ev)
 {
 	t_data *minishell;
 
-	minishell = init(ac, av, ev); // copiar env
+	minishell = init(ev); // copiar env
 	execute(minishell);
 	finish(minishell);
 }
