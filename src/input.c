@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:52 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/11 12:51:40 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:42:35 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_input(t_data *minishell)
 {
 	char	*input;
 
-	input = readline(minishell->prompt);
+	input = readline(minishell->prompt); // free!
 	if (!input)
 		handle_error(INPUT);
 	if (*input)

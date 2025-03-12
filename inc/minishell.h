@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/11 15:53:39 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/11 20:38:33 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,22 @@
 
 typedef enum e_id
 {
+	AND,				// &&
+	OR,					// ||
+	PIPE,				// |
+	PAREN_OPEN,			// (
+	PAREN_CLOSE,		// )
+	REDIR_IN,			// <
+	REDIR_OUT,			// >
+	HEREDOC,			// <<
+	APPEND,				// >>
+	SPACES,
+	WORD,
 	NONE,
-	PIPE,
 	LIMITER,
 	CMD,
 	ARG,
-	FD,
-	BRACKET_O,
-	BRACKET_C,
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	HEREDOC,
-	APPEND,
-	OPERATOR_OR,
-	OPERATOR_AND
+	FD
 }	t_id;
 
 typedef struct s_lev
@@ -59,9 +61,18 @@ typedef struct s_lev
 
 typedef struct s_token
 {
-	char	*keyword;
-	int		identifier;
+	int				id;
+	char			*value;
+	struct s_token	*next;
 }	t_token;
+
+typedef struct s_ast
+{
+	int				id;
+	char			**args;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 typedef struct s_data
 {
