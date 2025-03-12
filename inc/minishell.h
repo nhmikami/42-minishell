@@ -25,8 +25,9 @@
 # include "libft.h"
 
 //Error Macros
-# define INPUT "Error: When reading input."
 # define USAGE "Usage: ./minishell"
+# define INPUT "Error: When reading input."
+# define SYNTAX "Error: Invalid syntax"
 # define EV "Can't allocate memory to environment variables."
 
 //Structs
@@ -42,12 +43,11 @@ typedef enum e_id
 	REDIR_OUT,			// >
 	HEREDOC,			// <<
 	APPEND,				// >>
-	SPACES,
-	WORD,
+	ISSPACE,
+	ARG,
 	NONE,
 	LIMITER,
 	CMD,
-	ARG,
 	FD
 }	t_id;
 

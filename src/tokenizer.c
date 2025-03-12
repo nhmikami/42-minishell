@@ -46,7 +46,6 @@ int	check_open_syntax(char *str)
 	return (1);
 }
 
-
 int	get_id(char *str)
 {
 	if (!ft_strncmp(str, "&&", 2))
@@ -67,44 +66,139 @@ int	get_id(char *str)
 		return (REDIR_IN);
 	else if (!ft_strncmp(str, ">", 1))
 		return (REDIR_OUT);
-	else if (ft_isspace(*str))
-		return (SPACES);
 	else
-		return (WORD);
+		return (ARG);
 }
 
+int	token_len(char const *str)
+{
+	int		len;
+	char	quote;
 
-t_token	**tokenizer(char *input)
+	len = 0;
+	quote = 0;
+	while (str[len] && ft_isspace(str[len]))
+	{
+		if (str[len] == '\'' || str[len] == '\"')
+		{
+			quote = str[len];
+			len++;
+			while (str[len] && str[len] != quote)
+				len++;
+			if (str[len] == quote)
+				len++;
+		}
+		else
+			len++;
+	}
+	return (len);
+}
+
+static char	*allocate_substr(char const *s, int *len)
+{
+	char	*str;
+
+	if (*s == '\'' || *s == '\"')
+		*len = token_len(s) - 2;
+	else
+		*len = token_len(s);
+	str = malloc(sizeof(char) * (*len + 1));
+	if (!str)
+		return (NULL);
+	return (str);
+}
+
+char	*get_token(char const *s)
 {
 	int		i;
 	int		len;
-	char	**arr;
-	t_token	**token;
-	int		identifier;
+	char	*str;
+	char	quote;
+
+	len = 0;
+	str = allocate_substr(s, &len);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		if (*s == '\'' || *s == '\"')
+		{
+			quote = *s++;
+			while (*s && *s != quote)
+				str[i++] = *s++;
+			if (*s == quote)
+				s++;
+		}
+		else
+			str[i++] = *s++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+t_token	*new_token(char *value, int id)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->id = id;
+	token->value = ft_strdup(value); // malloc
+	if (!token->value)
+	{
+		return (NULL);
+	}
+	token->next = NULL;
+	return (token);
+}
+
+void	append_token(t_token **tokens, t_token *new)
+{
+	t_token	*tmp;
+
+	if (!tokens || !new)
+		return;
+	if (!*tokens)
+		*tokens = new;
+	else
+	{
+		tmp = *tokens;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+t_token	*tokenizer(char *input)
+{
 	int		id;
+	int		len;
+	char	*value;
+	t_token	*tokens;
+	t_token	*new;
 
 	if (!input)
 		return (NULL);
 	if (!check_open_syntax(input))
 		return (NULL); // syntax error
+	tokens = NULL;
 	while (*input)
 	{
-		id = get_id(input);
-		input++;
-	}
-	i = 0;
-	arr = ft_split(input, " ");
-	len = ft_arrlen(arr);
-	token = maloc((len + 1) * sizeof(token));
-	while (arr[i])
-	{
-		identifier = identify_keyword(arr[i]);
-		if (identifier)
+		while (*input && ft_isspace(*input))
+			input++;
+		if (*input)
 		{
-			token[i]->value = arr[i];
-			token[i]->id = identifier;
+			id = get_id(input);
+			value = get_token(input); // malloc
+			if (!value)
+				return (NULL);
+			new = new_token(value, id); // new list node
+			free(value);
+			append_token(&tokens, new); // append node
 		}
-		i++;
+		input += token_len(input);
 	}
-	return (token);
+	return (tokens);
 }
