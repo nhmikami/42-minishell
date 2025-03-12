@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/11 20:38:33 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:26:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@
 
 //Error Macros
 # define USAGE "Usage: ./minishell"
-# define INPUT "Error: When reading input."
+# define INPUT "Error: When reading input"
 # define SYNTAX "Error: Invalid syntax"
-# define EV "Can't allocate memory to environment variables."
+# define EV "Can't allocate memory to environment variables"
+# define MALLOC "Error: When using malloc"
+# define SINTAX "Error: There is a error in your sintax"
 
 //Structs
 
 typedef enum e_id
 {
+	NONE,				// =0
 	AND,				// &&
 	OR,					// ||
 	PIPE,				// |
@@ -45,7 +48,6 @@ typedef enum e_id
 	APPEND,				// >>
 	ISSPACE,
 	ARG,
-	NONE,
 	LIMITER,
 	CMD,
 	FD
@@ -93,7 +95,7 @@ t_data	*init(char **ev);
 //Input
 char	*get_input(t_data *minishell);
 //Tokenizer
-t_token	**tokenizer(char *input);
+void 	tokenizer(char *input, t_token **tokens);
 //Main
 void	handle_error(char *error);
 void	free_all(t_data *minishell);

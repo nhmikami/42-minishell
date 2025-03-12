@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/11 16:11:40 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:46:21 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	execute(t_data *minishell)
 {
+	t_token *tokens;
+
+	tokens = NULL;
 	while (1)
 	{
 		// signals
-	
-		if (minishell->input = get_input(minishell))
-			minishell->token = tokenizer(minishell->input); //tokenizer
+		minishell->input = get_input(minishell);
+		if (!minishell->input)
+			handle_error(INPUT);
+		tokenizer(minishell->input, &tokens);
+		minishell->token = &tokens;
 		// execute
 	}
 }

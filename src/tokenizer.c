@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/11 21:30:14 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:59:54 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// int	check_close_syntax(char *str, char type)
+// {
+
+// }
 
 int	check_open_syntax(char *str)
 {
@@ -18,13 +23,13 @@ int	check_open_syntax(char *str)
 	int		quotes;
 	int		brackets;
 	char	type;
-	
+
 	i = 0;
 	quotes = 0;
 	brackets = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (str[i] == '\'' || str[i] == '\"') //carol: verifica aspas dentro de aspas?
 		{
 			type = str[i];
 			quotes++;
@@ -37,7 +42,11 @@ int	check_open_syntax(char *str)
 		if (str[i] == '(')
 			brackets++;
 		if (str[i] == ')')
+		{
 			brackets--;
+			if (brackets < 0) //carol: significa que ) veio antes de (
+				handle_error(SINTAX);
+		}
 		if (str[i])
 			i++;
 	}
@@ -77,7 +86,7 @@ int	token_len(char const *str)
 
 	len = 0;
 	quote = 0;
-	while (str[len] && ft_isspace(str[len]))
+	while (str[len] && !ft_isspace(str[len]))
 	{
 		if (str[len] == '\'' || str[len] == '\"')
 		{
@@ -99,12 +108,12 @@ static char	*allocate_substr(char const *s, int *len)
 	char	*str;
 
 	if (*s == '\'' || *s == '\"')
-		*len = token_len(s) - 2;
+		*len = token_len(s) - 2; //VERIFICAÇÃO NAO PODE SER FEITA NO TOKEN_LEN?
 	else
 		*len = token_len(s);
 	str = malloc(sizeof(char) * (*len + 1));
 	if (!str)
-		return (NULL);
+		handle_error(MALLOC);
 	return (str);
 }
 
@@ -117,8 +126,6 @@ char	*get_token(char const *s)
 
 	len = 0;
 	str = allocate_substr(s, &len);
-	if (!str)
-		return (NULL);
 	i = 0;
 	while (i < len)
 	{
@@ -143,13 +150,11 @@ t_token	*new_token(char *value, int id)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);
+		handle_error(MALLOC);
 	token->id = id;
-	token->value = ft_strdup(value); // malloc
+	token->value = ft_strdup(value);
 	if (!token->value)
-	{
-		return (NULL);
-	}
+		handle_error(MALLOC);
 	token->next = NULL;
 	return (token);
 }
@@ -158,9 +163,9 @@ void	append_token(t_token **tokens, t_token *new)
 {
 	t_token	*tmp;
 
-	if (!tokens || !new)
-		return;
-	if (!*tokens)
+	if (!new)
+		return ;
+	if (*tokens == NULL)
 		*tokens = new;
 	else
 	{
@@ -171,19 +176,14 @@ void	append_token(t_token **tokens, t_token *new)
 	}
 }
 
-t_token	*tokenizer(char *input)
+void tokenizer(char *input, t_token **tokens)
 {
 	int		id;
-	int		len;
 	char	*value;
-	t_token	*tokens;
 	t_token	*new;
 
-	if (!input)
-		return (NULL);
 	if (!check_open_syntax(input))
-		return (NULL); // syntax error
-	tokens = NULL;
+		handle_error(SINTAX);
 	while (*input)
 	{
 		while (*input && ft_isspace(*input))
@@ -192,13 +192,11 @@ t_token	*tokenizer(char *input)
 		{
 			id = get_id(input);
 			value = get_token(input); // malloc
-			if (!value)
-				return (NULL);
 			new = new_token(value, id); // new list node
+			printf("node: %i, %s\n", new->id, new->value);
 			free(value);
-			append_token(&tokens, new); // append node
+			append_token(tokens, new); // append node
 		}
 		input += token_len(input);
 	}
-	return (tokens);
 }
