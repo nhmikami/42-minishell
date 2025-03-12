@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/12 12:26:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:59:40 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 # define INPUT "Error: When reading input"
 # define SYNTAX "Error: Invalid syntax"
 # define EV "Can't allocate memory to environment variables"
-# define MALLOC "Error: When using malloc"
-# define SINTAX "Error: There is a error in your sintax"
+# define MALLOC "Error: Could not allocate memory"
 
 //Structs
 
