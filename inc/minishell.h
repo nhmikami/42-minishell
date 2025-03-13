@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/12 18:59:40 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:32:58 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ t_data	*init(char **ev);
 //Input
 char	*get_input(t_data *minishell);
 //Tokenizer
-void 	tokenizer(char *input, t_token **tokens);
+//void 	tokenizer(char *input, t_token **tokens);
+t_token *tokenizer(char *input);
 //Main
 void	handle_error(char *error);
 void	free_all(t_data *minishell);

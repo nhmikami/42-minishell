@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 20:01:49 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:04:56 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,19 @@ t_token	*new_token(char *value, int id)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
+	{
 		handle_error(MALLOC);
+		return (NULL);
+	}
 	token->id = id;
 	token->value = ft_strdup(value);
 	if (!token->value)
+	{
 		handle_error(MALLOC);
+		free(token);
+		return (NULL);
+	}
+	free(value);
 	token->next = NULL;
 	return (token);
 }
@@ -41,6 +49,20 @@ void	append_token(t_token **tokens, t_token *new)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+	}
+}
+
+void	free_tokens(t_token *tokens)
+{
+	t_token	*tmp;
+
+	while (tokens)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
 	}
 }
 
@@ -145,12 +167,15 @@ static char	*allocate_substr(char const *s, int *len, int id)
 	char	*str;
 
 	if (*s == '\'' || *s == '\"')
-		*len = token_len(s, id) - 2; //VERIFICAÇÃO NAO PODE SER FEITA NO TOKEN_LEN?
+		*len = token_len(s, id) - 2;
 	else
 		*len = token_len(s, id);
 	str = malloc(sizeof(char) * (*len + 1));
 	if (!str)
+	{
 		handle_error(MALLOC);
+		return (NULL);
+	}
 	return (str);
 }
 
@@ -161,9 +186,11 @@ char	*get_token(char const *s, int id)
 	char	*str;
 	char	quote;
 
+	i = 0;
 	len = 0;
 	str = allocate_substr(s, &len, id);
-	i = 0;
+	if (!str)
+		return (NULL);
 	while (i < len)
 	{
 		if (*s == '\'' || *s == '\"')
@@ -181,14 +208,19 @@ char	*get_token(char const *s, int id)
 	return (str);
 }
 
-void tokenizer(char *input, t_token **tokens)
+t_token *tokenizer(char *input)
 {
 	int		id;
 	char	*value;
 	t_token	*new;
+	t_token	*tokens;
 
 	if (!check_open_syntax(input))
+	{
 		handle_error(SYNTAX);
+		return (NULL);
+	}
+	tokens = NULL;
 	while (*input)
 	{
 		while (*input && ft_isspace(*input))
@@ -197,11 +229,46 @@ void tokenizer(char *input, t_token **tokens)
 		{
 			id = get_id(input);
 			value = get_token(input, id); // malloc
-			new = new_token(value, id); // new list node
-			printf("node: %i, %s\n", new->id, new->value);
-			free(value);
-			append_token(tokens, new); // append node
+			if (!value)
+			{
+				free_tokens(tokens);
+				return (NULL);
+			}
+			new = new_token(value, id); // malloc
+			if (!new)
+			{
+				free_tokens(tokens);
+				return (NULL);
+			}
+			printf("node: %i, %s\n", new->id, new->value); // apagar!!!!
+			append_token(&tokens, new);
 		}
 		input += token_len(input, id);
 	}
+	return (tokens);
 }
+
+// void tokenizer(char *input, t_token **tokens)
+// {
+// 	int		id;
+// 	char	*value;
+// 	t_token	*new;
+
+// 	if (!check_open_syntax(input))
+// 		handle_error(SYNTAX);
+// 	while (*input)
+// 	{
+// 		while (*input && ft_isspace(*input))
+// 			input++;
+// 		if (*input)
+// 		{
+// 			id = get_id(input);
+// 			value = get_token(input, id); // malloc
+// 			new = new_token(value, id); // new list node
+// 			printf("node: %i, %s\n", new->id, new->value);
+// 			free(value);
+// 			append_token(tokens, new); // append node
+// 		}
+// 		input += token_len(input, id);
+// 	}
+// }

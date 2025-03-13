@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 15:46:21 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:17:50 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ void	execute(t_data *minishell)
 {
 	t_token *tokens;
 
-	tokens = NULL;
 	while (1)
 	{
 		// signals
-		minishell->input = get_input(minishell);
+		minishell->input = get_input(minishell); // dar free na lista linkada
 		if (!minishell->input)
 			handle_error(INPUT);
-		tokenizer(minishell->input, &tokens);
+		tokens = tokenizer(minishell->input);
 		minishell->token = &tokens;
 		// execute
 	}
