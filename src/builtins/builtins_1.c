@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:40:59 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/13 16:45:16 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:04:12 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,28 @@ int	exec_echo(char **args)
 	return (0);
 }
 
-int	exec_cd(char **args)
+int	update_pwds(t_lev *lev)
 {
-	//atualizar pwd e old pwd
+	t_lev	*pwd;
+	t_lev	*old_pwd;
+
+	pwd = ft_findlev(lev, "PWD");
+	old_pwd = ft_findlev(lev, "OLD_PWD");
+
+	//AGORA ATUALIZA AI!! ??
+}
+
+int	exec_cd(t_lev **lev, char **args)
+{
+	int	res;
+
 	if (!args[1]) //verificar se precisa tratar isso
-		return (chdir(getenv("HOME")));
-	return (chdir(args[1]));
+		res = chdir(getenv("HOME"));
+	else
+		res = chdir(args[1]);
+	if (!res)
+		return (update_pwds(*lev));
+	return (res);
 }
 
 int	exec_pwd(void)
@@ -54,42 +70,14 @@ int	exec_pwd(void)
 	return (0);
 }
 
-int	exec_export(t_lev **lev, char **args)
-{
-	t_lev	*new;
 
-	if (!args[1])
-		return (print_lev(lev)); //só printar exportados
-	//nao aceita exportar qualquer nome, tem que começar com _ ou letra
-	new = ft_levnew(&args[1]);
-	ft_levadd_back(lev, new);
-	return (0);
-}
-
-// int	exec_unset(char **args)
-// {
-// 	//só aceita o nome da variavel 
-// 	//verificar se pode deletar antes
-// 	return (0);
-// }
-
-int	exec_env(t_lev **lev)
-{
-	return (print_lev(lev));
-}
-
-void exec_exit(t_data *minishell)
-{
-	free_all(minishell);
-	exit(EXIT_SUCCESS);
-}
 
 int	is_builtin(t_data *minishell, char **args)
 {
 	if (!ft_strncmp(args[0], "echo", 4))
 		return (exec_echo(args));
 	if (!ft_strncmp(args[0], "cd", 2))
-		return (exec_cd(args));
+		return (exec_cd(minishell->lev, args));
 	if (!ft_strncmp(args[0], "pwd", 3))
 		return (exec_pwd());
 	if (!ft_strncmp(args[0], "export", 6))
@@ -97,7 +85,7 @@ int	is_builtin(t_data *minishell, char **args)
 	// if (!ft_strncmp(args[0], "unset", 5))
 	// 	return (exec_unset(args));
 	if (!ft_strncmp(args[0], "env", 3))
-		return (exec_env(minishell->lev));
+		return (exec_env(minishell->lev, args));
 	if (!ft_strncmp(args[0], "exit", 4))
 		exec_exit(minishell);
 	return (-1);

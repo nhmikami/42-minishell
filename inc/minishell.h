@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/13 19:03:02 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:01:22 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define EV "Can't allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
+# define ENV_ARG "Error: env doesn't accept arguments or flags."
+# define EXPORT_IDENTIFIER "Error: not a valid identifier."
 
 //Structs e Enums
 
@@ -92,10 +94,12 @@ int		ft_arrlen(char **arr);
 void	ft_arrfree(char **arr);
 //Events
 void	start(char **ev);
-//Init
+//Env Var
 t_lev	*ft_levnew(char **arr_ev);
 void	ft_levadd_back(t_lev **lev, t_lev *new);
+t_lev	*ft_findlev(t_lev *lev, char *key);
 int		print_lev(t_lev **lev);
+//Init
 t_data	*init(char **ev);
 //Input
 char	*get_input(t_data *minishell);
