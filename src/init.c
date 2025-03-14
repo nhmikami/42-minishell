@@ -6,13 +6,13 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:51:18 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:52:00 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lev	*ft_levnew(char **arr_ev)
+t_lev	*ft_levnew(char **arr_ev, int exported)
 {
 	t_lev	*new_node;
 
@@ -21,6 +21,7 @@ t_lev	*ft_levnew(char **arr_ev)
 		handle_error(MALLOC);
 	new_node->key = ft_strdup(arr_ev[0]);
 	new_node->value = ft_strdup(arr_ev[1]);
+	new_node->exported = exported;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
@@ -66,7 +67,7 @@ t_lev	**init_lev(char **ev)
 	while (!ev[i])
 	{
 		arr_ev = ft_split(ev[i], '=');
-		node = ft_levnew(arr_ev);
+		node = ft_levnew(arr_ev, 0);
 		ft_arrfree(arr_ev);
 		ft_levadd_back(lev, node);
 		i++;
@@ -94,6 +95,5 @@ t_data	*init(char **ev)
 	minishell = malloc(sizeof(t_data));
 	minishell->prompt = "minishell$ ";
 	minishell->lev = init_lev(ev);
-	//print_lev(minishell->lev);
 	return (minishell);
 }

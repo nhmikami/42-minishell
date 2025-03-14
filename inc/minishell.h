@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/14 16:01:22 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:53:29 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # define BUILTIN "Error: In Builtin function"
 # define ENV_ARG "Error: env doesn't accept arguments or flags."
 # define EXPORT_IDENTIFIER "Error: not a valid identifier."
+# define UNSET_PARAM "Error: invalid parameter name."
+# define UNSET_MATCH "Error: no matches found."
+# define UNSET_DEL "Can't unset variable."
 
 //Structs e Enums
 
@@ -59,6 +62,7 @@ typedef struct s_lev
 {
 	char			*key;
 	char			*value;
+	int				exported;
 	struct s_lev	*prev;
 	struct s_lev	*next;
 }	t_lev;
@@ -95,9 +99,10 @@ void	ft_arrfree(char **arr);
 //Events
 void	start(char **ev);
 //Env Var
-t_lev	*ft_levnew(char **arr_ev);
+t_lev	*ft_levnew(char **arr_ev, int exported);
 void	ft_levadd_back(t_lev **lev, t_lev *new);
 t_lev	*ft_findlev(t_lev *lev, char *key);
+int		ft_levdel(t_lev **lev, char *key);
 int		print_lev(t_lev **lev);
 //Init
 t_data	*init(char **ev);

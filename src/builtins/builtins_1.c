@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:40:59 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/14 16:04:12 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:17:12 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,25 @@ int	update_pwds(t_lev *lev)
 {
 	t_lev	*pwd;
 	t_lev	*old_pwd;
+	char	*path;
 
 	pwd = ft_findlev(lev, "PWD");
 	old_pwd = ft_findlev(lev, "OLD_PWD");
-
-	//AGORA ATUALIZA AI!! ??
+	path = ft_calloc(1024, sizeof(char));
+	if (!path)
+		handle_error(MALLOC);
+	free(old_pwd->value);
+	old_pwd->value = pwd->value;
+	getcwd(path, 1024);
+	pwd->value = path;
+	return (0);
 }
 
 int	exec_cd(t_lev **lev, char **args)
 {
 	int	res;
 
-	if (!args[1]) //verificar se precisa tratar isso
+	if (!args[1])
 		res = chdir(getenv("HOME"));
 	else
 		res = chdir(args[1]);
@@ -70,8 +77,6 @@ int	exec_pwd(void)
 	return (0);
 }
 
-
-
 int	is_builtin(t_data *minishell, char **args)
 {
 	if (!ft_strncmp(args[0], "echo", 4))
@@ -82,8 +87,8 @@ int	is_builtin(t_data *minishell, char **args)
 		return (exec_pwd());
 	if (!ft_strncmp(args[0], "export", 6))
 		return (exec_export(minishell->lev, args));
-	// if (!ft_strncmp(args[0], "unset", 5))
-	// 	return (exec_unset(args));
+	if (!ft_strncmp(args[0], "unset", 5))
+		return (exec_unset(args));
 	if (!ft_strncmp(args[0], "env", 3))
 		return (exec_env(minishell->lev, args));
 	if (!ft_strncmp(args[0], "exit", 4))
