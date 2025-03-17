@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/13 18:32:58 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:48:10 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_token
 {
 	int				id;
 	char			*value;
+	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
 

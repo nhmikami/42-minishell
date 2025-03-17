@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/13 19:04:56 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:32:02 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ t_token	*new_token(char *value, int id)
 	{
 		handle_error(MALLOC);
 		free(token);
+		free(value);
 		return (NULL);
 	}
 	free(value);
+	token->prev = NULL;
 	token->next = NULL;
 	return (token);
 }
@@ -49,6 +51,7 @@ void	append_token(t_token **tokens, t_token *new)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 }
 

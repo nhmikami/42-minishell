@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/13 19:17:50 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:48:30 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	execute(t_data *minishell)
 {
 	t_token *tokens;
+	t_ast	*root;
 
 	while (1)
 	{
