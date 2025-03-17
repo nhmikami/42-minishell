@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:52:48 by cayamash         ###   ########.fr       */
+/*   Created: 2025/03/17 17:37:11 by cayamash          #+#    #+#             */
+/*   Updated: 2025/03/17 17:39:10 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*init(char **ev)
+int	unset(t_data *minishell, char **args)
 {
-	t_data	*minishell;
-
-	minishell = malloc(sizeof(t_data));
-	minishell->prompt = "minishell$ ";
-	minishell->ev = ev;
-	minishell->lev = init_lev(minishell);
-	return (minishell);
+	if (ft_isalpha(args[1][0]) && args[1][0] != '_')
+		levdel(minishell->lev, args[1]);
+	minishell->ev_num--;
+	return (0);
 }

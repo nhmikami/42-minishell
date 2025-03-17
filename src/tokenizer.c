@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 19:23:25 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:37:49 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	check_open_syntax(char *str)
 		{
 			brackets--;
 			if (brackets < 0) //carol: significa que ) veio antes de (
-				handle_error(SINTAX);
+				handle_error(SYNTAX);
 		}
 		if (str[i])
 			i++;
@@ -183,7 +183,7 @@ void tokenizer(char *input, t_token **tokens)
 	t_token	*new;
 
 	if (!check_open_syntax(input))
-		handle_error(SINTAX);
+		handle_error(SYNTAX);
 	while (*input)
 	{
 		while (*input && ft_isspace(*input))

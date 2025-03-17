@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:52:48 by cayamash         ###   ########.fr       */
+/*   Created: 2025/03/17 17:35:30 by cayamash          #+#    #+#             */
+/*   Updated: 2025/03/17 17:40:36 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*init(char **ev)
+int	pwd(void)
 {
-	t_data	*minishell;
+	char	path[1024];
 
-	minishell = malloc(sizeof(t_data));
-	minishell->prompt = "minishell$ ";
-	minishell->ev = ev;
-	minishell->lev = init_lev(minishell);
-	return (minishell);
+	if (!getcwd(path, 1024))
+		return (1);
+	printf("%s\n", path);
+	return (0);
 }

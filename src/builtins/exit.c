@@ -1,86 +1,118 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_2.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:58:46 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/14 19:13:52 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:23:59 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	validade_identifier(char *str)
+
+
+void	exec_exit(t_data *minishell, char **args)
 {
-	int	i;
+	int	exit_num;
+	int	flag;
 
-	i = 0;
-	if (str[i] == '_' || ft_isalpha(str[i]))
-	{
-		while (str[i] && str[i] != '=' && (ft_isalnum(str[i]) || str[i] == '_'))
-			i++;
-		if (str[i] == '=' || !str[i])
-			return (1);
-	}
-	return (0);
-}
-
-int	exec_export(t_lev **lev, char **args)
-{
-	t_lev	*node;
-	char	**key_value;
-
-	if (!args[1] || !args[1][0])
-		return (print_lev(lev)); //imprimir ordenado
-	if (!validade_identifier(args[1]))
-		handle_error(EXPORT_IDENTIFIER);
-	key_value = ft_split(args[1], '=');
-	node = ft_findlev(*lev, key_value[0]);
-	if (node)
-	{
-		free(node->value);
-		node->value = ft_strdup(key_value[1]);
-	}
+	printf("exit\n");
+	if (args[2])
+		return (print_error(EXCEED_ARG, 1, "exit", NULL));
+	if (!ft_isdigit(args[1]))
+		return (print_error(NUMERIC_ARG, 2, "exit", args[1]));
+	if ((flag = hasflag(args)))
+		return (print_error(INVALID_OPTION, 3, "exit", args[flag]));
+	if (args[1] < 0)
+		exit_num = negative_exit_num(args[1]);
+	else if (args[1] > 255)
+		exit_num = big_exit_num(args[1]);
 	else
-	{
-		node = ft_levnew(key_value, 1);
-		ft_levadd_back(lev, node);
-	}
-	return (0);
-}
-
-int	exec_unset(t_lev **lev, char **args)
-{
-	int	res;
-//verificar o que tem que dar erro qual erro
-	if (!ft_isalnum(args[1]))
-		handle_error(UNSET_PARAM);
-	res = ft_levdel(lev, args[1]);
-	if (res == 1)
-		handle_error(UNSET_MATCH);
-	if (res == 2)
-		handle_error(UNSET_DEL);
-	return (0);
-}
-
-int	exec_env(t_lev **lev, char **args)
-{
-	if (args[1])
-		handle_error(ENV_ARG);
-	return (print_lev(lev));
-}
-
-void exec_exit(t_data *minishell)
-{
-	//guarda numero até int max, dps faz conversao, só aceita 1 arg
+		exit_num = args[1] - '0';
+	//guardar exit_num em "$?"
 	free_all(minishell);
 	exit(EXIT_SUCCESS);
 }
 
 /*
 
+static void	exit_print_error_message(char *message)
+{
+	int			i;
+	int			length;
+	char		*line;
+	const char	*to_print[] = {RED"ERROR: "RST"exit: ", message, NULL};
+
+	i = 0;
+	length = 0;
+	while (to_print[i])
+		length += ft_strlen(to_print[i++]);
+	line = malloc(sizeof(char) * (length + 1));
+	i = 1;
+	ft_strlcpy(line, to_print[0], length + 1);
+	while (to_print[i])
+	{
+		ft_strlcat(line, to_print[i], length + 1);
+		i++;
+	}
+	ft_putendl_fd(line, STDERR_FILENO);
+	free(line);
+}
+
+int	exit_arg_valid(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (isspace(arg[i]))
+		i++;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
+	while (arg[i])
+static void	exit_print_error_message(char *message)
+{
+	int			i;
+	int			length;
+	char		*line;
+	const char	*to_print[] = {RED"ERROR: "RST"exit: ", message, NULL};
+
+	i = 0;
+	length = 0;
+	while (to_print[i])
+		length += ft_strlen(to_print[i++]);
+	line = malloc(sizeof(char) * (length + 1));
+	i = 1;
+	ft_strlcpy(line, to_print[0], length + 1);
+	while (to_print[i])
+	{
+		ft_strlcat(line, to_print[i], length + 1);
+		i++;
+	}
+	ft_putendl_fd(line, STDERR_FILENO);
+	free(line);
+}
+
+int	exit_arg_valid(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (isspace(arg[i]))
+		i++;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+		{
+			exit_print_error_message("numeric argument required");
+			return (0);
+		}
+		i++;
+	}
 static void	exit_print_error_message(char *message)
 {
 	int			i;
@@ -152,5 +184,7 @@ int	builtin_exit(char **argv, t_minishell *data)
 	g_signal = -1;
 	return (ternary(args_num == 1, ret_code, \
 		ternary(ret_code == 2, 2, ft_atoi(argv[1]))));
+	return (1);
 }
+
 */

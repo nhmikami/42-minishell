@@ -6,7 +6,7 @@
 #    By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/03/12 19:03:54 by cayamash         ###   ########.fr        #
+#    Updated: 2025/03/17 16:13:51 by cayamash         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,16 @@ LIBFT = lib
 #Directories
 SRC_DIR = src/
 EXE_DIR = src/execution/
+BUILTIN_DIR = src/builtins/
+EV_DIR = src/ev/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
 SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c main.c) \
-		$(addprefix $(EXE_DIR), builtins.c executor.c)
+		$(addprefix $(EXE_DIR), executor.c) \
+		$(addprefix $(BUILTIN_DIR), builtins_1.c builtins_2.c) \
+		$(addprefix $(EV_DIR), init_lev.c utils_lev.c print_lev.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #Valgrind

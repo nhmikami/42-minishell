@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envvar.c                                           :+:      :+:    :+:   */
+/*   utils_lev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:18:29 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/14 18:51:57 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:22:30 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lev	*ft_findlev(t_lev *lev, char *key)
+t_lev	*findlev(t_lev *lev, char *key)
 {
 	int	len;
 
 	len = ft_strlen(key);
 	if (!lev)
 		return (0);
-	while (lev->next && ft_strncmp(lev->key, key, len))
+	while (lev)
 	{
 		if (!ft_strncmp(lev->key, key, len))
 			return (lev);
@@ -28,11 +28,11 @@ t_lev	*ft_findlev(t_lev *lev, char *key)
 	return (NULL);
 }
 
-int	ft_levdel(t_lev **lev, char *key)
+int	levdel(t_lev **lev, char *key)
 {
-	t_lev *node;
+	t_lev	*node;
 
-	node = ft_findlev(*lev, key);
+	node = findlev(*lev, key);
 	if (!node)
 		return (1);
 	if (node->exported == 0)
@@ -43,4 +43,24 @@ int	ft_levdel(t_lev **lev, char *key)
 	free(node->value);
 	free(node);
 	return (0);
+}
+
+void	free_lev(t_lev **lev)
+{
+	t_lev	*node;
+	t_lev	*node_next;
+
+	if (!lev || !*lev)
+		return ;
+	node = *lev;
+	while (node)
+	{
+		free(node->key);
+		free(node->value);
+		node_next = node->next;
+		free(node);
+		node = node_next;
+	}
+	*lev = NULL;
+	free(lev);
 }
