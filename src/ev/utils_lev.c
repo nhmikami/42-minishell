@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:18:29 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:02:59 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:09:48 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,26 @@ void	free_lev(t_lev **lev)
 	}
 	*lev = NULL;
 	free(lev);
+}
+
+char	**lev_to_array(t_data *minishell)
+{
+	t_lev	*node;
+	char	**arr;
+	int		i;
+
+	if (!minishell)
+		return (NULL);
+	node = *minishell->lev;
+	i = 0;
+	arr = malloc((minishell->ev_num + 1) * sizeof(char *));
+	if (!arr)
+		handle_error(MALLOC);
+	while (node)
+	{
+		arr[i] = concatenate(node->key, "=", node->value);
+		i++;
+		node = node->next;
+	}
+	return (arr);
 }

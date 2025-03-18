@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:19:22 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 16:05:49 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:10:24 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_lev	**init_lev(t_data *minishell)
 	t_lev	**lev;
 
 	i = 0;
-	minishell->ev_num = ft_arrlen(minishell->ev);
+	minishell->ev_num = arrlen(minishell->ev);
 	lev = (t_lev **)malloc(sizeof(t_lev *));
 	if (!lev)
 		handle_error(MALLOC);
@@ -69,7 +69,7 @@ t_lev	**init_lev(t_data *minishell)
 	{
 		arr_ev = ft_split(minishell->ev[i], '=');
 		node = levnew(arr_ev);
-		ft_arrfree(arr_ev);
+		arrfree(arr_ev);
 		levadd_back(lev, node);
 		i++;
 	}

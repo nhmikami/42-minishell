@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/18 12:06:54 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:59:19 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
 # define EV_NOTFOUND "Error: Can't find environment variables."
+# define EXECVE "Error: When executing command in execve."
+# define FORK "Error: Trying to fork process."
 
 //Print Error Macros
 # define INVALID_OPTION 1
@@ -41,6 +43,7 @@
 # define EXCEED_ARG 5
 # define INVALID_FILE 6
 # define INVALID_PATH 7
+# define INVALID_CMD 8
 
 // # define ECHO_FLAG "Error: echo doesn't accept this flag."
 // # define ENV_ARG "Error: env doesn't accept arguments or flags."
@@ -111,17 +114,19 @@ typedef struct s_data
 //Functions
 
 //Utils
-int		ft_arrlen(char **arr);
-void	ft_arrfree(char **arr);
+int		arrlen(char **arr);
+void	arrfree(char **arr);
+char	*concatenate(char *s1, char *s2, char *s3);
 //Events
 void	start(char **ev);
-//Env Var
+//List Env Var
 t_lev	**init_lev(t_data *minishell);
 t_lev	*levnew(char **arr_ev);
 void	levadd_back(t_lev **lev, t_lev *new);
 t_lev	*findlev(t_lev *lev, char *key);
 int		levdel(t_lev **lev, char *key);
 void	free_lev(t_lev **lev);
+char	**lev_to_array(t_data *minishell);
 int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
 //Init
@@ -131,13 +136,14 @@ char	*get_input(t_data *minishell);
 //Tokenizer
 void	tokenizer(char *input, t_token **tokens);
 //Execution
+void	update_exit_status(t_data *minishell, int status);
 void	execute(t_data *minishell);
 //Builtin
 int		hasflag(char **args);
 int		cd(t_lev **lev, char **args);
 int		echo(char **args);
 int		env(t_lev **lev, char **args);
-void	exec_exit(t_data *minishell, char **args);
+int		exec_exit(t_data *minishell, char **args);
 int		export(t_data *minishell, char **args);
 int		pwd(void);
 int		unset(t_data *minishell, char **args);

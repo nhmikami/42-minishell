@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/18 12:07:40 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:16:04 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int		print_error(int error, int res_num, char *command, char *arg)
 		printf("minishell: %s: %s: no such file or directory", command, arg);
 	if (error == INVALID_PATH)
 		printf("minishell: %s: invalid path\n", command);
-		//guardar re_num em $?
+	if (error == INVALID_CMD)
+		printf("%s: command not found", command);
 	return (res_num);
 }
 

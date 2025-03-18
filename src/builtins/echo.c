@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:34:04 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:25:32 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:37:31 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	echo(char **args)
 		i++;
 	}
 	else if ((flag = hasflag(args)))
-		print_error(INVALID_OPTION, 1, "echo", args[flag]);
+		return (print_error(INVALID_OPTION, 1, "echo", args[flag]));
 	while (args[i])
 	{
 		printf("%s", args[i]);

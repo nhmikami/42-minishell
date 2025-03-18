@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:40:59 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 18:53:30 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:34:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int	is_builtin(t_data *minishell, char **args)
 	if (!ft_strncmp(args[0], "env", 3))
 		return (env(minishell->lev, args));
 	if (!ft_strncmp(args[0], "exit", 4))
-		exec_exit(minishell, args);
+		return (exec_exit(minishell, args));
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:58:46 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 11:22:42 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:08:38 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,28 @@ int	negative_exit_num(int num)
 	return (num);
 }
 
-void	exec_exit(t_data *minishell, char **args)
+int	exec_exit(t_data *minishell, char **args)
 {
 	int	exit_num;
-	int	flag;
-	int	res;
 
-	res = 0;
+	exit_num = 0;
 	printf("exit\n");
-	if (args[1] && args[2])
-		res = print_error(EXCEED_ARG, 1, "exit", NULL);
-	else if (!ft_isdigit(args[1][0]))
-		res = print_error(NUMERIC_ARG, 2, "exit", args[1]);
-	else if ((flag = hasflag(args)))
-		res = print_error(INVALID_OPTION, 3, "exit", args[flag]);
-	if (!res)
+	if (args[1])
 	{
-		exit_num = ft_atoi(args[1]);
-		if (exit_num < 0)
-			exit_num = negative_exit_num(exit_num);
-		else if (exit_num > 255)
-			exit_num = big_exit_num(exit_num);
-	}
-	//guardar exit_num em "$?"
+		if (args[2])
+			return (print_error(EXCEED_ARG, 1, "exit", NULL));
+		else if (!ft_isdigit(args[1][0]))
+			exit_num = print_error(NUMERIC_ARG, 2, "exit", args[1]);
+		else
+		{
+			exit_num = ft_atoi(args[1]);
+			if (exit_num < 0)
+				exit_num = negative_exit_num(exit_num);
+			else if (exit_num > 255)
+				exit_num = big_exit_num(exit_num);
+		}
+	}	
 	free_all(minishell);
-	exit(EXIT_SUCCESS);
+	exit(exit_num);
 }
 

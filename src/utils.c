@@ -6,13 +6,13 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:50:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/07 18:22:32 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:47:25 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_arrlen(char **arr) //colocar na lib?
+int	arrlen(char **arr)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int	ft_arrlen(char **arr) //colocar na lib?
 	return (i);
 }
 
-void	ft_arrfree(char **arr) //colocar na lib?
+void	arrfree(char **arr)
 {
 	int	i;
 
@@ -33,5 +33,16 @@ void	ft_arrfree(char **arr) //colocar na lib?
 		i++;
 	}
 	free(arr);
+}
+
+char	*concatenate(char *s1, char *s2, char *s3)
+{
+	char	*result1;
+	char	*result2;
+
+	result1 = ft_strjoin(s1, s2);
+	result2 = ft_strjoin(result1, s3);
+	free(result1);
+	return (result2);
 }
 
