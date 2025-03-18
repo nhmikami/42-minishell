@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/12 12:26:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:03:02 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # define SYNTAX "Error: Invalid syntax"
 # define EV "Can't allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
-# define SINTAX "Error: There is a error in your sintax"
+# define BUILTIN "Error: In Builtin function"
 
-//Structs
+//Structs e Enums
 
 typedef enum e_id
 {
@@ -82,20 +82,29 @@ typedef struct s_data
 	const char	*prompt;
 	t_lev		**lev;
 	t_token		**token;
+	t_ast		**ast;
 }	t_data;
 
 //Functions
+
 //Utils
 int		ft_arrlen(char **arr);
 void	ft_arrfree(char **arr);
 //Events
 void	start(char **ev);
 //Init
+t_lev	*ft_levnew(char **arr_ev);
+void	ft_levadd_back(t_lev **lev, t_lev *new);
+int		print_lev(t_lev **lev);
 t_data	*init(char **ev);
 //Input
 char	*get_input(t_data *minishell);
 //Tokenizer
-void 	tokenizer(char *input, t_token **tokens);
+void	tokenizer(char *input, t_token **tokens);
+//Execution
+void	execute(t_data *minishell);
+//Builtin
+int		is_builtin(t_data *minishell, char **args);
 //Main
 void	handle_error(char *error);
 void	free_all(t_data *minishell);

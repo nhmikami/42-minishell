@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 18:49:28 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:49:01 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_lev	*ft_levnew(char **arr_ev)
 
 	new_node = (t_lev *)malloc(sizeof(t_lev));
 	if (!new_node)
-		return (0);
+		handle_error(MALLOC);
 	new_node->key = ft_strdup(arr_ev[0]);
 	new_node->value = ft_strdup(arr_ev[1]);
 	new_node->prev = NULL;
@@ -74,15 +74,17 @@ t_lev	**init_lev(char **ev)
 	return (lev);
 }
 
-void	print_lev(t_lev **lev)
+int	print_lev(t_lev **lev)
 {
-	t_lev *node = *lev;
+	t_lev	*node;
 
-	while (node != NULL)
+	node = *lev;
+	while (node)
 	{
-		printf("KEY: %s, VALUE: %s\n", node->key, node->value);
+		printf("%s=%s\n", node->key, node->value);
 		node = node->next;
 	}
+	return (0);
 }
 
 t_data	*init(char **ev)

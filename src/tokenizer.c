@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 15:59:54 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:23:25 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,6 @@ void tokenizer(char *input, t_token **tokens)
 			id = get_id(input);
 			value = get_token(input); // malloc
 			new = new_token(value, id); // new list node
-			printf("node: %i, %s\n", new->id, new->value);
 			free(value);
 			append_token(tokens, new); // append node
 		}

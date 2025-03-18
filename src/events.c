@@ -6,26 +6,26 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/12 15:46:21 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:15:36 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute(t_data *minishell)
+static void	run(t_data *minishell)
 {
-	t_token *tokens;
+	// t_token *tokens;
 
-	tokens = NULL;
+	// tokens = NULL;
 	while (1)
 	{
 		// signals
 		minishell->input = get_input(minishell);
 		if (!minishell->input)
 			handle_error(INPUT);
-		tokenizer(minishell->input, &tokens);
-		minishell->token = &tokens;
-		// execute
+		//tokenizer(minishell->input, &tokens);
+		//minishell->token = &tokens;
+		execute(minishell);
 	}
 }
 
@@ -40,6 +40,6 @@ void	start(char **ev)
 	t_data *minishell;
 
 	minishell = init(ev); // copiar env
-	execute(minishell);
+	run(minishell);
 	finish(minishell);
 }
