@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:40:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/13 19:04:35 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:09:43 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	execute(t_data *minishell)
 
 	arg = ft_split(minishell->input, ' ');
 	res = is_builtin(minishell, arg);
-	if (res > 0)
-		handle_error(BUILTIN);
+	// if (res > 0)
+	// 	handle_error(BUILTIN);
 	if (res == -1)
 		printf("not builtin command \n");
 }

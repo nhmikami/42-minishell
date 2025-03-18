@@ -6,13 +6,13 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:34:04 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 19:12:08 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:25:32 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	echo(char **args) //colocar expansão de variável
+//falta colocar  lidar com " e ' + expansão de variável
+int	echo(char **args) 
 {
 	int	i;
 	int	newline;

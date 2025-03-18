@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/17 19:03:01 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:06:54 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define EV "Can't allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
+# define EV_NOTFOUND "Error: Can't find environment variables."
 
 //Print Error Macros
 # define INVALID_OPTION 1
@@ -39,6 +40,7 @@
 # define NUMERIC_ARG 4
 # define EXCEED_ARG 5
 # define INVALID_FILE 6
+# define INVALID_PATH 7
 
 // # define ECHO_FLAG "Error: echo doesn't accept this flag."
 // # define ENV_ARG "Error: env doesn't accept arguments or flags."

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:35:01 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 19:10:56 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:02:29 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,17 @@ int	update_pwds(t_lev *lev)
 	char	*path;
 
 	pwd = findlev(lev, "PWD");
-	old_pwd = findlev(lev, "OLD_PWD");
+	old_pwd = findlev(lev, "OLDPWD");
+	if (!pwd || !old_pwd)
+		handle_error(EV_NOTFOUND);
 	path = ft_calloc(1024, sizeof(char));
 	if (!path)
 		handle_error(MALLOC);
 	free(old_pwd->value);
 	old_pwd->value = pwd->value;
 	getcwd(path, 1024);
-	pwd->value = path;
+	pwd->value = ft_strdup(path);
+	free(path);
 	return (0);
 }
 
@@ -40,7 +43,11 @@ int	cd(t_lev **lev, char **args)
 	if (!args[1])
 		res = chdir(getenv("HOME"));
 	else
+	{
+		printf("vamos entrar na pasta!\n");
 		res = chdir(args[1]);
+	}
+	printf("res: %d\n", res);
 	if (!res)
 		return (update_pwds(*lev));
 	else

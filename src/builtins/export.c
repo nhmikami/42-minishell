@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 17:39:10 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:07:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	export(t_data *minishell, char **args)
 	if (!args[1] || !args[1][0])
 		return (print_lev_ord(minishell));
 	if (!validade_identifier(args[1]))
-		handle_error(EXPORT_IDENTIFIER);
+		print_error(INVALID_ID, 1, "export", args[1]);
 	key_value = ft_split(args[1], '=');
 	node = findlev(*minishell->lev, key_value[0]);
 	if (node)

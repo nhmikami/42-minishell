@@ -54,7 +54,7 @@ OBJS		=	$(SRCS:.c=.o)
 
 #Style
 GREEN		:= \033[1;32m
-END			:= \033[-m
+END			:= \033[0m
 
 .SILENT:
 

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/17 19:20:40 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:07:40 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_error(char *error)
 {
 	printf("%s\n", error);
-	//call free_all
+	//free_all(minishell);
 	exit(EXIT_FAILURE);
 }
 
@@ -33,7 +33,9 @@ int		print_error(int error, int res_num, char *command, char *arg)
 		printf("minishell: %s: too many arguments\n", command);
 	if (error == INVALID_FILE)
 		printf("minishell: %s: %s: no such file or directory", command, arg);
-	//tirar re_num do printf e adicionar em $?
+	if (error == INVALID_PATH)
+		printf("minishell: %s: invalid path\n", command);
+		//guardar re_num em $?
 	return (res_num);
 }
 
