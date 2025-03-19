@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 17:58:45 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:34:54 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ void	init_exit_status(t_data *minishell)
 	new = levnew(arr);
 	levadd_back(minishell->lev, new);
 	minishell->ev_num++;
+}
+
+void	update_exit_status(t_data *minishell, int status)
+{
+	t_lev	*node;
+	char	*exit_status;
+
+	node = findlev(*minishell->lev, "$");
+	if (!node)
+		handle_error(EV_NOTFOUND);
+	else
+	{
+		free(node->value);
+		exit_status = ft_itoa(status);
+		node->value = ft_strdup(exit_status);
+	}
 }
 
 t_data	*init(char **ev)

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 14:04:30 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:21:36 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	exec_father(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
 	if (!(*status & 0x7F))	  // Verifica se o filho terminou normalmente (sem sinal)
-		return (*status >> 8) & 0xFF;
+		return (*status >> 8) & 0xFF; //retorna o exit status que o filho terminou
 	else							 // Processo terminou por um sinal
 		return 128 + (*status & 0x7F); // Obtém o número do sinal;
 }

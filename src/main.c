@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/19 14:04:52 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:30:37 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ int		print_error(int error, int res_num, char *command, char *arg)
 		printf("minishell: %s: command not found\n", command);
 	if (error == EXECVE)
 		printf("minishell: %s: could not execute command\n", command);
+	if (error == INVALID_INPUT)
+		printf("minishell: invalid input: doesn't accept %s", command);
+	if (error == QUOTES)
+		printf("minishell: invalid input: please close you quotes");
 	return (res_num);
 }
 
 void	free_all(t_data *minishell)
 {
 	free_lev(minishell->lev);
+	free(minishell->input);
 	free(minishell);
 	//fazer free token e ast
 }
@@ -56,7 +61,6 @@ int main(int ac, char **av, char **ev)
 		handle_error(USAGE);
 	if (!ev)
 		handle_error(EV);
-	//adicionar verificação de \ e ; aqui (retorna um erro)
 	start(ev);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/19 14:03:13 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:35:34 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 # define INVALID_PATH 7
 # define INVALID_CMD 8
 # define EXECVE 9
+# define INVALID_INPUT 10
+# define QUOTES 11
 
 // # define ECHO_FLAG "Error: echo doesn't accept this flag."
 // # define ENV_ARG "Error: env doesn't accept arguments or flags."
@@ -132,15 +134,16 @@ int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
 //Init
 t_data	*init(char **ev);
+void	update_exit_status(t_data *minishell, int status);
 //Input
 char	*get_input(t_data *minishell);
+int		verify_input(char *input);
 //Tokenizer
 void	tokenizer(char *input, t_token **tokens);
 //Execution
 char	*find_command(t_data *minishell, char *cmd);
 int		exec_path(t_data *minishell, char **args);
-void	update_exit_status(t_data *minishell, int status);
-void	execute(t_data *minishell);
+int		execute(t_data *minishell);
 //Builtin
 int		hasflag(char **args);
 int		cd(t_lev **lev, char **args);
