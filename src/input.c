@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:52 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 16:32:24 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:41:09 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,8 @@ char	*get_input(t_data *minishell)
 int	verify_input(char *input)
 {
 	if (ft_strchr(input, '\\'))
-	{
-		print_error(INVALID_INPUT, 1, "\\ (backslash)", NULL);
-		return (1);
-	}
+		return (print_error(INVALID_INPUT, 1, "\\ (backslash)", NULL));
 	if (ft_strchr(input, ';'))
-	{
-		print_error(INVALID_INPUT, 1, "; (semicolon)", NULL);
-		return (2);
-	}
+		return (print_error(INVALID_INPUT, 2, "; (semicolon)", NULL));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 14:21:36 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:54:43 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	exec_sh(char *command, char **args, t_data *minishell)
 {
 	int			fd;
 	char		buf[2];
-	char		*new_args[3] = {"/bin/bash", command, NULL};
+	char		*new_args[3];
 
+	new_args[0] = "/bin/bash";
+	new_args[1] = command;
+	new_args[2] = NULL;
 	fd = open(command, O_RDONLY);
 	if (fd != -1)
 	{

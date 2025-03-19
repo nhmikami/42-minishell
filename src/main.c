@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/19 16:30:37 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:43:43 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int		print_error(int error, int res_num, char *command, char *arg)
 	if (error == EXECVE)
 		printf("minishell: %s: could not execute command\n", command);
 	if (error == INVALID_INPUT)
-		printf("minishell: invalid input: doesn't accept %s", command);
+		printf("minishell: invalid input: doesn't accept %s\n", command);
 	if (error == QUOTES)
-		printf("minishell: invalid input: please close you quotes");
+		printf("minishell: invalid input: please close quotes\n");
 	return (res_num);
 }
 
