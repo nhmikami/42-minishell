@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/18 17:59:19 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:03:13 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 # include "libft.h"
 
 //Handle Error Macros
@@ -32,7 +33,6 @@
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
 # define EV_NOTFOUND "Error: Can't find environment variables."
-# define EXECVE "Error: When executing command in execve."
 # define FORK "Error: Trying to fork process."
 
 //Print Error Macros
@@ -44,6 +44,7 @@
 # define INVALID_FILE 6
 # define INVALID_PATH 7
 # define INVALID_CMD 8
+# define EXECVE 9
 
 // # define ECHO_FLAG "Error: echo doesn't accept this flag."
 // # define ENV_ARG "Error: env doesn't accept arguments or flags."
@@ -136,6 +137,8 @@ char	*get_input(t_data *minishell);
 //Tokenizer
 void	tokenizer(char *input, t_token **tokens);
 //Execution
+char	*find_command(t_data *minishell, char *cmd);
+int		exec_path(t_data *minishell, char **args);
 void	update_exit_status(t_data *minishell, int status);
 void	execute(t_data *minishell);
 //Builtin
