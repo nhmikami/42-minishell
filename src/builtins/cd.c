@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:35:01 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 12:02:29 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:55:45 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	cd(t_lev **lev, char **args)
 	int	res;
 	int	flag;
 
-	if ((flag = hasflag(args)))
+	flag = hasflag(args);
+	if (flag)
 		return (print_error(INVALID_OPTION, 2, "cd", args[flag]));
 	if (!args[1])
 		res = chdir(getenv("HOME"));

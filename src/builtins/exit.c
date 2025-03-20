@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:58:46 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 18:08:38 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:56:09 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ int	exec_exit(t_data *minishell, char **args)
 	free_all(minishell);
 	exit(exit_num);
 }
-

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/19 16:43:43 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:53:49 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_error(char *error)
 	exit(EXIT_FAILURE);
 }
 
-int		print_error(int error, int res_num, char *command, char *arg)
+int	print_error(int error, int res_num, char *command, char *arg)
 {
 	if (error == INVALID_OPTION)
 		printf("minishell: %s: %s: invalid option\n", command, arg);
@@ -54,7 +54,7 @@ void	free_all(t_data *minishell)
 	//fazer free token e ast
 }
 
-int main(int ac, char **av, char **ev)
+int	main(int ac, char **av, char **ev)
 {
 	(void)av;
 	if (ac != 1)

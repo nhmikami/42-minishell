@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:50:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 17:47:25 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:54:26 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,3 @@ char	*concatenate(char *s1, char *s2, char *s3)
 	free(result1);
 	return (result2);
 }
-

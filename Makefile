@@ -6,7 +6,7 @@
 #    By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/03/19 13:56:15 by cayamash         ###   ########.fr        #
+#    Updated: 2025/03/20 10:52:38 by cayamash         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ all: libft $(NAME)
 libft:
 	@make -C $(LIBFT) $(NO_PRINT)
 
-val: $(NAME)
+val: libft $(NAME)
 	@$(VALGRIND) ./$(NAME) > valgrind.log 2>&1
 
 norm:

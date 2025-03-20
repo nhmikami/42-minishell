@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:20:48 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 16:14:48 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:58:29 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ t_lev	**sort_lev(t_lev **lev_ord, int ev_num)
 
 int	print_lev_ord(t_data *minishell)
 {
-	t_lev   **lev_ord;
+	t_lev	**lev_ord;
 	int		res;
 
-    lev_ord = copy_lev(minishell);
-    lev_ord = sort_lev(lev_ord, minishell->ev_num);
+	lev_ord = copy_lev(minishell);
+	lev_ord = sort_lev(lev_ord, minishell->ev_num);
 	res = print_lev(lev_ord, 1);
 	free_lev(lev_ord);
 	return (res);

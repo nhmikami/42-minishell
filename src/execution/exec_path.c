@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 16:54:43 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:50:27 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,23 @@ void	exec_child(char *command, char **args, t_data *minishell)
 		else
 			execve(command, args, lev_to_array(minishell));
 	}
-	print_error(EXECVE, 0, command, NULL);
+	print_error(EXECVE, -1, command, NULL);
 }
 
-int	exec_father(pid_t pid, int *status)
+int	exec_parent(pid_t pid)
 {
-	waitpid(pid, status, 0);
-	if (!(*status & 0x7F))	  // Verifica se o filho terminou normalmente (sem sinal)
-		return (*status >> 8) & 0xFF; //retorna o exit status que o filho terminou
-	else							 // Processo terminou por um sinal
-		return 128 + (*status & 0x7F); // Obtém o número do sinal;
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (128 + WTERMSIG(status));
 }
 
 int	exec_path(t_data *minishell, char **args)
 {
 	pid_t	pid;
 	char	*command;
-	int		status;
 	int		res;
 
 	res = 0;
@@ -74,7 +74,7 @@ int	exec_path(t_data *minishell, char **args)
 	if (pid == 0)
 		exec_child(command, args, minishell);
 	else if (pid > 0)
-		res = exec_father(pid, &status);
+		res = exec_parent(pid);
 	else
 		handle_error(FORK);
 	free(command);

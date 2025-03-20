@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 16:34:40 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:53:19 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	finish(t_data *minishell)
 
 void	start(char **ev)
 {
-	t_data *minishell;
+	t_data	*minishell;
 
-	minishell = init(ev); // copiar env
+	minishell = init(ev);
 	run(minishell);
 	finish(minishell);
 }
