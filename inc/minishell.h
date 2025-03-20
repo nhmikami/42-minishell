@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/17 15:48:10 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:27:33 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@
 # include <unistd.h>
 # include "libft.h"
 
-//Error Macros
+/* ********************************* Macros ********************************** */
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
 # define SYNTAX "Error: Invalid syntax"
 # define EV "Can't allocate memory to environment variables"
 # define MALLOC "Error: Could not allocate memory"
 
-//Structs
-
+/* ********************************* Structs ********************************* */
 typedef enum e_id
 {
 	NONE,				// =0
@@ -94,10 +93,20 @@ void	start(char **ev);
 t_data	*init(char **ev);
 //Input
 char	*get_input(t_data *minishell);
-//Tokenizer
-//void 	tokenizer(char *input, t_token **tokens);
+
+/* ******************************* Tokenizer ******************************** */
 t_token *tokenizer(char *input);
-//Main
+
+/* ********************************* Parser ********************************* */
+t_ast	*parse_group(t_tokens **tokens);
+t_ast	*parse_logical_operators(t_tokens **tokens);
+t_ast	*parse_pipe(t_tokens **tokens);
+t_ast	*parse_redir(t_tokens **tokens);
+t_ast	*parse_token(t_tokens **tokens);
+t_ast	*new_node(int id);
+int		count_args(t_tokens *tokens);
+
+/* ********************************** Main ********************************** */
 void	handle_error(char *error);
 void	free_all(t_data *minishell);
 
