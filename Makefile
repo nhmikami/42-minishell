@@ -27,7 +27,7 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c main.c)
+SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c parser.c main.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #Valgrind

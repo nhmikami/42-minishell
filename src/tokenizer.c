@@ -169,9 +169,9 @@ static char	*allocate_substr(char const *s, int *len, int id)
 {
 	char	*str;
 
-	if (*s == '\'' || *s == '\"')
+	/*if (*s == '\'' || *s == '\"')
 		*len = token_len(s, id) - 2;
-	else
+	else*/
 		*len = token_len(s, id);
 	str = malloc(sizeof(char) * (*len + 1));
 	if (!str)
@@ -187,7 +187,7 @@ char	*get_token(char const *s, int id)
 	int		i;
 	int		len;
 	char	*str;
-	char	quote;
+	//char	quote;
 
 	i = 0;
 	len = 0;
@@ -196,7 +196,7 @@ char	*get_token(char const *s, int id)
 		return (NULL);
 	while (i < len)
 	{
-		if (*s == '\'' || *s == '\"')
+		/*if (*s == '\'' || *s == '\"')
 		{
 			quote = *s++;
 			while (*s && *s != quote)
@@ -204,7 +204,7 @@ char	*get_token(char const *s, int id)
 			if (*s == quote)
 				s++;
 		}
-		else
+		else*/
 			str[i++] = *s++;
 	}
 	str[i] = '\0';

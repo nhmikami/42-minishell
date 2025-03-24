@@ -24,7 +24,9 @@ void	execute(t_data *minishell)
 		if (!minishell->input)
 			handle_error(INPUT);
 		tokens = tokenizer(minishell->input);
+		root = parser(tokens);
 		minishell->token = &tokens;
+		minishell->root = &root;
 		// execute
 	}
 }

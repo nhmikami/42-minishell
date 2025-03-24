@@ -44,9 +44,7 @@ typedef enum e_id
 	REDIR_OUT,			// >
 	HEREDOC,			// <<
 	APPEND,				// >>
-	ISSPACE,
 	ARG,
-	LIMITER,
 	CMD,
 	FD
 }	t_id;
@@ -81,6 +79,7 @@ typedef struct s_data
 	const char	*prompt;
 	t_lev		**lev;
 	t_token		**token;
+	t_ast		**root;
 }	t_data;
 
 //Functions
@@ -98,13 +97,14 @@ char	*get_input(t_data *minishell);
 t_token *tokenizer(char *input);
 
 /* ********************************* Parser ********************************* */
-t_ast	*parse_group(t_tokens **tokens);
-t_ast	*parse_logical_operators(t_tokens **tokens);
-t_ast	*parse_pipe(t_tokens **tokens);
-t_ast	*parse_redir(t_tokens **tokens);
-t_ast	*parse_token(t_tokens **tokens);
+t_ast	*parser(t_token *tokens);
+t_ast	*parse_group(t_token **tokens);
+t_ast	*parse_and_or(t_token **tokens);
+t_ast	*parse_pipe(t_token **tokens);
+t_ast	*parse_redir(t_token **tokens);
+t_ast	*parse_token(t_token **tokens);
 t_ast	*new_node(int id);
-int		count_args(t_tokens *tokens);
+int		count_args(t_token *tokens);
 
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);
