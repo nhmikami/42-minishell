@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/17 16:32:02 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:35:32 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*new_token(char *value, int id)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
+	token = allocate_mem(1, sizeof(t_token));
 	if (!token)
 	{
 		handle_error(MALLOC);
@@ -27,11 +27,11 @@ t_token	*new_token(char *value, int id)
 	if (!token->value)
 	{
 		handle_error(MALLOC);
-		free(token);
-		free(value);
+		// free(token);
+		// free(value);
 		return (NULL);
 	}
-	free(value);
+	// free(value);
 	token->prev = NULL;
 	token->next = NULL;
 	return (token);

@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:13:26 by naharumi          #+#    #+#             */
-/*   Updated: 2024/10/16 18:34:43 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:08:59 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL || s2 == NULL)
 		return (0);
 	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = malloc(size);
+	str = allocate_mem(size, sizeof(char));
 	if (!str)
 		return (0);
 	i = 0;

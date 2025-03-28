@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:01:09 by naharumi          #+#    #+#             */
-/*   Updated: 2024/10/17 17:16:41 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:09:52 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	if (!s || !f)
 		return (0);
 	len = ft_strlen(s);
-	str = malloc(sizeof(char) * (len + 1));
+	str = allocate_mem(len + 1, sizeof(char));
 	if (!str)
 		return (0);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/20 14:27:33 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:59:30 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ t_token *tokenizer(char *input);
 
 /* ********************************* Parser ********************************* */
 t_ast	*parser(t_token *tokens);
-t_ast	*parse_group(t_token **tokens);
-t_ast	*parse_and_or(t_token **tokens);
-t_ast	*parse_pipe(t_token **tokens);
-t_ast	*parse_redir(t_token **tokens);
-t_ast	*parse_token(t_token **tokens);
+t_ast	*parse_group(t_token *tokens);
+t_ast	*parse_and_or(t_token *tokens);
+t_ast	*parse_pipe(t_token *tokens);
+t_ast	*parse_redir(t_token *tokens);
+t_ast	*parse_token(t_token *tokens);
 t_ast	*new_node(int id);
 int		count_args(t_token *tokens);
 

@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_mem_collect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 15:54:03 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/26 18:08:13 by naharumi         ###   ########.fr       */
+/*   Created: 2025/03/25 19:08:19 by naharumi          #+#    #+#             */
+/*   Updated: 2025/03/26 18:13:12 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+t_list	**get_memory_ptr(void)
 {
-	int		i;
-	size_t	len;
-	char	*dest;
+	static t_list	*ptr;
 
-	i = 0;
-	len = ft_strlen(s);
-	dest = allocate_mem(len + 1, sizeof(char));
-	if (!dest)
-		return (0);
-	while (s[i] != '\0')
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (&ptr);
+}
+
+void	collect_mem(void *content)
+{
+	ft_lstadd_front(get_memory_ptr(), ft_lstnew(content));
+}
+
+void	deallocate_mem(void)
+{
+	// get_next_line(-1);
+	ft_lstclear(get_memory_ptr(), &free);
+}
+
+void	*allocate_mem(size_t nmemb, size_t size)
+{
+	void	*p;
+
+	p = ft_calloc(nmemb, size);
+	collect_mem(p);
+	return (p);
 }

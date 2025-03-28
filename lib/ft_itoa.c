@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:56:54 by naharumi          #+#    #+#             */
-/*   Updated: 2024/10/23 17:33:02 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:54:40 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_itoa(int n)
 
 	nbr = n;
 	len = nbr_len(nbr);
-	str = malloc(sizeof(char) * (len + 1));
+	str = allocate_mem(len + 1, sizeof(char));
 	if (!str)
 		return (0);
 	str[len] = '\0';
