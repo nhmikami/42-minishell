@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:19:22 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 18:10:24 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:41:47 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_lev	*levnew(char **arr_ev)
 	if (!new_node)
 		handle_error(MALLOC);
 	new_node->key = ft_strdup(arr_ev[0]);
-	new_node->value = ft_strdup(arr_ev[1]);
+	if (arr_ev[1])
+		new_node->value = ft_strdup(arr_ev[1]);
+	else
+		new_node->value = ft_strdup("");
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);

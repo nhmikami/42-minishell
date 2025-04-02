@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 14:55:55 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:42:32 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	run(t_data *minishell)
 			print_postorder(root);
 
 			minishell->token = &tokens;
-			minishell->root = &root;
+			minishell->ast = &root;
 			status = execute(minishell);
 		}
 		clear_mem();
