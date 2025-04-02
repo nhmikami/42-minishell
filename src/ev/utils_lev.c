@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:18:29 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 18:09:48 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:14:45 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	levdel(t_lev **lev, char *key)
 		return (2);
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
-	free(node->key);
-	free(node->value);
-	free(node);
+	deallocate_mem(node->key);
+	deallocate_mem(node->value);
+	deallocate_mem(node);
 	return (0);
 }
 
@@ -55,14 +55,14 @@ void	free_lev(t_lev **lev)
 	node = *lev;
 	while (node)
 	{
-		free(node->key);
-		free(node->value);
+		deallocate_mem(node->key);
+		deallocate_mem(node->value);
 		node_next = node->next;
-		free(node);
+		deallocate_mem(node);
 		node = node_next;
 	}
 	*lev = NULL;
-	free(lev);
+	deallocate_mem(lev);
 }
 
 char	**lev_to_array(t_data *minishell)

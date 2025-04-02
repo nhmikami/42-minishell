@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:35:42 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/19 16:34:54 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:16:07 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ void	update_exit_status(t_data *minishell, int status)
 {
 	t_lev	*node;
 	char	*exit_status;
-
+	
 	node = findlev(*minishell->lev, "$");
+	
 	if (!node)
 		handle_error(EV_NOTFOUND);
 	else
 	{
-		free(node->value);
+		deallocate_mem(node->value);
 		exit_status = ft_itoa(status);
 		node->value = ft_strdup(exit_status);
+		deallocate_mem(exit_status);
 	}
 }
 
@@ -44,7 +46,7 @@ t_data	*init(char **ev)
 {
 	t_data	*minishell;
 
-	minishell = malloc(sizeof(t_data));
+	minishell = allocate_mem(1, sizeof(t_data));
 	minishell->prompt = "minishell$ ";
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);

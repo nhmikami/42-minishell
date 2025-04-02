@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 14:58:55 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:23:01 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,6 @@ void	update_exit_status(t_data *minishell, int status);
 //Input
 char	*get_input(t_data *minishell);
 int		verify_input(char *input);
-//Tokenizer
-void	tokenizer(char *input, t_token **tokens);
 //Execution
 char	*find_command(t_data *minishell, char *cmd);
 int		exec_path(t_data *minishell, char **args);
@@ -153,7 +151,6 @@ int		export(t_data *minishell, char **args);
 int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
-//Main
 
 /* ******************************* Tokenizer ******************************** */
 t_token *tokenizer(char *input);

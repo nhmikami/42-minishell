@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:35:01 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/20 10:55:45 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:31:37 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	update_pwds(t_lev *lev)
 	path = ft_calloc(1024, sizeof(char));
 	if (!path)
 		handle_error(MALLOC);
-	free(old_pwd->value);
+	deallocate_mem(old_pwd->value);
 	old_pwd->value = pwd->value;
 	getcwd(path, 1024);
 	pwd->value = ft_strdup(path);
-	free(path);
+	deallocate_mem(path);
 	return (0);
 }
 

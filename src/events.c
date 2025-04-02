@@ -6,13 +6,13 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 14:55:55 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:13:59 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_postorder(t_ast *node)
+void print_postorder(t_ast *node) // para printar o parser, pode apagar depois
 {
 	if (!node)
 		return;
@@ -57,16 +57,16 @@ static void	run(t_data *minishell)
 			if (!root)
 				handle_error(MALLOC);
 
-			printf("\nparser\n");
-			print_postorder(root);
+			printf("\nparser\n"); // apagar
+			print_postorder(root); // apagar
 
 			minishell->token = &tokens;
-			minishell->root = &root;
+			minishell->ast = &root;
 			status = execute(minishell);
 		}
-		clear_mem();
 		update_exit_status(minishell, status);
 	}
+	clear_mem();
 }
 
 void	finish(t_data *minishell)
