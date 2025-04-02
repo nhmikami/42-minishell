@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 18:24:23 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:26:23 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define BUILTIN "Error: In Builtin function"
 # define EV_NOTFOUND "Error: Can't find environment variables."
 # define FORK "Error: Failed to fork process."
-# define PIPE "Error: Failed to create pipe."
+# define PIPE_ERR "Error: Failed to create pipe."
 
 //Print Error Macros
 # define INVALID_OPTION 1

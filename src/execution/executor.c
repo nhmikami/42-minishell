@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:40:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 16:39:51 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:14:13 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ int	loop_tree(t_data *minishell, t_ast *ast)
 	pid_t pid;
 
 	res = 0;
-	if (!ast == NULL) 
-		return ;
-	loopTree(ast->left);
+	if (ast == NULL)
+		return (0);
 	if (ast->args != NULL)
 	{
 		res = is_builtin(minishell, ast->args);
@@ -30,13 +29,44 @@ int	loop_tree(t_data *minishell, t_ast *ast)
 	}
 	else
 	{
-		if (pipe(fd) == -1)
-			handle_error(PIPE);
-		pid = fork();
-		if (pid == -1)
-			handle_error(FORK)
+			if (ast->id == PIPE) // Handle pipe (|) operator
+		{
+			if (pipe(fd) == -1)
+				handle_error(PIPE_ERR);
+			pid = fork();
+			if (pid == -1)
+				handle_error(FORK);
+			if (pid == 0) // Child process
+			{
+				close(fd[0]); // Close read end
+				dup2(fd[1], STDOUT_FILENO); // Redirect stdout to write end
+				close(fd[1]);
+				exit(loop_tree(minishell, ast->left)); // Execute left subtree
+			}
+			else // Parent process
+			{
+				close(fd[1]); // Close write end
+				dup2(fd[0], STDIN_FILENO); // Redirect stdin to read end
+				close(fd[0]);
+				waitpid(pid, &res, 0); // Wait for child
+				res = loop_tree(minishell, ast->right); // Execute right subtree
+			}
+		}
+		else if (ast->id == AND) // Handle && operator
+		{
+			res = loop_tree(minishell, ast->left);
+			if (res == 0) // Only execute right subtree if left succeeds
+				res = loop_tree(minishell, ast->right);
+		}
+		else if (ast->id == OR) // Handle || operator
+		{
+			res = loop_tree(minishell, ast->left);
+			if (res != 0) // Only execute right subtree if left fails
+				res = loop_tree(minishell, ast->right);
+		}
+		// Add more cases for >, <, etc., as neededão dependendo do id do nó
 	}
-	loopTree(ast->right);
+	res = loop_tree(minishell, ast->right);
 	return (res);
 }
 
@@ -44,7 +74,7 @@ int	execute(t_data *minishell)
 {
 	int	res;
 
-	res = loopTree(minishell, *minishell->ast);
+	res = loop_tree(minishell, *minishell->ast);
 
 	return (res);
 }
