@@ -16,13 +16,16 @@ static void	*free_arr(char **arr, int i)
 {
 	int	index;
 
+	if (!arr)
+		return (NULL);
 	index = 0;
 	while (index < i)
 	{
-		free(arr[index]);
+		if (arr[index])
+			deallocate_mem(arr[index]);
 		index++;
 	}
-	free(arr);
+	deallocate_mem(arr);
 	return (NULL);
 }
 

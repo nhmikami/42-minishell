@@ -24,12 +24,6 @@ void	collect_mem(void *content)
 	ft_lstadd_front(get_memory_ptr(), ft_lstnew(content));
 }
 
-void	deallocate_mem(void)
-{
-	// get_next_line(-1);
-	ft_lstclear(get_memory_ptr(), &free);
-}
-
 void	*allocate_mem(size_t nmemb, size_t size)
 {
 	void	*p;
@@ -37,4 +31,39 @@ void	*allocate_mem(size_t nmemb, size_t size)
 	p = ft_calloc(nmemb, size);
 	collect_mem(p);
 	return (p);
+}
+
+void	deallocate_mem(void *content)
+{
+	t_list	**mem_list;
+	t_list	*prev;
+	t_list	*curr;
+
+	if (!content)
+		return;
+	mem_list = get_memory_ptr();
+	curr = *mem_list;
+	prev = NULL;
+	while (curr)
+	{
+		if (curr->content == content)
+		{
+			if (prev)
+				prev->next = curr->next;
+			else
+				*mem_list = curr->next;
+			curr->next = NULL;
+			free(curr->content);
+			free(curr);
+			return;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+}
+
+void	clear_mem(void)
+{
+	// get_next_line(-1);
+	ft_lstclear(get_memory_ptr(), &free);
 }

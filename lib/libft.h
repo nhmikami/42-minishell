@@ -81,6 +81,7 @@ char	*get_next_line(int fd);
 t_list	**get_memory_ptr(void);
 void	*allocate_mem(size_t nmemb, size_t size);
 void	collect_mem(void *content);
-void	deallocate_mem(void);
+void	deallocate_mem(void *content);
+void	clear_mem(void);
 
 #endif

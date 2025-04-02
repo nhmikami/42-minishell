@@ -24,8 +24,6 @@ int	operators_rule(t_token *token)
 
 int	redir_rule(t_token *token)
 {
-	// if (!token->prev || token->prev->id != ARG) // dúvida??
-	// 	return (0);
 	if (!token->next || token->next->id != ARG)
 		return (0);
 	return (1);
@@ -61,12 +59,77 @@ int	check_syntax(t_token *token)
 	return (1);
 }
 
+// search
+t_token	*search_and_or(t_token *tokens)
+{
+	t_token	*curr;
+	t_token	*last;
+	int		paren;
+
+	paren = 0;
+	curr = tokens;
+	last = NULL;
+	while (curr)
+	{
+		if (curr->id == PAREN_OPEN)
+			paren++;
+		else if (curr->id == PAREN_CLOSE)
+			paren--;
+		if ((curr->id == AND || curr->id == OR) && paren == 0)
+			last = curr;
+		curr = curr->next;
+	}
+	return (last);
+}
+
+t_token	*search_pipe(t_token *tokens)
+{
+	t_token	*curr;
+	t_token	*last;
+	int		paren;
+
+	paren = 0;
+	curr = tokens;
+	last = NULL;
+	while (curr)
+	{
+		if (curr->id == PAREN_OPEN)
+			paren++;
+		else if (curr->id == PAREN_CLOSE)
+			paren--;
+		if (curr->id == PIPE && paren == 0)
+			last = curr;
+		curr = curr->next;
+	}
+	return (last);
+}
+
+t_token	*search_redir(t_token *tokens)
+{
+	t_token	*curr;
+	int		paren;
+
+	paren = 0;
+	curr = tokens;
+	while (curr)
+	{
+		if (curr->id == PAREN_OPEN)
+			paren++;
+		else if (curr->id == PAREN_CLOSE)
+			paren--;
+		if ((curr->id >= REDIR_IN && curr->id <= APPEND) && paren == 0)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
 // utils
 t_ast	*new_node(int id)
 {
 	t_ast	*node;
 	
-	node = malloc(sizeof(t_ast));
+	node = allocate_mem(1, sizeof(t_ast));
 	if (!node)
 	{
 		handle_error(MALLOC);
@@ -94,169 +157,74 @@ int	count_args(t_token *tokens)
 	return (count);
 }
 
-t_token	*cut_token_list(t_token **tokens, t_token *token_to_cut)
+t_token	*split_token_list(t_token *tokens, t_token *op)
 {
 	t_token	*right;
 
-	if (!tokens || !*tokens || !token_to_cut)
+	if (!tokens || !op)
 		return (NULL);
-	if (token_to_cut->next)
+	if (op->next)
 	{
-		right = token_to_cut->next;
+		right = op->next;
 		right->prev = NULL;
 	}
-	if (token_to_cut->prev)
-		token_to_cut->prev->next = NULL;
-	token_to_cut->prev = NULL;
-	token_to_cut->next = NULL;
-	free(token_to_cut);
+	if (op->prev)
+		op->prev->next = NULL;
+	op->prev = NULL;
+	op->next = NULL;
 	return (right);
 }
 
-t_token	**trim_paren(t_token **tokens)
+t_token	*remove_outer_paren(t_token *tokens)
 {
-	t_token	*first;
 	t_token	*last;
-	t_token	*aux;
+	t_token	*curr;
+	int		paren;
 
-	if (!tokens || !*tokens || (*tokens)->id != PAREN_OPEN)
+	if (!tokens || tokens->id != PAREN_OPEN)
 		return (tokens);
-	*tokens = (*tokens)->next;
-	first = (*tokens)->prev;
-	last = *tokens;
+	last = tokens;
 	while (last->next)
 		last = last->next;
-	if (first->id == PAREN_OPEN && last->id == PAREN_CLOSE)
-	{
-		first->next = NULL;
-		(*tokens)->prev = NULL;
-		free(first);
-		aux = last->prev;
-		aux->next = NULL;
-		last->prev = NULL;
-		free(last);
-	}
-	return (tokens);
-}
-
-// search
-t_token	*search_and_or(t_token **tokens)
-{
-	t_token	*curr;
-	t_token	*last;
-	int		paren;
-
+	if (last->id != PAREN_CLOSE)
+		return (tokens);
 	paren = 0;
-	curr = *tokens;
-	last = NULL;
+	curr = tokens;
 	while (curr)
 	{
 		if (curr->id == PAREN_OPEN)
 			paren++;
 		else if (curr->id == PAREN_CLOSE)
 			paren--;
-		if ((curr->id == AND || curr->id == OR) && paren == 0)
-			last = curr;
+		if (paren == 0 && curr != last)
+			return (tokens);
 		curr = curr->next;
 	}
-	if (!last && (*tokens)->id == PAREN_OPEN)
-		return (search_and_or(trim_paren(tokens)));
-	return (last);
+	tokens = tokens->next;
+	tokens->prev->next = NULL;
+	tokens->prev = NULL;
+	last->prev->next = NULL;
+	last->prev = NULL;
+	return (remove_outer_paren(tokens));
 }
 
-t_token	*search_pipe(t_token **tokens)
-{
-	t_token	*curr;
-	t_token	*last;
-	int		paren;
-
-	paren = 0;
-	curr = *tokens;
-	last = NULL;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if (curr->id == PIPE && paren == 0)
-			last = curr;
-		curr = curr->next;
-	}
-	if (!last && (*tokens)->id == PAREN_OPEN)
-		return (search_pipe(trim_paren(tokens)));
-	return (last);
-}
-
-t_token	*search_redir(t_token **tokens)
-{
-	t_token	*curr;
-	int		paren;
-
-	paren = 0;
-	curr = *tokens;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if ((curr->id >= REDIR_IN && curr->id <= APPEND) && paren == 0)
-			return (curr);
-		curr = curr->next;
-	}
-	if ((*tokens)->id == PAREN_OPEN)
-		return (search_redir(trim_paren(tokens)));
-	return (NULL);
-}
-
-// parser
-t_token	*get_left_leg(t_token *token_to_cut)
-{
-	t_token	*left;
-
-	if (!token_to_cut)
-		return (NULL);
-	if (token_to_cut->prev)
-	{
-		left = token_to_cut->prev;
-		left->next = NULL;
-	}
-	while (left->prev)
-		left = left->prev;
-	return (left);
-}
-
-t_token	*get_right_leg(t_token *token_to_cut)
-{
-	t_token	*right;
-
-	if (!token_to_cut)
-		return (NULL);
-	if (token_to_cut->next)
-	{
-		right = token_to_cut->next;
-		right->prev = NULL;
-	}
-	return (right);
-}
-
+// build tree
 t_ast	*parse_token(t_token *tokens)
 {
 	t_ast	*node;
 	int		count;
 	
-
 	if (!tokens || tokens->id != ARG)
 		return (NULL);
-	node = new_node(CMD);
-	if (!node)
-		return (NULL);
-	count = count_args(tokens);
-	node->args = malloc(sizeof(char *) * (count + 1));
-	if (!node->args){
+	node = new_node(tokens->id);
+	if (!node) {
 		handle_error(MALLOC);
-		free(node);
+		return (NULL);
+	}
+	count = count_args(tokens);
+	node->args = allocate_mem(count + 1, sizeof(char *));
+	if (!node->args) {
+		handle_error(MALLOC);
 		return (NULL);
 	}
 	count = 0;
@@ -266,7 +234,6 @@ t_ast	*parse_token(t_token *tokens)
 		if (!node->args[count])
 		{
 			handle_error(MALLOC);
-			// free em args[i], args, node
 			return (NULL);
 		}
 		count++;
@@ -276,267 +243,66 @@ t_ast	*parse_token(t_token *tokens)
 	return (node);
 }
 
-t_ast	*parse_redir(t_token *tokens)
+
+t_ast	*parse_redir(t_token *tokens, t_token *op)
 {
 	t_ast	*node;
-	t_token	*op;
-	t_token	*left;
-	t_token	*right;
 
-	op = search_redir(&tokens);
-	if (!op)
-		return (parse_token(tokens));
-	node = new_node(op->id);
-	left = get_left_leg(op);
-	right = get_right_leg(op);
-	op->prev = NULL;
-	op->next = NULL;
-	free(op);
-	node->left = parse_and_or(left);
-	node->right = parse_and_or(right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}
-
-t_ast	*parse_pipe(t_token *tokens)
-{
-	t_ast	*node;
-	t_token	*op;
-	t_token	*left;
-	t_token	*right;
-
-	op = search_pipe(&tokens);
-	if (!op)
-		return (parse_redir(tokens));
-	node = new_node(op->id);
-	left = get_left_leg(op);
-	right = get_right_leg(op);
-	op->prev = NULL;
-	op->next = NULL;
-	free(op);
-	node->left = parse_and_or(left);
-	node->right = parse_and_or(right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}
-
-t_ast	*parse_and_or(t_token *tokens)
-{
-	t_ast	*node;
-	t_token	*op;
-	t_token	*left;
-	t_token	*right;
-
-	op = search_and_or(&tokens);
-	if (!op)
-		return (parse_pipe(tokens));
-	node = new_node(op->id);
-	left = get_left_leg(op);
-	right = get_right_leg(op);
-	op->prev = NULL;
-	op->next = NULL;
-	free(op);
-	node->left = parse_and_or(left);
-	node->right = parse_and_or(right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}
-
-
-
-/*t_ast	*parse_token(t_token **tokens)
-{
-	t_ast	*node;
-	int		count;
-	
-
-	if (!tokens || !*tokens || (*tokens)->id != ARG)
+	if (!tokens || !op)
 		return (NULL);
-	node = new_node(CMD);
-	if (!node)
-		return (NULL);
-	count = count_args(*tokens);
-	node->args = malloc(sizeof(char *) * (count + 1));
-	if (!node->args){
-		handle_error(MALLOC);
-		free(node);
-		return (NULL);
-	}
-	count = 0;
-	while (*tokens && (*tokens)->id == ARG)
-	{ 
-		node->args[count] = ft_strdup((*tokens)->value); // malloc
-		if (!node->args[count])
-		{
-			handle_error(MALLOC);
-			// free em args[i], args, node
-			return (NULL);
-		}
-		count++;
-		*tokens = (*tokens)->next;
-	}
-	node->args[count] = NULL;
-	return (node);
-}
-
-t_ast	*parse_redir(t_token **tokens)
-{
-	t_ast	*node;
-	t_token	*op;
-	t_token	*right;
-
-	op = search_redir(tokens);
-	if (!op)
-		return (parse_token(tokens));
 	node = new_node(op->id);
-	right = cut_token_list(tokens, op);
-	node->left = parse_and_or(tokens);
-	node->right = parse_and_or(&right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}
-
-t_ast	*parse_pipe(t_token **tokens)
-{
-	t_ast	*node;
-	t_token	*op;
-	t_token	*right;
-
-	op = search_pipe(tokens);
-	if (!op)
-		return (parse_redir(tokens));
-	node = new_node(op->id);
-	right = cut_token_list(tokens, op);
-	node->left = parse_and_or(tokens);
-	node->right = parse_and_or(&right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}
-
-t_ast	*parse_and_or(t_token **tokens)
-{
-	t_ast	*node;
-	t_token	*op;
-	t_token	*right;
-
-	op = search_and_or(tokens);
-	if (!op)
-		return (parse_pipe(tokens));
-	node = new_node(op->id);
-	right = cut_token_list(tokens, op);
-	node->left = parse_and_or(tokens);
-	node->right = parse_and_or(&right);
-	printf("node: %i\n", node->id);
-	if (node->left) {
-		printf("left: id %i", node->left->id);
-		if (node->left->id == CMD)
-			printf(", value %s", node->left->args[0]);
-		printf("\n");
-	}
-	if (node->right) {
-		printf("right: id %i", node->right->id);
-		if (node->right->id == CMD)
-			printf(", value %s", node->right->args[0]);
-		printf("\n");
-	}
-	return (node);
-}*/
-
-t_ast	*parser(t_token *tokens)
-{
-	t_ast	*root;
-	t_token	*curr;
-
-	printf("parser\n");
-	curr = tokens;
-	while (curr)
+	if (tokens == op) // é o primeiro da lista
 	{
-		if (!check_syntax(curr))
-			handle_error(SYNTAX); // retornar comando para o usuário
-		curr = curr->next;
+		tokens = tokens->next->next;
+		if (tokens)
+			tokens->prev = NULL;
+		op->next->next = NULL;
 	}
-	root = parse_and_or(tokens);
-	if (!root)
-		return (NULL);
-	return (root);
+	else
+	{
+		op->prev->next = op->next->next;
+		if (op->next->next)
+			op->next->next = op->prev;
+		op->next->next = NULL;
+		op->prev = NULL;
+	}
+	node->left = build_tree(tokens);
+	node->right = build_tree(op->next);
+	return (node);
 }
 
-/*
-// build tree
+t_ast	*parse_operators(t_token *tokens, t_token *op)
+{
+	t_ast	*node;
+	t_token	*right;
+
+	if (!tokens || !op)
+		return (NULL);
+	node = new_node(op->id);
+	if (!node)
+	{
+		handle_error(MALLOC);
+		return (NULL);
+	}
+	right = split_token_list(tokens, op);
+	node->left = build_tree(tokens);
+	node->right = build_tree(right);
+	return (node);
+}
+
 t_ast	*build_tree(t_token *tokens)
 {
-	t_ast	*node;
 	t_token	*op;
 
+	tokens = remove_outer_paren(tokens);
 	op = search_and_or(tokens);
 	if (op)
-		// parse_and_or
+		return (parse_operators(tokens, op));
 	op = search_pipe(tokens);
 	if (op)
-		// parse_pipe
+		return (parse_operators(tokens, op));
 	op = search_redir(tokens);
 	if (op)
-		// parse_redir
-	// parse_token
+		return (parse_redir(tokens, op));
+	return (parse_token(tokens));
 }
-*/

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// utils
 t_token	*new_token(char *value, int id)
 {
 	t_token	*token;
@@ -27,11 +28,8 @@ t_token	*new_token(char *value, int id)
 	if (!token->value)
 	{
 		handle_error(MALLOC);
-		// free(token);
-		// free(value);
 		return (NULL);
 	}
-	// free(value);
 	token->prev = NULL;
 	token->next = NULL;
 	return (token);
@@ -64,29 +62,22 @@ void	free_tokens(t_token *tokens)
 		tmp = tokens;
 		tokens = tokens->next;
 		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
+			deallocate_mem(tmp->value);
+		deallocate_mem(tmp);
 	}
 }
 
-// int	check_open_quotes(char *str)
-// {
-
-// }
-
-int	check_open_syntax(char *str)
+int	check_open_quotes(char *str)
 {
 	int		i;
 	int		quotes;
-	int		brackets;
 	char	type;
 
 	i = 0;
 	quotes = 0;
-	brackets = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"') //carol: verifica aspas dentro de aspas?
+		if (str[i] == '\'' || str[i] == '\"')
 		{
 			type = str[i];
 			quotes++;
@@ -96,22 +87,42 @@ int	check_open_syntax(char *str)
 			if (str[i] == type)
 				quotes++;
 		}
-		if (str[i] == '(')
-			brackets++;
-		if (str[i] == ')')
-		{
-			brackets--;
-			if (brackets < 0) //carol: significa que ) veio antes de (
-				handle_error(SYNTAX);
-		}
 		if (str[i])
 			i++;
 	}
-	if ((quotes % 2 != 0) || brackets != 0)
+	if (quotes % 2 != 0)
 		return (0);
 	return (1);
 }
 
+int	check_open_syntax(char *str)
+{
+	int		i;
+	int		paren;
+
+	i = 0;
+	paren = 0;
+	if (!check_open_quotes(str))
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '(')
+			paren++;
+		if (str[i] == ')')
+		{
+			paren--;
+			if (paren < 0)
+				return (0);
+		}
+		if (str[i])
+			i++;
+	}
+	if (paren != 0)
+		return (0);
+	return (1);
+}
+
+// tokenizer
 int	get_id(char const *str)
 {
 	if (!ft_strncmp(str, "&&", 2))
@@ -165,48 +176,22 @@ int	token_len(char const *str, int id)
 	return (len);
 }
 
-static char	*allocate_substr(char const *s, int *len, int id)
-{
-	char	*str;
-
-	/*if (*s == '\'' || *s == '\"')
-		*len = token_len(s, id) - 2;
-	else*/
-		*len = token_len(s, id);
-	str = malloc(sizeof(char) * (*len + 1));
-	if (!str)
-	{
-		handle_error(MALLOC);
-		return (NULL);
-	}
-	return (str);
-}
-
 char	*get_token(char const *s, int id)
 {
 	int		i;
 	int		len;
 	char	*str;
-	//char	quote;
 
 	i = 0;
-	len = 0;
-	str = allocate_substr(s, &len, id);
+	len = token_len(s, id);
+	str = allocate_mem(len + 1, sizeof(char));
 	if (!str)
-		return (NULL);
-	while (i < len)
 	{
-		/*if (*s == '\'' || *s == '\"')
-		{
-			quote = *s++;
-			while (*s && *s != quote)
-				str[i++] = *s++;
-			if (*s == quote)
-				s++;
-		}
-		else*/
-			str[i++] = *s++;
+		handle_error(MALLOC);
+		return (NULL);
 	}
+	while (i < len)
+		str[i++] = *s++;
 	str[i] = '\0';
 	return (str);
 }
@@ -234,15 +219,16 @@ t_token *tokenizer(char *input)
 			value = get_token(input, id); // malloc
 			if (!value)
 			{
-				free_tokens(tokens);
+				handle_error(MALLOC);
 				return (NULL);
 			}
 			new = new_token(value, id); // malloc
 			if (!new)
 			{
-				free_tokens(tokens);
+				handle_error(MALLOC);
 				return (NULL);
 			}
+			deallocate_mem(value);
 			printf("node: %i, %s\n", new->id, new->value); // apagar!!!!
 			append_token(&tokens, new);
 		}
@@ -250,28 +236,3 @@ t_token *tokenizer(char *input)
 	}
 	return (tokens);
 }
-
-// void tokenizer(char *input, t_token **tokens)
-// {
-// 	int		id;
-// 	char	*value;
-// 	t_token	*new;
-
-// 	if (!check_open_syntax(input))
-// 		handle_error(SYNTAX);
-// 	while (*input)
-// 	{
-// 		while (*input && ft_isspace(*input))
-// 			input++;
-// 		if (*input)
-// 		{
-// 			id = get_id(input);
-// 			value = get_token(input, id); // malloc
-// 			new = new_token(value, id); // new list node
-// 			printf("node: %i, %s\n", new->id, new->value);
-// 			free(value);
-// 			append_token(tokens, new); // append node
-// 		}
-// 		input += token_len(input, id);
-// 	}
-// }

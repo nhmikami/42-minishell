@@ -12,6 +12,27 @@
 
 #include "minishell.h"
 
+void print_postorder(t_ast *node)
+{
+	if (!node)
+		return;
+	print_postorder(node->left);
+	print_postorder(node->right);
+	printf("Node ID: %d\n", node->id);
+	if (node->left) {
+		printf("left: id %i", node->left->id);
+		if (node->left->id == ARG)
+			printf(", value %s", node->left->args[0]);
+		printf("\n");
+	}
+	if (node->right) {
+		printf("right: id %i", node->right->id);
+		if (node->right->id == ARG)
+			printf(", value %s", node->right->args[0]);
+		printf("\n");
+	}
+}
+
 void	execute(t_data *minishell)
 {
 	t_token *tokens;
@@ -24,10 +45,22 @@ void	execute(t_data *minishell)
 		if (!minishell->input)
 			handle_error(INPUT);
 		tokens = tokenizer(minishell->input);
-		root = parser(tokens);
+		if (!tokens)
+			handle_error(MALLOC);
+		if (!check_syntax(tokens))
+			handle_error(SYNTAX);
+		root = build_tree(tokens);
+		if (!root)
+			handle_error(MALLOC);
+
+		printf("\nparser\n");
+		print_postorder(root);
+
 		minishell->token = &tokens;
 		minishell->root = &root;
 		// execute
+
+		clear_mem();
 	}
 }
 
