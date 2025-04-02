@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:54:00 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/20 10:54:42 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:35:23 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*find_command(t_data *minishell, char *cmd)
 			arrfree(paths);
 			return (full_path);
 		}
-		free(full_path);
+		deallocate_mem(full_path);
 		i++;
 	}
 	arrfree(paths);

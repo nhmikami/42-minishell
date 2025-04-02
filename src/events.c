@@ -6,13 +6,13 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 15:49:16 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:24:15 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_postorder(t_ast *node)
+void print_postorder(t_ast *node) // para printar o parser, pode apagar depois
 {
 	if (!node)
 		return;
@@ -64,9 +64,9 @@ static void	run(t_data *minishell)
 			minishell->ast = &root;
 			status = execute(minishell);
 		}
-		clear_mem();
 		update_exit_status(minishell, status);
 	}
+	clear_mem();
 }
 
 void	finish(t_data *minishell)

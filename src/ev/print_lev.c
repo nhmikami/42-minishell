@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:20:48 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/20 10:58:29 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:11:44 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_lev	**copy_lev(t_data *minishell)
 	t_lev	*temp;
 	char	*arr_ev[2];
 
-	lev_ord = (t_lev **)malloc(sizeof(t_lev *));
+	lev_ord = allocate_mem(1, sizeof(t_lev *));
 	if (!lev_ord)
 		handle_error(MALLOC);
 	*lev_ord = NULL;

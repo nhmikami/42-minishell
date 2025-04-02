@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/18 11:07:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:31:07 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	export(t_data *minishell, char **args)
 	node = findlev(*minishell->lev, key_value[0]);
 	if (node)
 	{
-		free(node->value);
+		deallocate_mem(node->value);
 		node->value = ft_strdup(key_value[1]);
 	}
 	else

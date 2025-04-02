@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/03/20 10:50:27 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:36:40 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int	exec_path(t_data *minishell, char **args)
 		res = exec_parent(pid);
 	else
 		handle_error(FORK);
-	free(command);
+	deallocate_mem(command);
 	return (res);
 }

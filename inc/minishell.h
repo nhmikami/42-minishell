@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 16:36:19 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:24:23 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ int		export(t_data *minishell, char **args);
 int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
-//Main
 
 /* ******************************* Tokenizer ******************************** */
 t_token *tokenizer(char *input);
