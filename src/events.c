@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 15:42:32 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:49:16 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void	run(t_data *minishell)
 			if (!root)
 				handle_error(MALLOC);
 
-			printf("\nparser\n");
-			print_postorder(root);
+			//printf("\nparser\n");
+			//print_postorder(root);
 
 			minishell->token = &tokens;
 			minishell->ast = &root;
