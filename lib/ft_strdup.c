@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:54:03 by naharumi          #+#    #+#             */
-/*   Updated: 2024/10/16 15:59:50 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:08:13 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	len = ft_strlen(s);
-	dest = (char *)malloc(sizeof(char) * (len + 1));
+	dest = allocate_mem(len + 1, sizeof(char));
 	if (!dest)
 		return (0);
 	while (s[i] != '\0')

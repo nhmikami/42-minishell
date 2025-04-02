@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:37:51 by naharumi          #+#    #+#             */
-/*   Updated: 2024/10/25 12:43:22 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:05:16 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ static void	*free_arr(char **arr, int i)
 {
 	int	index;
 
+	if (!arr)
+		return (NULL);
 	index = 0;
 	while (index < i)
 	{
-		free(arr[index]);
+		if (arr[index])
+			deallocate_mem(arr[index]);
 		index++;
 	}
-	free(arr);
+	deallocate_mem(arr);
 	return (NULL);
 }
 
@@ -46,7 +49,7 @@ static char	*get_word(char const *s, char c)
 	char	*str;
 
 	len = word_len(s, c);
-	str = malloc(sizeof(char) * (len + 1));
+	str = allocate_mem(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -84,7 +87,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	arr = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1));
+	arr = allocate_mem(word_count(s, c) + 1, sizeof(char *));
 	if (!arr)
 		return (NULL);
 	i = 0;

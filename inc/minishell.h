@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/19 16:35:34 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:58:55 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@
 // # define EXIT_ARG "Error: exit: too many arguments"
 // # define EXIT_FLAG "Error: exit: minishell doesn't accept flags"
 
-//Structs e Enums
 
+/* ********************************* Structs ********************************* */
 typedef enum e_id
 {
 	NONE,				// =0
@@ -72,9 +72,7 @@ typedef enum e_id
 	REDIR_OUT,			// >
 	HEREDOC,			// <<
 	APPEND,				// >>
-	ISSPACE,
 	ARG,
-	LIMITER,
 	CMD,
 	FD
 }	t_id;
@@ -92,6 +90,7 @@ typedef struct s_token
 {
 	int				id;
 	char			*value;
+	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
 
@@ -155,6 +154,17 @@ int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 //Main
+
+/* ******************************* Tokenizer ******************************** */
+t_token *tokenizer(char *input);
+
+/* ********************************* Parser ********************************* */
+t_ast	*build_tree(t_token *tokens);
+t_ast	*new_node(int id);
+int		count_args(t_token *tokens);
+int		check_syntax(t_token *token);
+
+/* ********************************** Main ********************************** */
 void	handle_error(char *error);
 int		print_error(int error, int res_num, char *command, char *arg);
 void	free_all(t_data *minishell);

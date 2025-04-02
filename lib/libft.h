@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/02/21 17:06:27 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:15:10 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,12 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 # endif
 
 char	*get_next_line(int fd);
+
+// memory collector
+t_list	**get_memory_ptr(void);
+void	*allocate_mem(size_t nmemb, size_t size);
+void	collect_mem(void *content);
+void	deallocate_mem(void *content);
+void	clear_mem(void);
 
 #endif
