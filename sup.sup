@@ -1,0 +1,11 @@
+{
+   ignore_readline
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:rl_initialize
+   fun:readline
+}
