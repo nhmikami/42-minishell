@@ -4,7 +4,8 @@ RM			=	rm -f
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
-SRCS		=	ft_atoi.c \
+SRCS		=	ft_arrlen.c \
+			ft_atoi.c \
 			ft_bzero.c \
 			ft_calloc.c \
 			ft_free_arr.c \

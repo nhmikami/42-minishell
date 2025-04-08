@@ -17,7 +17,7 @@ int	execute(t_data *minishell)
 	char	**args;
 	int		res;
 
-	args = ft_split(minishell->input, ' ');
+	args = ft_split(minishell->input, '_'); //args = ft_split(minishell->input, ' ');
 	res = is_builtin(minishell, args);
 	if (res == -1)
 		res = exec_path(minishell, args);

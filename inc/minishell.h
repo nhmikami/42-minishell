@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -160,6 +161,10 @@ t_ast	*build_tree(t_token *tokens);
 t_ast	*new_node(int id);
 int		count_args(t_token *tokens);
 int		check_syntax(t_token *token);
+
+/* ******************************** Expansor ******************************** */
+char	**expansor(char **tokens);
+char	*expand_token(char *token);
 
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);
