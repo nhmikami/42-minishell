@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:35:01 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 16:31:37 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:12:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ int	cd(t_lev **lev, char **args)
 	if (!args[1])
 		res = chdir(getenv("HOME"));
 	else
-	{
-		printf("vamos entrar na pasta!\n");
 		res = chdir(args[1]);
-	}
-	printf("res: %d\n", res);
 	if (!res)
 		return (update_pwds(*lev));
 	else
