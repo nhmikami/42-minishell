@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 18:21:18 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:09:14 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -160,6 +161,9 @@ t_ast	*build_tree(t_token *tokens);
 t_ast	*new_node(int id);
 int		count_args(t_token *tokens);
 int		check_syntax(t_token *token);
+
+/* ******************************** Expansor ******************************** */
+char	**expansor(t_data *minishell, char **tokens);
 
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);

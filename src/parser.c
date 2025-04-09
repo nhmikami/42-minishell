@@ -6,11 +6,95 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 19:53:56 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/24 20:08:38 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:23:12 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// utils
+t_ast	*new_node(int id)
+{
+	t_ast	*node;
+	
+	node = allocate_mem(1, sizeof(t_ast));
+	if (!node)
+	{
+		handle_error(MALLOC);
+		return (NULL);
+	}
+	node->id = id;
+	node->args = NULL;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
+}
+
+int	count_args(t_token *tokens)
+{
+	int		count;
+	t_token	*curr;
+
+	count = 0;
+	curr = tokens;
+	while (curr && curr->id == ARG)
+	{
+		count++;
+		curr = curr->next;
+	}
+	return (count);
+}
+
+t_token	*split_token_list(t_token *tokens, t_token *op)
+{
+	t_token	*right;
+
+	if (!tokens || !op)
+		return (NULL);
+	if (op->next)
+	{
+		right = op->next;
+		right->prev = NULL;
+	}
+	if (op->prev)
+		op->prev->next = NULL;
+	op->prev = NULL;
+	op->next = NULL;
+	return (right);
+}
+
+t_token	*remove_outer_paren(t_token *tokens)
+{
+	t_token	*last;
+	t_token	*curr;
+	int		paren;
+
+	if (!tokens || tokens->id != PAREN_OPEN)
+		return (tokens);
+	last = tokens;
+	while (last->next)
+		last = last->next;
+	if (last->id != PAREN_CLOSE)
+		return (tokens);
+	paren = 0;
+	curr = tokens;
+	while (curr)
+	{
+		if (curr->id == PAREN_OPEN)
+			paren++;
+		else if (curr->id == PAREN_CLOSE)
+			paren--;
+		if (paren == 0 && curr != last)
+			return (tokens);
+		curr = curr->next;
+	}
+	tokens = tokens->next;
+	tokens->prev->next = NULL;
+	tokens->prev = NULL;
+	last->prev->next = NULL;
+	last->prev = NULL;
+	return (remove_outer_paren(tokens));
+}
 
 // check syntax
 int	operators_rule(t_token *token)
@@ -107,10 +191,12 @@ t_token	*search_pipe(t_token *tokens)
 t_token	*search_redir(t_token *tokens)
 {
 	t_token	*curr;
+	t_token	*last;
 	int		paren;
 
 	paren = 0;
 	curr = tokens;
+	last = NULL;
 	while (curr)
 	{
 		if (curr->id == PAREN_OPEN)
@@ -118,94 +204,10 @@ t_token	*search_redir(t_token *tokens)
 		else if (curr->id == PAREN_CLOSE)
 			paren--;
 		if ((curr->id >= REDIR_IN && curr->id <= APPEND) && paren == 0)
-			return (curr);
+			last = curr;
 		curr = curr->next;
 	}
-	return (NULL);
-}
-
-// utils
-t_ast	*new_node(int id)
-{
-	t_ast	*node;
-	
-	node = allocate_mem(1, sizeof(t_ast));
-	if (!node)
-	{
-		handle_error(MALLOC);
-		return (NULL);
-	}
-	node->id = id;
-	node->args = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-int	count_args(t_token *tokens)
-{
-	int		count;
-	t_token	*curr;
-
-	count = 0;
-	curr = tokens;
-	while (curr && curr->id == ARG)
-	{
-		count++;
-		curr = curr->next;
-	}
-	return (count);
-}
-
-t_token	*split_token_list(t_token *tokens, t_token *op)
-{
-	t_token	*right;
-
-	if (!tokens || !op)
-		return (NULL);
-	if (op->next)
-	{
-		right = op->next;
-		right->prev = NULL;
-	}
-	if (op->prev)
-		op->prev->next = NULL;
-	op->prev = NULL;
-	op->next = NULL;
-	return (right);
-}
-
-t_token	*remove_outer_paren(t_token *tokens)
-{
-	t_token	*last;
-	t_token	*curr;
-	int		paren;
-
-	if (!tokens || tokens->id != PAREN_OPEN)
-		return (tokens);
-	last = tokens;
-	while (last->next)
-		last = last->next;
-	if (last->id != PAREN_CLOSE)
-		return (tokens);
-	paren = 0;
-	curr = tokens;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if (paren == 0 && curr != last)
-			return (tokens);
-		curr = curr->next;
-	}
-	tokens = tokens->next;
-	tokens->prev->next = NULL;
-	tokens->prev = NULL;
-	last->prev->next = NULL;
-	last->prev = NULL;
-	return (remove_outer_paren(tokens));
+	return (last);
 }
 
 // build tree
@@ -251,6 +253,11 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 	if (!tokens || !op)
 		return (NULL);
 	node = new_node(op->id);
+	if (!node)
+	{
+		handle_error(MALLOC);
+		return (NULL);
+	}
 	if (tokens == op) // é o primeiro da lista
 	{
 		tokens = tokens->next->next;
@@ -262,7 +269,7 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 	{
 		op->prev->next = op->next->next;
 		if (op->next->next)
-			op->next->next = op->prev;
+			op->next->next->prev = op->prev;
 		op->next->next = NULL;
 		op->prev = NULL;
 	}

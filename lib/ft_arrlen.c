@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 16:40:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/09 15:35:22 by naharumi         ###   ########.fr       */
+/*   Created: 2024/10/16 14:54:04 by naharumi          #+#    #+#             */
+/*   Updated: 2024/10/16 15:23:16 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	execute(t_data *minishell)
+int	ft_arrlen(char **arr)
 {
-	char	**args;
-	int		res;
-
-	args = ft_split(minishell->input, ' ');
-	res = is_builtin(minishell, args);
-	if (res == -1)
-		res = exec_path(minishell, args);
-	return (res);
+	int	i;
+	
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 15:51:35 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:27:21 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_arrlen(char **arr);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strcasecmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
+char	*ft_strlowcase(char *str);
+char	*ft_strupcase(char *str);
 char	*ft_strdup(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
