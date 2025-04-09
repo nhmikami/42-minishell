@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 16:04:30 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:55:32 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,24 @@ void	free_tokens(t_token *tokens)
 
 int	check_open_quotes(char *str)
 {
-	int		i;
 	int		quotes;
 	char	type;
 
-	i = 0;
 	quotes = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (*str == '\'' || *str == '\"')
 		{
-			type = str[i];
+			type = *str;
 			quotes++;
-			i++;
-			while (str[i] && str[i] != type)
-				i++;
-			if (str[i] == type)
+			str++;
+			while (*str && *str != type)
+				str++;
+			if (*str == type)
 				quotes++;
 		}
-		if (str[i])
-			i++;
+		if (*str)
+			str++;
 	}
 	if (quotes % 2 != 0)
 		return (0);
@@ -97,29 +95,30 @@ int	check_open_quotes(char *str)
 
 int	check_open_syntax(char *str)
 {
-	int		i;
 	int		paren;
+	char	quote;
 
-	i = 0;
 	paren = 0;
+	quote = '\0';
 	if (!check_open_quotes(str))
 		return (0);
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] == '(')
+		if (!quote && (*str == '\'' || *str == '\"'))
+			quote = *str;
+		else if (quote && *str == quote)
+			quote = '\0';
+		else if (!quote && *str == '(')
 			paren++;
-		if (str[i] == ')')
+		else if (!quote && *str == ')')
 		{
 			paren--;
 			if (paren < 0)
 				return (0);
 		}
-		if (str[i])
-			i++;
+		str++;
 	}
-	if (paren != 0)
-		return (0);
-	return (1);
+	return (paren == 0);
 }
 
 // tokenizer

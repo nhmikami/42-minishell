@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/09 15:34:26 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:30:35 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ char	**ft_arrappend(char **arr, char *new_str)
 	return (new_arr);
 }
 
-char	*get_exit_status(t_lev *lev, char *key)
+char	*get_key_value(t_lev *lev, char *key)
 {
 	t_lev	*env_var;
 
 	env_var = findlev(lev, key);
+	if (!env_var || !env_var->value)
+		return (NULL);
 	return (env_var->value);
 }
 
@@ -67,7 +69,7 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	{
 		(*i)++;
 		if (*curr == '?')
-			return (ft_strdup(get_exit_status(*minishell->lev), "$")));
+			return (ft_strdup(get_key_value(*minishell->lev, "$")));
 		else if (*curr == '$')
 			return (ft_itoa(getpid()));
 	}
@@ -83,12 +85,13 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 		expanded = ft_strdup(""); // implementar: expanded = get_last_argument();
 	else
 	{
-		var_value = getenv(var_name);
+		var_value = get_key_value(*minishell->lev, var_name);
 		if (!var_value)
 			expanded = ft_strdup("");
 		else
 			expanded = ft_strdup(var_value);
 	}
+	
 	deallocate_mem(var_name);
 	return (expanded);
 }
@@ -136,7 +139,8 @@ char	*expand_token(t_data *minishell, char *token)
 			expanded = ft_strjoin_free(expanded, var);
 			start = i + 1;
 		}
-		i++;
+		if (token[i])
+			i++;
 	}
 	aux = ft_substr(token, start, i - start);
 	expanded = ft_strjoin_free(expanded, aux);
