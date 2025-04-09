@@ -6,7 +6,7 @@
 #    By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/04/02 18:21:08 by naharumi         ###   ########.fr        #
+#    Updated: 2025/04/09 15:56:40 by naharumi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
 SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c parser.c expand.c main.c) \
-		$(addprefix $(EXE_DIR), find_command.c exec_path.c executor.c) \
+		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(EV_DIR), init_lev.c utils_lev.c print_lev.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

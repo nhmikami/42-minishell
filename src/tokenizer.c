@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:14:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 14:56:37 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:04:30 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ t_token *tokenizer(char *input)
 				return (NULL);
 			}
 			deallocate_mem(value);
-			printf("node: %i, %s\n", new->id, new->value); // apagar!!!!
+			//printf("node: %i, %s\n", new->id, new->value); // apagar!!!!
 			append_token(&tokens, new);
 		}
 		input += token_len(input, id);

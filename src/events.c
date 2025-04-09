@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 18:20:57 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:12:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_postorder(t_ast *node) // para printar o parser, pode apagar depois
+void print_postorder(t_ast *node)
 {
 	if (!node)
 		return;
@@ -42,7 +42,7 @@ static void	run(t_data *minishell)
 	while (1)
 	{
 		// signals
-		minishell->input = get_input(minishell); // dar free na lista linkada
+		minishell->input = get_input(minishell);
 		if (!minishell->input)
 			handle_error(INPUT);
 		status = verify_input(minishell->input);
@@ -57,8 +57,8 @@ static void	run(t_data *minishell)
 			if (!root)
 				handle_error(MALLOC);
 
-			printf("\nparser\n"); // apagar
-			print_postorder(root); // apagar
+			//printf("\nparser\n");
+			//print_postorder(root);
 
 			minishell->token = &tokens;
 			minishell->ast = &root;
@@ -66,11 +66,11 @@ static void	run(t_data *minishell)
 		}
 		update_exit_status(minishell, status);
 	}
-	clear_mem();
 }
 
 void	finish(t_data *minishell)
 {
+    clear_mem();
 	free_all(minishell);
 	exit(EXIT_SUCCESS);
 }
