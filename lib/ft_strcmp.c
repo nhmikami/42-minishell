@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 16:40:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/09 15:35:22 by naharumi         ###   ########.fr       */
+/*   Created: 2024/10/14 19:14:37 by naharumi          #+#    #+#             */
+/*   Updated: 2025/04/09 15:12:56 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	execute(t_data *minishell)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	**args;
-	int		res;
-
-	args = ft_split(minishell->input, ' ');
-	res = is_builtin(minishell, args);
-	if (res == -1)
-		res = exec_path(minishell, args);
-	return (res);
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

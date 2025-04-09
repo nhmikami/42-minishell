@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 19:47:42 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:34:26 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,16 @@ char	**ft_arrappend(char **arr, char *new_str)
 	return (new_arr);
 }
 
+char	*get_exit_status(t_lev *lev, char *key)
+{
+	t_lev	*env_var;
+
+	env_var = findlev(lev, key);
+	return (env_var->value);
+}
+
 // dollar
-char	*handle_dollar(char *str, int *i)
+char	*handle_dollar(t_data *minishell, char *str, int *i)
 {
 	char	*curr;
 	char	*var_name;
@@ -59,7 +67,7 @@ char	*handle_dollar(char *str, int *i)
 	{
 		(*i)++;
 		if (*curr == '?')
-			return (ft_strdup("")); // implementar: return (ft_itoa(get_exit_status()));
+			return (ft_strdup(get_exit_status(*minishell->lev), "$")));
 		else if (*curr == '$')
 			return (ft_itoa(getpid()));
 	}
@@ -85,7 +93,7 @@ char	*handle_dollar(char *str, int *i)
 	return (expanded);
 }
 
-char	*expand_token(char *token)
+char	*expand_token(t_data *minishell, char *token)
 {
 	int		i;
 	int		start;
@@ -112,7 +120,7 @@ char	*expand_token(char *token)
 				if (token[i] == '$')
 				{
 					aux = ft_substr(token, start, i - start);
-					var = handle_dollar(&token[i], &i);
+					var = handle_dollar(minishell, &token[i], &i);
 					expanded = ft_strjoin_free(expanded, aux);
 					expanded = ft_strjoin_free(expanded, var);
 					start = i + 1;
@@ -123,7 +131,7 @@ char	*expand_token(char *token)
 		else if (token[i] == '$')
 		{
 			aux = ft_substr(token, start, i - start);
-			var = handle_dollar(&token[i], &i);
+			var = handle_dollar(minishell, &token[i], &i);
 			expanded = ft_strjoin_free(expanded, aux);
 			expanded = ft_strjoin_free(expanded, var);
 			start = i + 1;
@@ -179,17 +187,67 @@ int	is_match(const char *str, const char *pattern)
 	return (0);
 }
 
+void	ft_sort_str_arr(char **arr)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		j = i + 1;
+		while (arr[j])
+		{
+			if (ft_strcasecmp(arr[i], arr[j]) > 0)
+			{
+				tmp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+char	*arr_to_str(char **arr)
+{
+	char	*result;
+	char	*space;
+	char	*str;
+	int		i;
+
+	i = 0;
+	result = NULL;
+	while(arr[i])
+	{
+		if (!result)
+			result = ft_strdup(arr[i]);
+		else
+		{
+			space = ft_strdup(" ");
+			str = ft_strdup(arr[i]);
+			result = ft_strjoin_free(result, space);
+			result = ft_strjoin_free(result, str);
+		}
+		i++;
+	}
+	return (result);
+}
+
 char	*expand_wildcards(char *pattern)
 {
 	DIR				*dir;
 	struct dirent	*entry;
-	char			*matched;
-	char			*space;
-	char			*filename;
+	char			**matches;
+	char			*result;
 
 	if (!pattern || !ft_strchr(pattern, '*'))
 		return (ft_strdup(pattern));
-	matched = NULL;
+	matches = allocate_mem(1, sizeof(char *));
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
@@ -197,27 +255,23 @@ char	*expand_wildcards(char *pattern)
 	while (entry)
 	{
 		if (*(entry->d_name) != '.' && is_match(entry->d_name, pattern))
-		{
-			if (!matched)
-				matched = ft_strdup(entry->d_name);
-			else
-			{
-				space = ft_strdup(" ");
-				filename = ft_strdup(entry->d_name);
-				matched = ft_strjoin_free(matched, space);
-				matched = ft_strjoin_free(matched, filename);
-			}
-		}
+			matches = ft_arrappend(matches, ft_strdup(entry->d_name));
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	if (!matched)
+	if (ft_arrlen(matches) == 0)
+	{
+		ft_free_arr(matches);
 		return (ft_strdup(pattern));
-	return (matched);
+	}
+	ft_sort_str_arr(matches);
+	result = arr_to_str(matches);
+	ft_free_arr(matches);
+	return (result);
 }
 
 // expansor
-char	**expansor(char **tokens)
+char	**expansor(t_data *minishell, char **tokens)
 {
 	char	**args;
 	char	**split;
@@ -229,7 +283,7 @@ char	**expansor(char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		expanded = expand_token(tokens[i]);
+		expanded = expand_token(minishell, tokens[i]);
 		expanded = expand_wildcards(expanded); // wildcards
 		expanded = remove_quotes(expanded);
 		split = ft_split(expanded, ' ');

@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 18:21:18 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:09:14 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,7 @@ int		count_args(t_token *tokens);
 int		check_syntax(t_token *token);
 
 /* ******************************** Expansor ******************************** */
-char	**expansor(char **tokens);
-char	*expand_token(char *token);
+char	**expansor(t_data *minishell, char **tokens);
 
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);

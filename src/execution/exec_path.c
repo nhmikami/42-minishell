@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:33 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/02 16:36:40 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:35:04 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	exec_path(t_data *minishell, char **args)
 	char	*command;
 	int		res;
 
-	args = expansor(args);
-	for (int i = 0; args[i]; i++)
-		printf("%s\n", args[i]); //debug
+	// args = expansor(minishell, args);
+	// for (int i = 0; args[i]; i++)
+	// 	printf("%s\n", args[i]); //debug
 
 	res = 0;
 	command = find_command(minishell, args[0]);
