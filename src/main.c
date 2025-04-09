@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/02 16:28:14 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:57:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	print_error(int error, int res_num, char *command, char *arg)
 	if (error == EXCEED_ARG)
 		printf("minishell: %s: too many arguments\n", command);
 	if (error == INVALID_FILE)
-		printf("minishell: %s: %s: no such file or directory", command, arg);
+		printf("minishell: %s: %s: no such file or directory\n", command, arg);
 	if (error == INVALID_PATH)
 		printf("minishell: %s: invalid path\n", command);
 	if (error == INVALID_CMD)

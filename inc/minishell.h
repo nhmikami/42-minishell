@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/09 14:09:14 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:57:01 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include <sys/stat.h>
 # include "libft.h"
 
-//Handle Error Macros
+/* ********************************* Macros ********************************* */
+
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
 # define SYNTAX "Error: Invalid syntax"
@@ -34,9 +35,11 @@
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
 # define EV_NOTFOUND "Error: Can't find environment variables."
-# define FORK "Error: Trying to fork process."
+# define FORK "Error: Failed to fork process."
+# define PIPE_ERR "Error: Failed to create pipe."
+# define DUP_ERR "Error: Failed to duplicate file descriptor."
 
-//Print Error Macros
+
 # define INVALID_OPTION 1
 # define INVALID_ARG 2
 # define INVALID_ID 3
@@ -114,15 +117,18 @@ typedef struct s_data
 	t_ast		**ast;
 }	t_data;
 
-//Functions
 
-//Utils
+/* ******************************** Functions ******************************** */
+
+/* ********************************** Utils ********************************** */
 int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
-//Events
+
+/* ********************************* Events ********************************* */
 void	start(char **ev);
-//List Env Var
+
+/* ********************************** Lev *********************************** */
 t_lev	**init_lev(t_data *minishell);
 t_lev	*levnew(char **arr_ev);
 void	levadd_back(t_lev **lev, t_lev *new);
@@ -132,17 +138,25 @@ void	free_lev(t_lev **lev);
 char	**lev_to_array(t_data *minishell);
 int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
-//Init
+
+/* ********************************** Init *********************************** */
 t_data	*init(char **ev);
 void	update_exit_status(t_data *minishell, int status);
-//Input
+
+/* ********************************** Input ********************************** */
 char	*get_input(t_data *minishell);
 int		verify_input(char *input);
-//Execution
+
+/* ******************************** Execution ******************************** */
 char	*find_command(t_data *minishell, char *cmd);
 int		exec_path(t_data *minishell, char **args);
+int		loop_tree(t_data *minishell, t_ast *ast);
+int		exec_pipe(t_data *minishell, t_ast *ast);
+int		exec_redirs(t_data *minishell, t_ast *ast, int id);
+int		exec_heredoc(t_data * minishell, t_ast *ast, int parent);
 int		execute(t_data *minishell);
-//Builtin
+
+/* ********************************* Builtin ********************************* */
 int		hasflag(char **args);
 int		cd(t_lev **lev, char **args);
 int		echo(char **args);
