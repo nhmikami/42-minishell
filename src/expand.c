@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/09 15:34:26 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:10:05 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	{
 		(*i)++;
 		if (*curr == '?')
-			return (ft_strdup(get_exit_status(*minishell->lev), "$")));
+			return (ft_strdup(get_exit_status(*minishell->lev, "$")));
 		else if (*curr == '$')
 			return (ft_itoa(getpid()));
 	}
