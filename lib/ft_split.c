@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:37:51 by naharumi          #+#    #+#             */
-/*   Updated: 2025/03/26 18:05:16 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:26:44 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_word(char const *s, char c)
 		s++;
 		i++;
 	}
-	str[i] = 0;
+	str[i] = '\0';
 	return (str);
 }
 
