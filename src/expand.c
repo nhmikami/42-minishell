@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/23 09:33:33 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/23 09:36:01 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,7 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	{
 		(*i)++;
 		if (*curr == '?')
-<<<<<<< HEAD
-			return (ft_strdup(get_exit_status(*minishell->lev, "$")));
-=======
 			return (ft_strdup(get_key_value(*minishell->lev, "$")));
->>>>>>> a08ddb536e2b638935c094be4deb5b974bb957be
 		else if (*curr == '$')
 			return (ft_itoa(getpid()));
 	}
