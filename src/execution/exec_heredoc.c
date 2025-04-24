@@ -41,6 +41,7 @@ static void	heredoc_child(char *limiter, char *path)
 char	*exec_heredoc(t_data *minishell, t_ast *ast)
 {
 	int		fd;
+	int		pid;
 	int		status;
     char    path[17];
 
