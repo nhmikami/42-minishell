@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:52 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/07 18:59:08 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/24 16:35:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ char	*get_input(t_data *minishell)
 
 	input = readline(minishell->prompt);
 	if (!input)
-		handle_error(INPUT);
+	{
+		ft_putstr_fd("exit\n", 1);
+		finish();
+	}
 	if (*input)
 		add_history(input);
 	return (input);
