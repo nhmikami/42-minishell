@@ -38,18 +38,18 @@ static void	heredoc_child(char *limiter, char *path)
 }
 
 
-char	*exec_heredoc(t_data *minishell, t_ast *ast)
+char	*exec_heredoc(t_ast *ast)
 {
 	int		fd;
-	int		status;
-    char    path[17];
+    char    *path;
 
-    path = "heredoc.txt"; //alterar para pasta temp
+    path = strdup("heredoc.txt"); //alterar para pasta temp
+	if (!path)
+		handle_error(MALLOC);
     fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		handle_error(TEMP_ERR);
 	close(fd);
-	pid = fork();
 	heredoc_child(ast->right->args[0], path);
 	return (path);
 }

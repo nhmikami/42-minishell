@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 10:22:26 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/24 12:55:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redirs(t_data *minishell, t_ast *ast, int id);
-int		exec_heredoc(t_data * minishell, t_ast *ast, int parent);
+char	*exec_heredoc(t_ast *ast);
 int		execute(t_data *minishell);
 
 /* ********************************* Builtin ********************************* */
