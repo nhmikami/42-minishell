@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 14:22:41 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:56:01 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
 # define SYNTAX "Error: Invalid syntax"
-# define EV "Can't allocate memory to environment variables"
+# define EV "Error: Could not allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
-# define EV_NOTFOUND "Error: Can't find environment variables."
-# define FORK "Error: Failed to fork process."
-# define PIPE_ERR "Error: Failed to create pipe."
-# define DUP_ERR "Error: Failed to duplicate file descriptor."
-# define TEMP_ERR "Error: Failed to create/open temporary file."
+# define EV_NOTFOUND "Error: Can't find environment variables"
+# define FORK "Error: Failed to fork process"
+# define PIPE_ERR "Error: Failed to create pipe"
+# define DUP_ERR "Error: Failed to duplicate file descriptor"
+# define TEMP_ERR "Error: Failed to create/open temporary file"
 
 
 # define INVALID_OPTION 1
@@ -77,9 +77,9 @@ typedef enum e_id
 	REDIR_OUT,			// >
 	HEREDOC,			// <<
 	APPEND,				// >>
-	ARG,
-	CMD,
-	FD
+	ARG,				// todos os textos
+	CMD,				// não estou usando
+	FD					// não estou usando
 }	t_id;
 
 typedef struct s_lev
@@ -119,17 +119,12 @@ typedef struct s_data
 }	t_data;
 
 
-/* ******************************** Functions ******************************** */
-
-/* ********************************** Utils ********************************** */
-int		arrlen(char **arr);
-void	arrfree(char **arr);
-char	*concatenate(char *s1, char *s2, char *s3);
+/* ******************************** Functions ******************************* */
 
 /* ********************************* Events ********************************* */
 void	start(char **ev);
 
-/* ********************************** Lev *********************************** */
+/* *********************************** Lev ********************************** */
 t_lev	**init_lev(t_data *minishell);
 t_lev	*levnew(char **arr_ev);
 void	levadd_back(t_lev **lev, t_lev *new);
@@ -140,24 +135,24 @@ char	**lev_to_array(t_data *minishell);
 int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
 
-/* ********************************** Init *********************************** */
+/* ********************************** Init ********************************** */
 t_data	*init(char **ev);
 void	update_exit_status(t_data *minishell, int status);
 
-/* ********************************** Input ********************************** */
+/* ********************************** Input ********************************* */
 char	*get_input(t_data *minishell);
 int		verify_input(char *input);
 
-/* ******************************** Execution ******************************** */
+/* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd);
-char	*exec_heredoc(t_ast *ast);
+char	*exec_heredoc(char *delimiter);
 int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redirs(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);
 
-/* ********************************* Builtin ********************************* */
+/* ********************************* Builtin ******************************** */
 int		hasflag(char **args);
 int		cd(t_lev **lev, char **args);
 int		echo(char **args);
@@ -168,7 +163,7 @@ int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 
-/* ******************************* Tokenizer ******************************** */
+/* ******************************** Tokenizer ******************************* */
 t_token *tokenizer(char *input);
 
 /* ********************************* Parser ********************************* */
@@ -184,5 +179,11 @@ char	**expansor(t_data *minishell, char **tokens);
 void	handle_error(char *error);
 int		print_error(int error, int res_num, char *command, char *arg);
 void	free_all(t_data *minishell);
+
+/* ********************************** Utils ********************************* */
+int		arrlen(char **arr);
+void	arrfree(char **arr);
+char	*concatenate(char *s1, char *s2, char *s3);
+void	*print_error_and_return(char *error);
 
 #endif
