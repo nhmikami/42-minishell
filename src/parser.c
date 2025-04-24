@@ -245,6 +245,38 @@ t_ast	*parse_token(t_token *tokens)
 	return (node);
 }
 
+t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
+{
+	t_ast	*node;
+	int		count;
+
+	node = new_node(ARG);
+	if (!tokens || tokens->id != ARG)
+		count = 0;
+	else
+		count = count_args(tokens);
+	node->args = allocate_mem(count + 2, sizeof(char *));
+	if (!node->args) {
+		handle_error(MALLOC);
+		return (NULL);
+	}
+	count = 0;
+	while (tokens && tokens->id == ARG)
+	{ 
+		node->args[count] = ft_strdup(tokens->value);
+		if (!node->args[count])
+		{
+			handle_error(MALLOC);
+			return (NULL);
+		}
+		count++;
+		tokens = tokens->next;
+	}
+	node->args[count] = exec_heredoc(delimiter);
+	node->args[count + 1] = NULL;
+	return (node);
+}
+
 
 t_ast	*parse_redir(t_token *tokens, t_token *op)
 {
@@ -252,12 +284,6 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 
 	if (!tokens || !op)
 		return (NULL);
-	node = new_node(op->id);
-	if (!node)
-	{
-		handle_error(MALLOC);
-		return (NULL);
-	}
 	if (tokens == op) // é o primeiro da lista
 	{
 		tokens = tokens->next->next;
@@ -272,6 +298,14 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 			op->next->next->prev = op->prev;
 		op->next->next = NULL;
 		op->prev = NULL;
+	}
+	if (op->id == HEREDOC)
+		return (parse_heredoc(tokens, op->next->value));
+	node = new_node(op->id);
+	if (!node)
+	{
+		handle_error(MALLOC);
+		return (NULL);
 	}
 	node->left = build_tree(tokens);
 	node->right = build_tree(op->next);

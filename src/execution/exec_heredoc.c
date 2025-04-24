@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	heredoc_child(char *limiter, char *path)
+static void	heredoc_child(char *delimiter, char *path)
 {
 	char	*line;
 	int		fd;
@@ -23,7 +23,7 @@ static void	heredoc_child(char *limiter, char *path)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);
 			close(fd);
@@ -38,7 +38,7 @@ static void	heredoc_child(char *limiter, char *path)
 }
 
 
-char	*exec_heredoc(t_ast *ast)
+char	*exec_heredoc(char *delimiter)
 {
 	int		fd;
     char    *path;
@@ -50,6 +50,6 @@ char	*exec_heredoc(t_ast *ast)
 	if (fd == -1)
 		handle_error(TEMP_ERR);
 	close(fd);
-	heredoc_child(ast->right->args[0], path);
+	heredoc_child(delimiter, path);
 	return (path);
 }
