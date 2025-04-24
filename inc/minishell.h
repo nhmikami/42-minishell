@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 11:52:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:22:41 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int		verify_input(char *input);
 
 /* ******************************** Execution ******************************** */
 char	*find_command(t_data *minishell, char *cmd);
-char	*exec_heredoc(t_data *minishell, t_ast *ast);
+char	*exec_heredoc(t_ast *ast);
 int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
