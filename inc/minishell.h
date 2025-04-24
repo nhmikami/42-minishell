@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/09 15:57:01 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:22:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define FORK "Error: Failed to fork process."
 # define PIPE_ERR "Error: Failed to create pipe."
 # define DUP_ERR "Error: Failed to duplicate file descriptor."
+# define TEMP_ERR "Error: Failed to create/open temporary file."
 
 
 # define INVALID_OPTION 1
