@@ -37,7 +37,7 @@ static int	get_std(int id)
 int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 {
 	int		file_fd;
-	int		res;
+	int		status;
 	int		std;
 	pid_t	pid;
 
@@ -59,7 +59,11 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 	else
 	{
 		close(file_fd);
-		waitpid(pid, &res, 0);
-		return (res);
+        signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+        setup_signals();
+        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+            write(1, "\n", 1);
+		return (status);
 	}
 }
