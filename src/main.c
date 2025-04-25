@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/07 18:57:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 17:45:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_error(char *error)
 {
-	printf("%s\n", error);
+	ft_printf_fd(2, "%s\n", error);
 	//free_all(minishell);
 	exit(EXIT_FAILURE);
 }
@@ -22,27 +22,27 @@ void	handle_error(char *error)
 int	print_error(int error, int res_num, char *command, char *arg)
 {
 	if (error == INVALID_OPTION)
-		printf("minishell: %s: %s: invalid option\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: invalid option\n", command, arg);
 	if (error == INVALID_ARG)
-		printf("minishell: %s: %s: doesn't accept arguments\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: doesn't accept arguments\n", command, arg);
 	if (error == INVALID_ID)
-		printf("minishell: %s: %s: not a valid identifier\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: not a valid identifier\n", command, arg);
 	if (error == NUMERIC_ARG)
-		printf("minishell: %s: %s: numeric argument required\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: numeric argument required\n", command, arg);
 	if (error == EXCEED_ARG)
-		printf("minishell: %s: too many arguments\n", command);
+		ft_printf_fd(2, "minishell: %s: too many arguments\n", command);
 	if (error == INVALID_FILE)
-		printf("minishell: %s: %s: no such file or directory\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: no such file or directory\n", command, arg);
 	if (error == INVALID_PATH)
-		printf("minishell: %s: invalid path\n", command);
+		ft_printf_fd(2, "minishell: %s: invalid path\n", command);
 	if (error == INVALID_CMD)
-		printf("minishell: %s: command not found\n", command);
+		ft_printf_fd(2, "minishell: %s: command not found\n", command);
 	if (error == EXECVE)
-		printf("minishell: %s: could not execute command\n", command);
+		ft_printf_fd(2, "minishell: %s: could not execute command\n", command);
 	if (error == INVALID_INPUT)
-		printf("minishell: invalid input: doesn't accept %s\n", command);
+		ft_printf_fd(2, "minishell: invalid input: doesn't accept %s\n", command);
 	if (error == QUOTES)
-		printf("minishell: invalid input: please close quotes\n");
+		ft_printf_fd(2, "minishell: invalid input: please close quotes\n");
 	return (res_num);
 }
 

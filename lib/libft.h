@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/09 15:27:21 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:50:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 typedef struct s_list
 {
@@ -57,8 +58,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+int	    ft_putchar_fd(char c, int fd);
+int	    ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *s);
@@ -89,5 +90,8 @@ void	*allocate_mem(size_t nmemb, size_t size);
 void	collect_mem(void *content);
 void	deallocate_mem(void *content);
 void	clear_mem(void);
+
+//printf_fd
+int	ft_printf_fd(int fd, const char *str, ...);
 
 #endif
