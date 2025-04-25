@@ -38,7 +38,7 @@ static void	heredoc_child(char *delimiter, char *path)
 	exit(0); ;
 }
 
-static char *heredoc_parent(int pid, char *path) //receber minishelç
+static char *heredoc_parent(int pid, char *path, t_data *minishell)
 {
 	int		status;
 
@@ -47,14 +47,14 @@ static char *heredoc_parent(int pid, char *path) //receber minishelç
 	setup_signals();
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-		//salvar.. (status);
+		update_exit_status(minishell, status); //salvar.. (status);
 		return(NULL);
 	}
 	return (path);
 }
 
 
-char	*exec_heredoc(char *delimiter) //receber minishell
+char	*exec_heredoc(char *delimiter, t_data *minishell)
 {
 	int		fd;
 	int		pid;
@@ -73,6 +73,6 @@ char	*exec_heredoc(char *delimiter) //receber minishell
 	if (pid == 0)
 		heredoc_child(delimiter, path);
 	else
-		return (heredoc_parent(pid, path)); //passar minishell
+		return (heredoc_parent(pid, path, minishell));
 	return (NULL);
 }

@@ -18,7 +18,7 @@ void	free_all(t_data *minishell)
 	free_ast(*minishell->ast);
 	free_tokens(*minishell->token);
 	deallocate_mem(minishell);
-	free(minishell->input);
+	//deallocate_mem(minishell->input);
 }
 
 int	main(int ac, char **av, char **ev)

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/25 17:36:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 18:01:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/stat.h>
 # include "libft.h"
 
-/* ********************************* Macros ********************************* */
+/* ********************************* MACROS ********************************* */
 
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
@@ -34,13 +34,12 @@
 # define EV "Error: Could not allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
-# define EV_NOTFOUND "Error: Can't find environment variables."
-# define FORK "Error: Failed to fork process."
-# define PIPE_ERR "Error: Failed to create pipe."
-# define DUP_ERR "Error: Failed to duplicate file descriptor."
-# define TEMP_ERR "Error: Failed to create/open temporary file."
-# define SIGNAL "Error: Failed to set signal handler."
-
+# define EV_NOTFOUND "Error: Could not find environment variables"
+# define FORK "Error: Failed to fork process"
+# define PIPE_ERR "Error: Failed to create pipe"
+# define DUP_ERR "Error: Failed to duplicate file descriptor"
+# define TEMP_ERR "Error: Failed to create/open temporary file"
+# define SIGNAL "Error: Failed to set signal handler"
 
 # define INVALID_OPTION 1
 # define INVALID_ARG 2
@@ -54,8 +53,7 @@
 # define INVALID_INPUT 10
 # define QUOTES 11
 
-
-/* ********************************* Structs ********************************* */
+/* ********************************* STRUCTS ********************************* */
 typedef enum e_id
 {
 	NONE,				// =0
@@ -110,7 +108,7 @@ typedef struct s_data
 }	t_data;
 
 
-/* ******************************** Functions ******************************* */
+/* ******************************** FUNCTIONS ******************************* */
 
 /* ********************************* Events ********************************* */
 void	start(char **ev);
@@ -138,7 +136,7 @@ int		check_input_syntax(char *str);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd);
-char	*exec_heredoc(char *delimiter);
+char	*exec_heredoc(char *delimiter, t_data *minishell);
 int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
@@ -163,7 +161,7 @@ void	append_token(t_token **tokens, t_token *new);
 void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
-t_ast	*build_tree(t_token *tokens);
+t_ast	*build_tree(t_token *tokens, t_data	*minishell);
 t_ast	*new_node(int id);
 void	free_ast(t_ast *node);
 int		count_args(t_token *tokens);
@@ -176,7 +174,7 @@ t_token	*search_redir(t_token *tokens);
 char	**expansor(t_data *minishell, char **tokens);
 
 /* ********************************* Signals ******************************** */
-void setup_signals(void);
+void	setup_signals(void);
 void	restore_signals_child(void);
 
 /* ********************************** Main ********************************** */

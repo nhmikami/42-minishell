@@ -27,28 +27,13 @@ t_ast	*new_node(int id)
 	return (node);
 }
 
-static void	free_args(char **args)
-{
-	int	i;
-
-	if (!args)
-		return ;
-	i = 0;
-	while (args[i])
-	{
-		deallocate_mem(args[i]);
-		i++;
-	}
-	deallocate_mem(args);
-}
-
 void	free_ast(t_ast *node)
 {
 	if (!node)
 		return ;
 	free_ast(node->left);
 	free_ast(node->right);
-	free_args(node->args);
+	ft_free_arr(node->args);
 	deallocate_mem(node);
 }
 
@@ -147,7 +132,7 @@ t_ast	*parse_token(t_token *tokens)
 	return (node);
 }
 
-t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
+t_ast	*parse_heredoc(t_token *tokens, char *delimiter, t_data *minishell)
 {
 	t_ast	*node;
 	int		count;
@@ -171,12 +156,12 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
 		count++;
 		tokens = tokens->next;
 	}
-	node->args[count] = exec_heredoc(delimiter);
+	node->args[count] = exec_heredoc(delimiter, minishell);
 	node->args[count + 1] = NULL;
 	return (node);
 }
 
-t_ast	*parse_redir(t_token *tokens, t_token *op)
+t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell)
 {
 	t_ast	*node;
 
@@ -198,16 +183,16 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 		op->prev = NULL;
 	}
 	if (op->id == HEREDOC)
-		return (parse_heredoc(tokens, op->next->value));
+		return (parse_heredoc(tokens, op->next->value, minishell));
 	node = new_node(op->id);
 	if (!node)
 		handle_error(MALLOC);
-	node->left = build_tree(tokens);
-	node->right = build_tree(op->next);
+	node->left = build_tree(tokens, minishell);
+	node->right = build_tree(op->next, minishell);
 	return (node);
 }
 
-t_ast	*parse_operators(t_token *tokens, t_token *op)
+t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell)
 {
 	t_ast	*node;
 	t_token	*right;
@@ -218,24 +203,24 @@ t_ast	*parse_operators(t_token *tokens, t_token *op)
 	if (!node)
 		handle_error(MALLOC);
 	right = split_token_list(tokens, op);
-	node->left = build_tree(tokens);
-	node->right = build_tree(right);
+	node->left = build_tree(tokens, minishell);
+	node->right = build_tree(right, minishell);
 	return (node);
 }
 
-t_ast	*build_tree(t_token *tokens)
+t_ast	*build_tree(t_token *tokens, t_data	*minishell)
 {
 	t_token	*op;
 
 	tokens = remove_outer_paren(tokens);
 	op = search_and_or(tokens);
 	if (op)
-		return (parse_operators(tokens, op));
+		return (parse_operators(tokens, op, minishell));
 	op = search_pipe(tokens);
 	if (op)
-		return (parse_operators(tokens, op));
+		return (parse_operators(tokens, op, minishell));
 	op = search_redir(tokens);
 	if (op)
-		return (parse_redir(tokens, op));
+		return (parse_redir(tokens, op, minishell));
 	return (parse_token(tokens));
 }
