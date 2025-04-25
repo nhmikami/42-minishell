@@ -15,9 +15,10 @@
 void    handle_sigint(int sig)
 {
 	(void)sig;
+
 	write(1, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -36,4 +37,10 @@ void setup_signals(void)
 	sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		handle_error(SIGNAL);
+}
+
+void	restore_signals_child(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

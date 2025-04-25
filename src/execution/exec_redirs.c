@@ -50,6 +50,7 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 		handle_error(FORK);
 	if (pid == 0)
 	{
+        restore_signals_child();
 		if (dup2(file_fd, std) == -1)
 			handle_error(DUP_ERR);
 		close(file_fd);

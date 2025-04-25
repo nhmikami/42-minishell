@@ -17,6 +17,7 @@ static void	heredoc_child(char *delimiter, char *path)
 	char	*line;
 	int		fd;
 	
+    signal(SIGINT, SIG_DFL);
 	fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		handle_error(TEMP_ERR);
@@ -27,20 +28,22 @@ static void	heredoc_child(char *delimiter, char *path)
 		{
 			free(line);
 			close(fd);
-			return ;
+			exit(0); ;
 		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
 	}
 	close(fd);
-	return ;
+	exit(0); ;
 }
 
 
 char	*exec_heredoc(char *delimiter)
 {
 	int		fd;
+    int     pid;
+    int     status;
     char    *path;
 
     path = strdup("heredoc.txt"); //alterar para pasta temp
@@ -50,6 +53,17 @@ char	*exec_heredoc(char *delimiter)
 	if (fd == -1)
 		handle_error(TEMP_ERR);
 	close(fd);
-	heredoc_child(delimiter, path);
+    pid = fork();
+	if (pid == -1)
+		handle_error(FORK);
+    if (pid == 0)
+	    heredoc_child(delimiter, path);
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+            return(NULL);
+            //salvar.. (status);
+    }
 	return (path);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 18:41:00 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 13:35:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,11 @@ char	**expansor(t_data *minishell, char **tokens);
 
 /* ********************************* Signals ******************************** */
 void setup_signals(void);
+void	restore_signals_child(void);
 
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);
-int		print_error(int error, int res_num, char *command, char *arg);
+int	    print_error(int error, int res_num, char *command, char *arg);
 void	free_all(t_data *minishell);
 
 /* ********************************** Utils ********************************* */

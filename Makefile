@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 16:15:25 by cayamash          #+#    #+#              #
-#    Updated: 2025/04/24 18:40:13 by marvin           ###   ########.fr        #
+#    Updated: 2025/04/25 09:50:30 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c parser.c expand.c siganls.c main.c) \
+SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c parser.c expand.c error.c signals.c main.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(EV_DIR), init_lev.c utils_lev.c print_lev.c) \

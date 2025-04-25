@@ -14,6 +14,7 @@
 
 static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2])
 {
+    restore_signals_child();
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);
