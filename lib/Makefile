@@ -2,7 +2,7 @@ NAME		=	libft.a
 LIB			=	ar rcs
 RM			=	rm -f
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -fPIC
 
 SRCS		=	ft_arrlen.c \
 			ft_atoi.c \
@@ -82,5 +82,3 @@ fclean:		clean
 			$(RM) $(NAME)
 
 re:			fclean all
-
-.PHONY:		all clean fclean re

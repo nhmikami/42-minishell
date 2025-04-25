@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/23 09:33:24 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:26:57 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int	exec_operators(t_data *minishell, t_ast *ast)
 		res = exec_pipe(minishell, ast);
 	else if (ast->id == REDIR_OUT || ast->id == REDIR_IN || ast->id == APPEND)
 		res = exec_redirs(minishell, ast, ast->id);
-	else if (ast->id == HEREDOC)
-		res = exec_heredoc(minishell, ast, 0);
 	return (res);
 }
 

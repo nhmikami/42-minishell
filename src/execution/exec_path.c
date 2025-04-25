@@ -39,6 +39,7 @@ void	exec_child(char *command, char **args, t_data *minishell)
 	struct stat	file_stat;
 	int			len;
 
+    restore_signals_child();
 	len = ft_strlen(command);
 	if (stat(command, &file_stat) == 0)
 	{
