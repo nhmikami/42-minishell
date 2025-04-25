@@ -23,6 +23,9 @@ LIBFT = lib
 
 #Directories
 SRC_DIR = src/
+TOK_DIR = src/tokenizer/
+PRS_DIR = src/parser/
+EXP_DIR = src/expansion/
 EXE_DIR = src/execution/
 BUILTIN_DIR = src/builtins/
 EV_DIR = src/ev/
@@ -31,7 +34,10 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c tokenizer.c parser.c expand.c main.c) \
+SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c main.c) \
+		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_search.c parser_syntax.c) \
+		$(addprefix $(EXP_DIR), expand.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(EV_DIR), init_lev.c utils_lev.c print_lev.c) \

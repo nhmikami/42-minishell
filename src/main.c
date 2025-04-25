@@ -49,9 +49,10 @@ int	print_error(int error, int res_num, char *command, char *arg)
 void	free_all(t_data *minishell)
 {
 	free_lev(minishell->lev);
-	deallocate_mem(minishell->input);
+	free_ast(*minishell->ast);
+	free_tokens(*minishell->token);
 	deallocate_mem(minishell);
-	//fazer free token e ast
+	free(minishell->input);
 }
 
 int	main(int ac, char **av, char **ev)

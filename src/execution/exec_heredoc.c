@@ -37,7 +37,6 @@ static void	heredoc_child(char *delimiter, char *path)
 	return ;
 }
 
-
 char	*exec_heredoc(char *delimiter)
 {
 	int		fd;

@@ -12,117 +12,7 @@
 
 #include "minishell.h"
 
-// utils
-t_token	*new_token(char *value, int id)
-{
-	t_token	*token;
-
-	token = allocate_mem(1, sizeof(t_token));
-	if (!token)
-	{
-		handle_error(MALLOC);
-		return (NULL);
-	}
-	token->id = id;
-	token->value = ft_strdup(value);
-	if (!token->value)
-	{
-		handle_error(MALLOC);
-		return (NULL);
-	}
-	token->prev = NULL;
-	token->next = NULL;
-	return (token);
-}
-
-void	append_token(t_token **tokens, t_token *new)
-{
-	t_token	*tmp;
-
-	if (!new)
-		return ;
-	if (*tokens == NULL)
-		*tokens = new;
-	else
-	{
-		tmp = *tokens;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
-	}
-}
-
-void	free_tokens(t_token *tokens)
-{
-	t_token	*tmp;
-
-	while (tokens)
-	{
-		tmp = tokens;
-		tokens = tokens->next;
-		if (tmp->value)
-			deallocate_mem(tmp->value);
-		deallocate_mem(tmp);
-	}
-}
-
-int	check_open_quotes(char *str)
-{
-	int		quotes;
-	char	type;
-
-	quotes = 0;
-	while (*str)
-	{
-		if (*str == '\'' || *str == '\"')
-		{
-			type = *str;
-			quotes++;
-			str++;
-			while (*str && *str != type)
-				str++;
-			if (*str == type)
-				quotes++;
-		}
-		if (*str)
-			str++;
-	}
-	if (quotes % 2 != 0)
-		return (0);
-	return (1);
-}
-
-int	check_open_syntax(char *str)
-{
-	int		paren;
-	char	quote;
-
-	paren = 0;
-	quote = '\0';
-	if (!check_open_quotes(str))
-		return (0);
-	while (*str)
-	{
-		if (!quote && (*str == '\'' || *str == '\"'))
-			quote = *str;
-		else if (quote && *str == quote)
-			quote = '\0';
-		else if (!quote && *str == '(')
-			paren++;
-		else if (!quote && *str == ')')
-		{
-			paren--;
-			if (paren < 0)
-				return (0);
-		}
-		str++;
-	}
-	return (paren == 0);
-}
-
-// tokenizer
-int	get_id(char const *str)
+static int	get_id(char const *str)
 {
 	if (!ft_strncmp(str, "&&", 2))
 		return (AND);
@@ -185,28 +75,20 @@ char	*get_token(char const *s, int id)
 	len = token_len(s, id);
 	str = allocate_mem(len + 1, sizeof(char));
 	if (!str)
-	{
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	while (i < len)
 		str[i++] = *s++;
 	str[i] = '\0';
 	return (str);
 }
 
-t_token *tokenizer(char *input)
+t_token	*tokenizer(char *input)
 {
 	int		id;
 	char	*value;
 	t_token	*new;
 	t_token	*tokens;
 
-	if (!check_open_syntax(input))
-	{
-		handle_error(SYNTAX);
-		return (NULL);
-	}
 	tokens = NULL;
 	while (*input)
 	{
@@ -215,20 +97,13 @@ t_token *tokenizer(char *input)
 		if (*input)
 		{
 			id = get_id(input);
-			value = get_token(input, id); // malloc
+			value = get_token(input, id);
 			if (!value)
-			{
 				handle_error(MALLOC);
-				return (NULL);
-			}
-			new = new_token(value, id); // malloc
+			new = new_token(value, id);
 			if (!new)
-			{
 				handle_error(MALLOC);
-				return (NULL);
-			}
 			deallocate_mem(value);
-			//printf("node: %i, %s\n", new->id, new->value); // apagar!!!!
 			append_token(&tokens, new);
 		}
 		input += token_len(input, id);

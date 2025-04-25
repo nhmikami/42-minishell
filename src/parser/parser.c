@@ -12,17 +12,14 @@
 
 #include "minishell.h"
 
-// utils
+// ast
 t_ast	*new_node(int id)
 {
 	t_ast	*node;
 	
 	node = allocate_mem(1, sizeof(t_ast));
 	if (!node)
-	{
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	node->id = id;
 	node->args = NULL;
 	node->left = NULL;
@@ -30,6 +27,32 @@ t_ast	*new_node(int id)
 	return (node);
 }
 
+static void	free_args(char **args)
+{
+	int	i;
+
+	if (!args)
+		return ;
+	i = 0;
+	while (args[i])
+	{
+		deallocate_mem(args[i]);
+		i++;
+	}
+	deallocate_mem(args);
+}
+
+void	free_ast(t_ast *node)
+{
+	if (!node)
+		return ;
+	free_ast(node->left);
+	free_ast(node->right);
+	free_args(node->args);
+	deallocate_mem(node);
+}
+
+// utils
 int	count_args(t_token *tokens)
 {
 	int		count;
@@ -96,120 +119,6 @@ t_token	*remove_outer_paren(t_token *tokens)
 	return (remove_outer_paren(tokens));
 }
 
-// check syntax
-int	operators_rule(t_token *token)
-{
-	if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-		return (0);
-	if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-		return (0);
-	return (1);
-}
-
-int	redir_rule(t_token *token)
-{
-	if (!token->next || token->next->id != ARG)
-		return (0);
-	return (1);
-}
-
-int	paren_rule(t_token *token)
-{
-	if (token->id == PAREN_OPEN)
-	{
-		if (token->prev && token->prev->id >= PAREN_CLOSE)
-			return (0);
-		if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-			return (0);
-	}
-	if (token->id == PAREN_CLOSE)
-	{
-		if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-			return (0);
-		if (token->next && token->next->id == ARG)
-			return (0);
-	}
-	return (1);
-}
-
-int	check_syntax(t_token *token)
-{
-	if (token->id == AND || token->id == OR || token->id == PIPE)
-		return (operators_rule(token));
-	else if (token->id >= REDIR_IN && token->id <= APPEND)
-		return (redir_rule(token));
-	else if (token->id == PAREN_OPEN || token->id == PAREN_CLOSE)
-		return (paren_rule(token));
-	return (1);
-}
-
-// search
-t_token	*search_and_or(t_token *tokens)
-{
-	t_token	*curr;
-	t_token	*last;
-	int		paren;
-
-	paren = 0;
-	curr = tokens;
-	last = NULL;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if ((curr->id == AND || curr->id == OR) && paren == 0)
-			last = curr;
-		curr = curr->next;
-	}
-	return (last);
-}
-
-t_token	*search_pipe(t_token *tokens)
-{
-	t_token	*curr;
-	t_token	*last;
-	int		paren;
-
-	paren = 0;
-	curr = tokens;
-	last = NULL;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if (curr->id == PIPE && paren == 0)
-			last = curr;
-		curr = curr->next;
-	}
-	return (last);
-}
-
-t_token	*search_redir(t_token *tokens)
-{
-	t_token	*curr;
-	t_token	*last;
-	int		paren;
-
-	paren = 0;
-	curr = tokens;
-	last = NULL;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if ((curr->id >= REDIR_IN && curr->id <= APPEND) && paren == 0)
-			last = curr;
-		curr = curr->next;
-	}
-	return (last);
-}
-
 // build tree
 t_ast	*parse_token(t_token *tokens)
 {
@@ -219,25 +128,18 @@ t_ast	*parse_token(t_token *tokens)
 	if (!tokens || tokens->id != ARG)
 		return (NULL);
 	node = new_node(tokens->id);
-	if (!node) {
+	if (!node)
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	count = count_args(tokens);
 	node->args = allocate_mem(count + 1, sizeof(char *));
-	if (!node->args) {
+	if (!node->args)
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	count = 0;
 	while (tokens && tokens->id == ARG)
 	{ 
-		node->args[count] = ft_strdup(tokens->value); // malloc
+		node->args[count] = ft_strdup(tokens->value);
 		if (!node->args[count])
-		{
 			handle_error(MALLOC);
-			return (NULL);
-		}
 		count++;
 		tokens = tokens->next;
 	}
@@ -256,10 +158,8 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
 	else
 		count = count_args(tokens);
 	node->args = allocate_mem(count + 2, sizeof(char *));
-	if (!node->args) {
+	if (!node->args)
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	count = 0;
 	if (!tokens || tokens->id != ARG)
 		node->args[count++] = ft_strdup("cat");
@@ -267,10 +167,7 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
 	{ 
 		node->args[count] = ft_strdup(tokens->value);
 		if (!node->args[count])
-		{
 			handle_error(MALLOC);
-			return (NULL);
-		}
 		count++;
 		tokens = tokens->next;
 	}
@@ -278,7 +175,6 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter)
 	node->args[count + 1] = NULL;
 	return (node);
 }
-
 
 t_ast	*parse_redir(t_token *tokens, t_token *op)
 {
@@ -305,10 +201,7 @@ t_ast	*parse_redir(t_token *tokens, t_token *op)
 		return (parse_heredoc(tokens, op->next->value));
 	node = new_node(op->id);
 	if (!node)
-	{
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	node->left = build_tree(tokens);
 	node->right = build_tree(op->next);
 	return (node);
@@ -323,10 +216,7 @@ t_ast	*parse_operators(t_token *tokens, t_token *op)
 		return (NULL);
 	node = new_node(op->id);
 	if (!node)
-	{
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	right = split_token_list(tokens, op);
 	node->left = build_tree(tokens);
 	node->right = build_tree(right);

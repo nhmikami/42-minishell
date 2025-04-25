@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 17:56:01 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:12:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ void	update_exit_status(t_data *minishell, int status);
 
 /* ********************************** Input ********************************* */
 char	*get_input(t_data *minishell);
-int		verify_input(char *input);
+int		check_input_syntax(char *str);
+//int		verify_input(char *input);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd);
@@ -165,12 +166,19 @@ int		is_builtin(t_data *minishell, char **args);
 
 /* ******************************** Tokenizer ******************************* */
 t_token *tokenizer(char *input);
+t_token	*new_token(char *value, int id);
+void	append_token(t_token **tokens, t_token *new);
+void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
 t_ast	*build_tree(t_token *tokens);
 t_ast	*new_node(int id);
+void	free_ast(t_ast *node);
 int		count_args(t_token *tokens);
 int		check_syntax(t_token *token);
+t_token	*search_and_or(t_token *tokens);
+t_token	*search_pipe(t_token *tokens);
+t_token	*search_redir(t_token *tokens);
 
 /* ******************************** Expansor ******************************** */
 char	**expansor(t_data *minishell, char **tokens);
@@ -184,6 +192,7 @@ void	free_all(t_data *minishell);
 int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
+
 void	*print_error_and_return(char *error);
 
 #endif
