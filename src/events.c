@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/24 18:41:19 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 13:46:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void print_postorder(t_ast *node)
 	print_postorder(node->left);
 	print_postorder(node->right);
 	printf("Node ID: %d\n", node->id);
+	if (node->left->id == ARG)
+		printf(", value %s", node->args[0]);
 	if (node->left) {
 		printf("left: id %i", node->left->id);
 		if (node->left->id == ARG)
@@ -46,7 +48,7 @@ static void	run(t_data *minishell)
 		if (!minishell->input)
 			handle_error(INPUT);
 		status = verify_input(minishell->input);
-		if (status == 0)
+		if (status == 0 && minishell->input[0] != '\0')
 		{
 			tokens = tokenizer(minishell->input);
 			if (!tokens)
@@ -57,8 +59,8 @@ static void	run(t_data *minishell)
 			if (!root)
 				handle_error(MALLOC);
 
-			//printf("\nparser\n");
-			//print_postorder(root);
+			// printf("\nparser\n");
+			// print_postorder(root);
 
 			minishell->token = &tokens;
 			minishell->ast = &root;
