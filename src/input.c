@@ -18,7 +18,10 @@ char	*get_input(t_data *minishell)
 
 	input = readline(minishell->prompt);
 	if (!input)
-		handle_error(INPUT);
+	{
+		ft_putstr_fd("exit\n", 1);
+		finish();
+	}
 	if (*input)
 		add_history(input);
 	return (input);

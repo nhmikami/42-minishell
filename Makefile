@@ -34,7 +34,7 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 #Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c input.c init.c events.c main.c) \
+SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c signals.c main.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
 		$(addprefix $(PRS_DIR), parser.c parser_search.c parser_syntax.c) \
 		$(addprefix $(EXP_DIR), expand.c) \

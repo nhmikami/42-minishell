@@ -17,6 +17,7 @@ static void	heredoc_child(char *delimiter, char *path)
 	char	*line;
 	int		fd;
 	
+	signal(SIGINT, SIG_DFL); //verifica no bash da 42 se precisa restaurar o SIGQUIT tbm
 	fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		handle_error(TEMP_ERR);
@@ -27,28 +28,51 @@ static void	heredoc_child(char *delimiter, char *path)
 		{
 			free(line);
 			close(fd);
-			return ;
+			exit(0); ;
 		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
 	}
 	close(fd);
-	return ;
+	exit(0); ;
 }
 
-char	*exec_heredoc(char *delimiter)
+static char *heredoc_parent(int pid, char *path) //receber minishelç
+{
+	int		status;
+
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	setup_signals();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		//salvar.. (status);
+		return(NULL);
+	}
+	return (path);
+}
+
+
+char	*exec_heredoc(char *delimiter) //receber minishell
 {
 	int		fd;
-    char    *path;
+	int		pid;
+	char	*path;
 
-    path = strdup("heredoc.txt"); //alterar para pasta temp
+	path = strdup("heredoc.txt"); //alterar para pasta temp
 	if (!path)
 		handle_error(MALLOC);
-    fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		handle_error(TEMP_ERR);
 	close(fd);
-	heredoc_child(delimiter, path);
-	return (path);
+	pid = fork();
+	if (pid == -1)
+		handle_error(FORK);
+	if (pid == 0)
+		heredoc_child(delimiter, path);
+	else
+		return (heredoc_parent(pid, path)); //passar minishell
+	return (NULL);
 }

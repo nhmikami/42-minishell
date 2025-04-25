@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/25 17:12:26 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 17:36:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@
 # define EV "Error: Could not allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
-# define EV_NOTFOUND "Error: Can't find environment variables"
-# define FORK "Error: Failed to fork process"
-# define PIPE_ERR "Error: Failed to create pipe"
-# define DUP_ERR "Error: Failed to duplicate file descriptor"
-# define TEMP_ERR "Error: Failed to create/open temporary file"
+# define EV_NOTFOUND "Error: Can't find environment variables."
+# define FORK "Error: Failed to fork process."
+# define PIPE_ERR "Error: Failed to create pipe."
+# define DUP_ERR "Error: Failed to duplicate file descriptor."
+# define TEMP_ERR "Error: Failed to create/open temporary file."
+# define SIGNAL "Error: Failed to set signal handler."
 
 
 # define INVALID_OPTION 1
@@ -52,16 +53,6 @@
 # define EXECVE 9
 # define INVALID_INPUT 10
 # define QUOTES 11
-
-// # define ECHO_FLAG "Error: echo doesn't accept this flag."
-// # define ENV_ARG "Error: env doesn't accept arguments or flags."
-// # define EXPORT_IDENTIFIER "Error: not a valid identifier."
-// # define UNSET_PARAM "Error: invalid parameter name."
-// # define UNSET_MATCH "Error: no matches found."
-// # define UNSET_DEL "Can't unset variable."
-// # define EXIT_NUM "Error: exit: numeric argument required"
-// # define EXIT_ARG "Error: exit: too many arguments"
-// # define EXIT_FLAG "Error: exit: minishell doesn't accept flags"
 
 
 /* ********************************* Structs ********************************* */
@@ -123,6 +114,7 @@ typedef struct s_data
 
 /* ********************************* Events ********************************* */
 void	start(char **ev);
+void	finish(void);
 
 /* *********************************** Lev ********************************** */
 t_lev	**init_lev(t_data *minishell);
@@ -183,9 +175,13 @@ t_token	*search_redir(t_token *tokens);
 /* ******************************** Expansor ******************************** */
 char	**expansor(t_data *minishell, char **tokens);
 
+/* ********************************* Signals ******************************** */
+void setup_signals(void);
+void	restore_signals_child(void);
+
 /* ********************************** Main ********************************** */
 void	handle_error(char *error);
-int		print_error(int error, int res_num, char *command, char *arg);
+int	    print_error(int error, int res_num, char *command, char *arg);
 void	free_all(t_data *minishell);
 
 /* ********************************** Utils ********************************* */

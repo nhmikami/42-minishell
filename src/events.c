@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/25 17:18:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 17:38:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	run(t_data *minishell)
 
 	while (1)
 	{
-		// signals
+		setup_signals();
 		minishell->input = get_input(minishell);
 		if (!minishell->input)
 			handle_error(INPUT);
@@ -47,10 +47,10 @@ static void	run(t_data *minishell)
 	}
 }
 
-void	finish(t_data *minishell)
+void	finish(void)
 {
     clear_mem();
-	free_all(minishell);
+	//free_all(minishell);
 	exit(EXIT_SUCCESS);
 }
 
@@ -60,5 +60,5 @@ void	start(char **ev)
 
 	minishell = init(ev);
 	run(minishell);
-	finish(minishell);
+	finish();
 }
