@@ -35,7 +35,7 @@ int	export(t_data *minishell, char **args)
 	if (!args[1] || !args[1][0])
 		return (print_lev_ord(minishell));
 	if (!validade_identifier(args[1]))
-		print_error(INVALID_ID, 1, "export", args[1]);
+		return (print_error(INVALID_ID, 1, "export", args[1]));
 	key_value = ft_split(args[1], '=');
 	node = findlev(*minishell->lev, key_value[0]);
 	if (node)

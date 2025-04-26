@@ -33,7 +33,7 @@ int	print_error(int error, int res_num, char *command, char *arg)
 	if (error == EXCEED_ARG)
 		ft_printf_fd(2, "minishell: %s: too many arguments\n", command);
 	if (error == INVALID_FILE)
-		ft_printf_fd(2, "minishell: %s: %s: no such file or directory\n", command, arg);
+		ft_printf_fd(2, "minishell: %s: %s: No such file or directory\n", command, arg);
 	if (error == INVALID_PATH)
 		ft_printf_fd(2, "minishell: %s: invalid path\n", command);
 	if (error == INVALID_CMD)
@@ -44,5 +44,7 @@ int	print_error(int error, int res_num, char *command, char *arg)
 		ft_printf_fd(2, "minishell: invalid input: doesn't accept %s\n", command);
 	if (error == QUOTES)
 		ft_printf_fd(2, "minishell: invalid input: please close quotes\n");
+	if (error == SYNTAX)
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `%s'\n", arg);
 	return (res_num);
 }

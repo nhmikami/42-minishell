@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/25 18:01:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 19:57:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
-# define SYNTAX "Error: Invalid syntax"
+//# define SYNTAX "Error: Invalid syntax"
 # define EV "Error: Could not allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"
@@ -52,6 +52,7 @@
 # define EXECVE 9
 # define INVALID_INPUT 10
 # define QUOTES 11
+# define SYNTAX 12
 
 /* ********************************* STRUCTS ********************************* */
 typedef enum e_id

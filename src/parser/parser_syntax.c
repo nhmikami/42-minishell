@@ -15,17 +15,17 @@
 static int	operators_rule(t_token *token)
 {
 	if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-		return (0);
+		return (1);
 	if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 static int	redir_rule(t_token *token)
 {
 	if (!token->next || token->next->id != ARG)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 static int	paren_rule(t_token *token)
@@ -33,25 +33,25 @@ static int	paren_rule(t_token *token)
 	if (token->id == PAREN_OPEN)
 	{
 		if (token->prev && token->prev->id >= PAREN_CLOSE)
-			return (0);
+			return (1);
 		if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-			return (0);
+			return (1);
 	}
 	if (token->id == PAREN_CLOSE)
 	{
 		if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-			return (0);
+			return (1);
 		if (token->next && token->next->id == ARG)
-			return (0);
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	check_syntax(t_token *token)
 {
 	int	flag;
 
-	flag = 1;
+	flag = 0;
 	while (token)
 	{
 		if (token->id == AND || token->id == OR || token->id == PIPE)
@@ -60,12 +60,13 @@ int	check_syntax(t_token *token)
 			flag = redir_rule(token);
 		else if (token->id == PAREN_OPEN || token->id == PAREN_CLOSE)
 			flag = paren_rule(token);
-		if (!flag)
+		if (flag)
 		{
-			printf("%s\n", SYNTAX);
-			return (flag);
+            return(print_error(SYNTAX, 2, NULL, token->value));
+/* 			printf("%s\n", SYNTAX);
+			return (flag); */
 		}
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }

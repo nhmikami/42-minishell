@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/25 18:00:25 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/25 20:42:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	run(t_data *minishell)
 			if (!tokens)
 				handle_error(MALLOC);
 			minishell->token = &tokens;
-			if (check_syntax(tokens))
+            status = check_syntax(tokens);
+			if (status == 0)
 			{
 				root = build_tree(tokens, minishell);
 				if (!root)

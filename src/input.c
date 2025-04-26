@@ -102,9 +102,6 @@ static int	check_special_chars(char *str)
 int	check_input_syntax(char *str)
 {
 	if (!check_open_syntax(str) || !check_special_chars(str))
-	{
-		printf("%s\n", SYNTAX);
-		return (1);
-	}
+		return(print_error(SYNTAX, 2, NULL, NULL));
 	return (0);
 }
