@@ -12,104 +12,27 @@
 
 #include "minishell.h"
 
-// ast
-t_ast	*new_node(int id)
+t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell)
 {
 	t_ast	*node;
-	
-	node = allocate_mem(1, sizeof(t_ast));
-	if (!node)
-		handle_error(MALLOC);
-	node->id = id;
-	node->args = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-void	free_ast(t_ast *node)
-{
-	if (!node)
-		return ;
-	free_ast(node->left);
-	free_ast(node->right);
-	ft_free_arr(node->args);
-	deallocate_mem(node);
-}
-
-// utils
-int	count_args(t_token *tokens)
-{
-	int		count;
-	t_token	*curr;
-
-	count = 0;
-	curr = tokens;
-	while (curr && curr->id == ARG)
-	{
-		count++;
-		curr = curr->next;
-	}
-	return (count);
-}
-
-t_token	*split_token_list(t_token *tokens, t_token *op)
-{
 	t_token	*right;
 
 	if (!tokens || !op)
 		return (NULL);
-	if (op->next)
-	{
-		right = op->next;
-		right->prev = NULL;
-	}
-	if (op->prev)
-		op->prev->next = NULL;
-	op->prev = NULL;
-	op->next = NULL;
-	return (right);
+	node = new_node(op->id);
+	if (!node)
+		handle_error(MALLOC);
+	right = split_token_list(tokens, op);
+	node->left = build_tree(tokens, minishell);
+	node->right = build_tree(right, minishell);
+	return (node);
 }
 
-t_token	*remove_outer_paren(t_token *tokens)
-{
-	t_token	*last;
-	t_token	*curr;
-	int		paren;
-
-	if (!tokens || tokens->id != PAREN_OPEN)
-		return (tokens);
-	last = tokens;
-	while (last->next)
-		last = last->next;
-	if (last->id != PAREN_CLOSE)
-		return (tokens);
-	paren = 0;
-	curr = tokens;
-	while (curr)
-	{
-		if (curr->id == PAREN_OPEN)
-			paren++;
-		else if (curr->id == PAREN_CLOSE)
-			paren--;
-		if (paren == 0 && curr != last)
-			return (tokens);
-		curr = curr->next;
-	}
-	tokens = tokens->next;
-	tokens->prev->next = NULL;
-	tokens->prev = NULL;
-	last->prev->next = NULL;
-	last->prev = NULL;
-	return (remove_outer_paren(tokens));
-}
-
-// build tree
 t_ast	*parse_token(t_token *tokens)
 {
 	t_ast	*node;
 	int		count;
-	
+
 	if (!tokens || tokens->id != ARG)
 		return (NULL);
 	node = new_node(tokens->id);
@@ -121,7 +44,7 @@ t_ast	*parse_token(t_token *tokens)
 		handle_error(MALLOC);
 	count = 0;
 	while (tokens && tokens->id == ARG)
-	{ 
+	{
 		node->args[count] = ft_strdup(tokens->value);
 		if (!node->args[count])
 			handle_error(MALLOC);
@@ -149,7 +72,7 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter, t_data *minishell)
 	if (!tokens || tokens->id != ARG)
 		node->args[count++] = ft_strdup("cat");
 	while (tokens && tokens->id == ARG)
-	{ 
+	{
 		node->args[count] = ft_strdup(tokens->value);
 		if (!node->args[count])
 			handle_error(MALLOC);
@@ -163,11 +86,9 @@ t_ast	*parse_heredoc(t_token *tokens, char *delimiter, t_data *minishell)
 
 t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell)
 {
-	t_ast	*node;
-
 	if (!tokens || !op)
 		return (NULL);
-	if (tokens == op) // é o primeiro da lista
+	if (tokens == op)
 	{
 		tokens = tokens->next->next;
 		if (tokens)
@@ -184,28 +105,7 @@ t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell)
 	}
 	if (op->id == HEREDOC)
 		return (parse_heredoc(tokens, op->next->value, minishell));
-	node = new_node(op->id);
-	if (!node)
-		handle_error(MALLOC);
-	node->left = build_tree(tokens, minishell);
-	node->right = build_tree(op->next, minishell);
-	return (node);
-}
-
-t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell)
-{
-	t_ast	*node;
-	t_token	*right;
-
-	if (!tokens || !op)
-		return (NULL);
-	node = new_node(op->id);
-	if (!node)
-		handle_error(MALLOC);
-	right = split_token_list(tokens, op);
-	node->left = build_tree(tokens, minishell);
-	node->right = build_tree(right, minishell);
-	return (node);
+	return (parse_operators(tokens, op, minishell));
 }
 
 t_ast	*build_tree(t_token *tokens, t_data	*minishell)

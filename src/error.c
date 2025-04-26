@@ -16,7 +16,7 @@
 void	handle_error(char *error)
 {
     printf("%s\n", error);
-    //free_all(minishell);
+    clear_mem();
     exit(EXIT_FAILURE);
 }
 /* int	print_error(int error, int res_num, char *command, char *arg)

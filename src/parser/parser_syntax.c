@@ -14,9 +14,11 @@
 
 static int	operators_rule(t_token *token)
 {
-	if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
+	if (!token->prev || (token->prev->id != ARG
+			&& token->prev->id != PAREN_CLOSE))
 		return (0);
-	if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
+	if (!token->next || (token->next->id != ARG
+			&& token->next->id != PAREN_OPEN))
 		return (0);
 	return (1);
 }
@@ -34,12 +36,14 @@ static int	paren_rule(t_token *token)
 	{
 		if (token->prev && token->prev->id >= PAREN_CLOSE)
 			return (0);
-		if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
+		if (!token->next || (token->next->id != ARG
+				&& token->next->id != PAREN_OPEN))
 			return (0);
 	}
 	if (token->id == PAREN_CLOSE)
 	{
-		if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
+		if (!token->prev || (token->prev->id != ARG
+				&& token->prev->id != PAREN_CLOSE))
 			return (0);
 		if (token->next && token->next->id == ARG)
 			return (0);

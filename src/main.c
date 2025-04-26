@@ -14,10 +14,11 @@
 
 void	free_all(t_data *minishell)
 {
-	free_lev(minishell->lev);
-	free_ast(*minishell->ast);
-	free_tokens(*minishell->token);
+	//free_lev(minishell->lev);
+	//free_ast(*minishell->ast);
+	//free_tokens(*minishell->token);
 	deallocate_mem(minishell);
+	clear_mem();
 	//deallocate_mem(minishell->input);
 }
 
