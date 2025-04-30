@@ -40,7 +40,7 @@ void	deallocate_mem(void *content)
 	t_list	*curr;
 
 	if (!content)
-		return;
+		return ;
 	mem_list = get_memory_ptr();
 	curr = *mem_list;
 	prev = NULL;
@@ -55,7 +55,7 @@ void	deallocate_mem(void *content)
 			curr->next = NULL;
 			free(curr->content);
 			free(curr);
-			return;
+			return ;
 		}
 		prev = curr;
 		curr = curr->next;
@@ -64,6 +64,5 @@ void	deallocate_mem(void *content)
 
 void	clear_mem(void)
 {
-	// get_next_line(-1);
 	ft_lstclear(get_memory_ptr(), &free);
 }

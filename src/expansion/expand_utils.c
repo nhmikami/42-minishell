@@ -15,7 +15,7 @@
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*result;
-	
+
 	result = ft_strjoin(s1, s2);
 	if (s1)
 		deallocate_mem(s1);

@@ -66,7 +66,7 @@ int	check_syntax(t_token *token)
 			flag = paren_rule(token);
 		if (flag)
 		{
-            return(print_error(SYNTAX, 2, NULL, token->value));
+			return (print_error(SYNTAX, 2, NULL, token->value));
 /* 			printf("%s\n", SYNTAX);
 			return (flag); */
 		}

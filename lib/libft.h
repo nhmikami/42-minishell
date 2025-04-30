@@ -58,8 +58,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-int	    ft_putchar_fd(char c, int fd);
-int	    ft_putstr_fd(char *s, int fd);
+int		ft_putchar_fd(char c, int fd);
+int		ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *s);
@@ -92,6 +92,6 @@ void	deallocate_mem(void *content);
 void	clear_mem(void);
 
 //printf_fd
-int	ft_printf_fd(int fd, const char *str, ...);
+int		ft_printf_fd(int fd, const char *str, ...);
 
 #endif

@@ -38,7 +38,7 @@ static void	run(t_data *minishell)
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
-                printf("g_signal2 = %d\n", g_signal);
+                //printf("g_signal2 = %d\n", g_signal);
 				status = execute(minishell);
 				free_ast(root);
 				minishell->ast = NULL;

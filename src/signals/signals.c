@@ -12,56 +12,56 @@
 
 #include "minishell.h"
 
-void    handle_sigint(int sig __attribute__((unused)))
+void	handle_sigint(int sig __attribute__((unused)))
 {
 	(void)sig;
-
 	ft_putendl_fd("", STDOUT_FILENO);
-    g_signal = SIGINT;
+	g_signal = SIGINT;
 }
 
-void    handle_redo_line(int sig __attribute__((unused)))
+void	handle_redo_line(int sig __attribute__((unused)))
 {
-    ft_putendl_fd("", STDOUT_FILENO);
+	ft_putendl_fd("", STDOUT_FILENO);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void    handle_heredoc(int sig __attribute__((unused)))
+void	handle_heredoc(int sig __attribute__((unused)))
 {
-    printf("received SIGINT\n");
-    ft_putendl_fd("", STDOUT_FILENO);
+	//printf("received SIGINT\n");
+	ft_putendl_fd("", STDOUT_FILENO);
 	close(STDIN_FILENO);
 	g_signal = SIGINT;
-    exit(1);
+	exit(1);
 }
-void    heredoc_signal(void)
+
+void	heredoc_signal(void)
 {
-    signal(SIGINT, handle_heredoc);
+	signal(SIGINT, handle_heredoc);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void    interactive_signal(void)
+void	interactive_signal(void)
 {
-    signal(SIGINT, handle_redo_line);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_redo_line);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void setup_signals(int pid)
+void	setup_signals(int pid)
 {
 	//struct sigaction sa;
 
-    if (pid == 0)
-    {
-        signal(SIGINT, SIG_DFL);
-	    signal(SIGQUIT, SIG_DFL);
-    }
-    else
-    {
-        signal(SIGINT, handle_sigint);
-        signal(SIGQUIT, SIG_IGN); 
-    }
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else
+	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
 
 /* void	restore_signals_child(void)
