@@ -26,6 +26,8 @@ int	negative_exit_num(int num)
 	return (num);
 }
 
+
+
 int	exec_exit(t_data *minishell, char **args)
 {
 	int	exit_num;
@@ -36,14 +38,14 @@ int	exec_exit(t_data *minishell, char **args)
 	{
 		if (args[2])
 			return (print_error(EXCEED_ARG, 1, "exit", NULL));
-		else if (!ft_isdigit(args[1][0]))
+		else if (!ft_isnum(args[1]))
 			exit_num = print_error(NUMERIC_ARG, 2, "exit", args[1]);
 		else
 		{
 			exit_num = ft_atoi(args[1]);
 			if (exit_num < 0)
 				exit_num = negative_exit_num(exit_num);
-			else if (exit_num > 255)
+			else if (exit_num > 255 || exit_num < 0)
 				exit_num = big_exit_num(exit_num);
 		}
 	}	

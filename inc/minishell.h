@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:00:26 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:17:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
+# include <errno.h>
 # include "libft.h"
 
 /* ********************************* MACROS ********************************* */
@@ -53,6 +54,8 @@
 # define INVALID_INPUT 10
 # define QUOTES 11
 # define SYNTAX 12
+# define DIR_CMD 13
+# define INVALID_PERM 14
 
 /* ********************************* STRUCTS ********************************* */
 typedef enum e_id
@@ -76,7 +79,6 @@ typedef struct s_lev
 {
 	char			*key;
 	char			*value;
-	int				exported;
 	struct s_lev	*prev;
 	struct s_lev	*next;
 }	t_lev;
@@ -139,7 +141,7 @@ int		check_input_syntax(char *str);
 //int		verify_input(char *input);
 
 /* ******************************** Execution ******************************* */
-char	*find_command(t_data *minishell, char *cmd);
+char	*find_command(t_data *minishell, char *cmd, int *res);
 char	*exec_heredoc(char *delimiter, t_data *minishell);
 int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
@@ -191,8 +193,6 @@ void    heredoc_signal(void);
 void	setup_signals(int pid);
 
 /* ********************************** Main ********************************** */
-void	handle_error(char *error);
-int	    print_error(int error, int res_num, char *command, char *arg);
 void	free_all(t_data *minishell);
 
 /* ********************************** Utils ********************************* */
@@ -201,5 +201,10 @@ void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
 
 void	*print_error_and_return(char *error);
+
+/* ********************************** Error ********************************* */
+void	handle_error(char *error);
+int		print_command_error(int res, char *args);
+int	    print_error(int error, int res_num, char *command, char *arg);
 
 #endif

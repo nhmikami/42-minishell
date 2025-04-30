@@ -35,7 +35,9 @@ static int	pipe_parent(t_data *minishell, t_ast *ast,
 	waitpid(pid, &status, 0);
 	if (ast->right)
 		return (loop_tree(minishell, ast->right));
-	return (0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (128 + WTERMSIG(status));
 }
 
 int	exec_pipe(t_data *minishell, t_ast *ast)

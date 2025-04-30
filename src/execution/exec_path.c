@@ -66,13 +66,11 @@ int	exec_path(t_data *minishell, char **args)
 	int		res;
 	char	*command;
 
-
-	res = 0;
-	command = find_command(minishell, args[0]);
+	command = find_command(minishell, args[0], &res);
 	if (!command)
-		return (print_error(INVALID_CMD, 127, args[0], NULL));
+		return (print_command_error(res, args[0]));
 	pid = fork();
-    setup_signals(pid);
+	setup_signals(pid);
 	if (pid == 0)
 		exec_child(command, args, minishell);
 	else if (pid > 0)
