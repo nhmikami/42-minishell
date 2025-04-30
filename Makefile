@@ -10,49 +10,51 @@
 #                                                                              #
 # **************************************************************************** #
 
-#Name of the program
+# Name of the program
 NAME = minishell
 
-#Compilers and flags
+# Compilers and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline -lncurses
 
-#Library
+# Library
 LIBFT = lib
 
-#Directories
+# Directories
 SRC_DIR = src/
+SIG_DIR = src/signals/
 TOK_DIR = src/tokenizer/
 PRS_DIR = src/parser/
 EXP_DIR = src/expansion/
 EXE_DIR = src/execution/
 BUILTIN_DIR = src/builtins/
-EV_DIR = src/ev/
+ENV_DIR = src/ev/
 UTILS_DIR = src/utils/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
-#Source files and object file
-SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c signals.c main.c) \
+# Source files and object files
+SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c main.c) \
+		$(addprefix $(SIG_DIR), signals.c) \
+		$(addprefix $(ENV_DIR), init_lev.c utils_lev.c print_lev.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
-		$(addprefix $(PRS_DIR), parser.c parser_search.c parser_syntax.c) \
-		$(addprefix $(EXP_DIR), expand.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_search.c parser_syntax.c parser_utils.c) \
+		$(addprefix $(EXP_DIR), expand.c expand_wildcards.c expand_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
-		$(addprefix $(EV_DIR), init_lev.c utils_lev.c print_lev.c) \
 		$(addprefix $(UTILS_DIR), utils_error.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-#Valgrind
-VALGRIND = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
+# Valgrind
+VALGRIND = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=readline.supp
 
-#Style
+# Style
 NO_PRINT = --no-print-directory
 GREEN = \033[1;32m
 END = \033[0m
 
-#Rules
+# Rules
 all: libft $(NAME)
 
 libft:
@@ -67,30 +69,30 @@ norm:
 	@echo "\n$(MAGENTA)======= SRC =======$(END)"
 	@norminette src | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 
-#Compile Object Files
+# Compile object files
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-#Executable
+# Executable
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Minishell Compiled!$(END)"
 
-#Clean Object
+# Clean objects
 clean:
 	@rm -rf $(OBJ_DIR)
 	@make -C $(LIBFT) clean $(NO_PRINT)
 	@echo "$(GREEN)Cleaned$(END)"
 
-#Clean all generated file
+# Clean all generated file
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
 
-#Recompile everything
+# Recompile everything
 re: fclean all
 
 .PHONY: all clean fclean re val norm libft

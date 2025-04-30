@@ -16,7 +16,7 @@
 void	handle_error(char *error)
 {
     ft_printf_fd(2, "%s\n", error);
-    //free_all(minishell);
+    clear_mem();
     exit(EXIT_FAILURE);
 }
 

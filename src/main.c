@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:45:20 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/26 15:21:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 11:01:45 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ volatile sig_atomic_t g_signal;
 
 void	free_all(t_data *minishell)
 {
-	free_lev(minishell->lev);
-	free_ast(*minishell->ast);
-	free_tokens(*minishell->token);
+	//free_lev(minishell->lev);
+	//free_ast(*minishell->ast);
+	//free_tokens(*minishell->token);
 	deallocate_mem(minishell);
+	clear_mem();
 	//deallocate_mem(minishell->input);
 }
 

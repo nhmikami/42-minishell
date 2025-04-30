@@ -6,54 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/24 11:38:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/26 14:34:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// utils
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*result;
-	
-	result = ft_strjoin(s1, s2);
-	if (s1)
-		deallocate_mem(s1);
-	if (s2)
-		deallocate_mem(s2);
-	return (result);
-}
-
-char	**ft_arrappend(char **arr, char *new_str)
-{
-	int		i;
-	int		len;
-	char	**new_arr;
-
-	len = ft_arrlen(arr);
-	new_arr = allocate_mem(len + 2, sizeof(char *));
-	i = 0;
-	while (i < len)
-	{
-		new_arr[i] = ft_strdup(arr[i]);
-		i++;
-	}
-	new_arr[i++] = ft_strdup(new_str);
-	new_arr[i] = NULL;
-	ft_free_arr(arr);
-	return (new_arr);
-}
-
-char	*get_key_value(t_lev *lev, char *key)
-{
-	t_lev	*env_var;
-
-	env_var = findlev(lev, key);
-	if (!env_var || !env_var->value)
-		return (NULL);
-	return (env_var->value);
-}
 
 // dollar
 char	*handle_dollar(t_data *minishell, char *str, int *i)
@@ -174,134 +131,23 @@ char	*remove_quotes(char *str)
 	return (aux);
 }
 
-// wildcards
-int	is_match(const char *str, const char *pattern)
-{
-	if (!*pattern)
-	{
-		if (!*str)
-			return (1);
-		else
-			return (0);
-	}
-	if (*pattern == '*')
-		return (is_match(str, pattern + 1) || (*str && is_match(str + 1, pattern)));
-	else if (*pattern == *str)
-		return (is_match(str + 1, pattern + 1));
-	return (0);
-}
-
-void	ft_sort_str_arr(char **arr)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		j = i + 1;
-		while (arr[j])
-		{
-			if (ft_strcasecmp(arr[i], arr[j]) > 0)
-			{
-				tmp = arr[i];
-				arr[i] = arr[j];
-				arr[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-char	*arr_to_str(char **arr)
-{
-	char	*result;
-	char	*space;
-	char	*str;
-	int		i;
-
-	i = 0;
-	result = NULL;
-	while(arr[i])
-	{
-		if (!result)
-			result = ft_strdup(arr[i]);
-		else
-		{
-			space = ft_strdup(" ");
-			str = ft_strdup(arr[i]);
-			result = ft_strjoin_free(result, space);
-			result = ft_strjoin_free(result, str);
-		}
-		i++;
-	}
-	return (result);
-}
-
-char	*expand_wildcards(char *pattern)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**matches;
-	char			*result;
-
-	if (!pattern || !ft_strchr(pattern, '*'))
-		return (ft_strdup(pattern));
-	matches = allocate_mem(1, sizeof(char *));
-	dir = opendir(".");
-	if (!dir)
-		return (NULL);
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (*(entry->d_name) != '.' && is_match(entry->d_name, pattern))
-			matches = ft_arrappend(matches, ft_strdup(entry->d_name));
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	if (ft_arrlen(matches) == 0)
-	{
-		ft_free_arr(matches);
-		return (ft_strdup(pattern));
-	}
-	ft_sort_str_arr(matches);
-	result = arr_to_str(matches);
-	ft_free_arr(matches);
-	return (result);
-}
-
 // expansor
 char	**expansor(t_data *minishell, char **tokens)
 {
-	char	**args;
-	char	**split;
 	char	*expanded;
 	int		i;
-	int		j;
 
-	args = allocate_mem(1, sizeof(char *));
 	i = 0;
 	while (tokens[i])
 	{
 		expanded = expand_token(minishell, tokens[i]);
-		expanded = expand_wildcards(expanded); // wildcards
+		expanded = expand_wildcards(expanded);
 		expanded = remove_quotes(expanded);
-		split = ft_split(expanded, ' ');
-		deallocate_mem(expanded);
-		j = 0;
-		while (split[j])
-		{
-			args = ft_arrappend(args, split[j]);
-			j++;
-		}
-		ft_free_arr(split);
+		deallocate_mem(tokens[i]);
+		tokens[i] = ft_strdup(expanded);
+		deallocate_mem(expanded);		
 		i++;
 	}
-	ft_free_arr(tokens);
-	return (args);
+	return (tokens);
 }
 

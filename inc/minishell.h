@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/26 09:13:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 11:00:26 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,22 @@ void	free_tokens(t_token *tokens);
 t_ast	*build_tree(t_token *tokens, t_data	*minishell);
 t_ast	*new_node(int id);
 void	free_ast(t_ast *node);
-int		count_args(t_token *tokens);
 int		check_syntax(t_token *token);
+int		count_args(t_token *tokens);
+t_token	*split_token_list(t_token *tokens, t_token *op);
+t_token	*remove_outer_paren(t_token *tokens);
 t_token	*search_and_or(t_token *tokens);
 t_token	*search_pipe(t_token *tokens);
 t_token	*search_redir(t_token *tokens);
 
 /* ******************************** Expansor ******************************** */
 char	**expansor(t_data *minishell, char **tokens);
+char	*expand_token(t_data *minishell, char *token);
+char	*expand_wildcards(char *pattern);
+char	*remove_quotes(char *str);
+char	*get_key_value(t_lev *lev, char *key);
+char	*ft_strjoin_free(char *s1, char *s2);
+char	**ft_arrappend(char **arr, char *new_str);
 
 /* ********************************* Signals ******************************** */
 void    interactive_signal(void);

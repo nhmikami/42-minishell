@@ -14,11 +14,13 @@
 
 static int	operators_rule(t_token *token)
 {
-	if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-		return (1);
-	if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-		return (1);
-	return (0);
+	if (!token->prev || (token->prev->id != ARG
+			&& token->prev->id != PAREN_CLOSE))
+		return (0);
+	if (!token->next || (token->next->id != ARG
+			&& token->next->id != PAREN_OPEN))
+		return (0);
+	return (1);
 }
 
 static int	redir_rule(t_token *token)
@@ -33,14 +35,16 @@ static int	paren_rule(t_token *token)
 	if (token->id == PAREN_OPEN)
 	{
 		if (token->prev && token->prev->id >= PAREN_CLOSE)
-			return (1);
-		if (!token->next || (token->next->id != ARG && token->next->id != PAREN_OPEN))
-			return (1);
+			return (0);
+		if (!token->next || (token->next->id != ARG
+				&& token->next->id != PAREN_OPEN))
+			return (0);
 	}
 	if (token->id == PAREN_CLOSE)
 	{
-		if (!token->prev || (token->prev->id != ARG && token->prev->id != PAREN_CLOSE))
-			return (1);
+		if (!token->prev || (token->prev->id != ARG
+				&& token->prev->id != PAREN_CLOSE))
+			return (0);
 		if (token->next && token->next->id == ARG)
 			return (1);
 	}
