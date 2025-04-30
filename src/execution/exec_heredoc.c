@@ -12,13 +12,12 @@
 
 #include "minishell.h"
 
-static void	heredoc_child(char *delimiter, char *path)
+static void	heredoc_write(char *delimiter, char *path)
 {
 	char	*line;
 	int		fd;
 	
-	signal(SIGINT, SIG_DFL); //verifica no bash da 42 se precisa restaurar o SIGQUIT tbm
-	fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 		handle_error(TEMP_ERR);
 	while (1)
@@ -28,14 +27,14 @@ static void	heredoc_child(char *delimiter, char *path)
 		{
 			free(line);
 			close(fd);
-			exit(0); ;
+			exit (0);
 		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
 	}
 	close(fd);
-	exit(0); ;
+	exit(0);
 }
 
 static char *heredoc_parent(int pid, char *path, t_data *minishell)
@@ -44,35 +43,45 @@ static char *heredoc_parent(int pid, char *path, t_data *minishell)
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	setup_signals();
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	setup_signals(pid);
+	printf("status = %d\n", status);
+	printf("g_signal1 = %d\n", g_signal);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
 		update_exit_status(minishell, status); //salvar.. (status);
-		return(NULL);
+		free(path);
+    	path = NULL;
 	}
 	return (path);
 }
 
-
 char	*exec_heredoc(char *delimiter, t_data *minishell)
 {
-	int		fd;
+	//int		fd;
 	int		pid;
 	char	*path;
 
 	path = strdup("heredoc.txt"); //alterar para pasta temp
 	if (!path)
 		handle_error(MALLOC);
-	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (fd == -1)
-		handle_error(TEMP_ERR);
-	close(fd);
 	pid = fork();
 	if (pid == -1)
 		handle_error(FORK);
 	if (pid == 0)
-		heredoc_child(delimiter, path);
-	else
-		return (heredoc_parent(pid, path, minishell));
-	return (NULL);
+	{
+		heredoc_signal();
+		heredoc_write(delimiter, path);
+	}
+	else 
+		return(heredoc_parent(pid, path, minishell));
+/*     if (g_signal == SIGINT)
+	{
+		update_exit_status(minishell, g_signal);
+		free(path);
+    	path = NULL;
+	}
+	interactive_signal(); */
+	/* else
+		return (heredoc_parent(pid, path, minishell)); */
+	return (path);
 }

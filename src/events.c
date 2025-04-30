@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/25 20:42:55 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/26 15:20:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	run(t_data *minishell)
 
 	while (1)
 	{
-		setup_signals();
+		interactive_signal();
 		minishell->input = get_input(minishell);
 		if (!minishell->input)
 			handle_error(INPUT);
@@ -38,6 +38,7 @@ static void	run(t_data *minishell)
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
+                printf("g_signal2 = %d\n", g_signal);
 				status = execute(minishell);
 				free_ast(root);
 				minishell->ast = NULL;

@@ -14,7 +14,6 @@
 
 static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2])
 {
-    restore_signals_child();
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);
@@ -45,10 +44,11 @@ int	exec_pipe(t_data *minishell, t_ast *ast)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		handle_error(PIPE_ERR);
+	handle_error(PIPE_ERR);
 	pid = fork();
 	if (pid == -1)
 		handle_error(FORK);
+	setup_signals(pid);
 	if (pid == 0)
 		pipe_child(minishell, ast, fd);
 	else

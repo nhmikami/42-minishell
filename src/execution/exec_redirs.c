@@ -48,9 +48,9 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 	pid = fork();
 	if (pid == -1)
 		handle_error(FORK);
+    setup_signals(pid);
 	if (pid == 0)
 	{
-        restore_signals_child();
 		if (dup2(file_fd, std) == -1)
 			handle_error(DUP_ERR);
 		close(file_fd);
@@ -59,11 +59,7 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 	else
 	{
 		close(file_fd);
-        signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
-        setup_signals();
-        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-            write(1, "\n", 1);
 		return (status);
 	}
 }

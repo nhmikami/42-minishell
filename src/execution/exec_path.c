@@ -39,7 +39,6 @@ void	exec_child(char *command, char **args, t_data *minishell)
 	struct stat	file_stat;
 	int			len;
 
-    restore_signals_child();
 	len = ft_strlen(command);
 	if (stat(command, &file_stat) == 0)
 	{
@@ -73,6 +72,7 @@ int	exec_path(t_data *minishell, char **args)
 	if (!command)
 		return (print_error(INVALID_CMD, 127, args[0], NULL));
 	pid = fork();
+    setup_signals(pid);
 	if (pid == 0)
 		exec_child(command, args, minishell);
 	else if (pid > 0)
