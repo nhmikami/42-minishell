@@ -35,10 +35,12 @@ int	levdel(t_lev **lev, char *key)
 	node = findlev(*lev, key);
 	if (!node)
 		return (1);
-	if (node->exported == 0)
-		return (2);
-	node->prev->next = node->next;
-	node->next->prev = node->prev;
+	if (*lev == node)
+		*lev = node->next;
+	if (node->prev)
+		node->prev->next = node->next;
+	if (node->next)
+		node->next->prev = node->prev;
 	deallocate_mem(node->key);
 	deallocate_mem(node->value);
 	deallocate_mem(node);

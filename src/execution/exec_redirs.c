@@ -44,7 +44,8 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 	file_fd = get_file_fd(ast, id);
 	std = get_std(id);
 	if (file_fd < 0)
-		return (print_error(INVALID_FILE, 1, "open", ast->right->args[0]));
+		return (print_error(INVALID_FILE, 2, "open", ast->right->args[0]));
+	printf("redir %s\n", ast->right->args[0]);
 	pid = fork();
 	if (pid == -1)
 		handle_error(FORK);
@@ -60,6 +61,8 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 	{
 		close(file_fd);
 		waitpid(pid, &status, 0);
-		return (status);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		return (128 + WTERMSIG(status));
 	}
 }

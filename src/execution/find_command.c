@@ -12,14 +12,30 @@
 
 #include "minishell.h"
 
-char	*verify_cmd(char *cmd)
+char	*verify_cmd(char *cmd, int *res)
 {
+	struct stat	info;
+	int			errno;
+
 	if (!cmd || !cmd[0])
 		return (NULL);
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
+		errno = 0;
+		if (access(cmd, X_OK) != 0 || stat(cmd, &info) != 0)
+		{
+			if (errno == EACCES)
+				*res = -1;
+			else if (errno == ENOENT)
+				*res = -2;
+			return (NULL);
+		}
+		if (S_ISDIR(info.st_mode))
+		{
+			*res = -3;
+			return (NULL);
+		}
+		return (ft_strdup(cmd));
 	}
 	return (NULL);
 }
@@ -38,15 +54,17 @@ char	**atribute_paths(t_data *minishell)
 	return (paths);
 }
 
-char	*find_command(t_data *minishell, char *cmd)
+char	*find_command(t_data *minishell, char *cmd, int *res)
 {
 	char	**paths;
 	char	*full_path;
 	int		i;
 
-	full_path = verify_cmd(cmd);
+	full_path = verify_cmd(cmd, res);
 	if (full_path)
 		return (full_path);
+	if (res)
+		return (NULL);
 	paths = atribute_paths(minishell);
 	i = 0;
 	while (paths[i])

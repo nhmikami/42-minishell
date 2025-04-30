@@ -44,8 +44,8 @@ static char *heredoc_parent(int pid, char *path, t_data *minishell)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	setup_signals(pid);
-	printf("status = %d\n", status);
-	printf("g_signal1 = %d\n", g_signal);
+	//printf("status = %d\n", status);
+	//printf("g_signal1 = %d\n", g_signal);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
 		update_exit_status(minishell, status); //salvar.. (status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/25 19:09:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 13:14:19 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_isnum(char *str);
 int		ft_arrlen(char **arr);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strcasecmp(const char *s1, const char *s2);

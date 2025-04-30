@@ -14,8 +14,10 @@
 
 int	unset(t_data *minishell, char **args)
 {
-	if (ft_isalpha(args[1][0]) && args[1][0] != '_')
+	if (args[1] && (ft_isalpha(args[1][0]) && args[1][0] != '_'))
+	{
 		levdel(minishell->lev, args[1]);
-	minishell->ev_num--;
+		minishell->ev_num--;
+	}
 	return (0);
 }
