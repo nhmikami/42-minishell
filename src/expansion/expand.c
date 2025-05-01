@@ -6,106 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/26 14:34:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 23:25:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// dollar
-char	*handle_dollar(t_data *minishell, char *str, int *i)
-{
-	char	*curr;
-	char	*var_name;
-	char	*var_value;
-	char	*expanded;
-	int		len;
-
-	curr = str + 1;
-	if (*curr == '?' || *curr == '$')
-	{
-		(*i)++;
-		if (*curr == '?')
-			return (ft_strdup(get_key_value(*minishell->lev, "$")));
-		else if (*curr == '$')
-			return (ft_itoa(getpid()));
-	}
-	len = 0;
-	while (curr[len] && (ft_isalnum(curr[len]) || curr[len] == '_'))
-		len++;
-	*i += len;
-	if (len == 0)
-		return (ft_strdup("$"));
-	var_name = allocate_mem(len + 1, sizeof(char));
-	ft_strlcpy(var_name, curr, len + 1);
-	if (len == 1 && !ft_strncmp(var_name, "_", 1))
-		expanded = ft_strdup(""); // implementar: expanded = get_last_argument();
-	else
-	{
-		var_value = get_key_value(*minishell->lev, var_name);
-		if (!var_value)
-			expanded = ft_strdup("");
-		else
-			expanded = ft_strdup(var_value);
-	}
-	
-	deallocate_mem(var_name);
-	return (expanded);
-}
-
-char	*expand_token(t_data *minishell, char *token)
-{
-	int		i;
-	int		start;
-	char	*var;
-	char	*aux;
-	char	*expanded;
-
-	i = 0;
-	start = 0;
-	expanded = ft_strdup("");
-	while (token[i])
-	{
-		if (token[i] == '\'')
-		{
-			i++;
-			while (token[i] && token[i] != '\'')
-				i++;
-		}
-		else if (token[i] == '\"')
-		{
-			i++;
-			while (token[i] && token[i] != '\"')
-			{
-				if (token[i] == '$')
-				{
-					aux = ft_substr(token, start, i - start);
-					var = handle_dollar(minishell, &token[i], &i);
-					expanded = ft_strjoin_free(expanded, aux);
-					expanded = ft_strjoin_free(expanded, var);
-					start = i + 1;
-				}
-				i++;
-			}
-		}
-		else if (token[i] == '$')
-		{
-			aux = ft_substr(token, start, i - start);
-			var = handle_dollar(minishell, &token[i], &i);
-			expanded = ft_strjoin_free(expanded, aux);
-			expanded = ft_strjoin_free(expanded, var);
-			start = i + 1;
-		}
-		if (token[i])
-			i++;
-	}
-	aux = ft_substr(token, start, i - start);
-	expanded = ft_strjoin_free(expanded, aux);
-	return (expanded);
-}
-
-// quotes
-char	*remove_quotes(char *str)
+static char	*remove_quotes(char *str)
 {
 	int		i;
 	int		j;
@@ -131,7 +38,44 @@ char	*remove_quotes(char *str)
 	return (aux);
 }
 
-// expansor
+static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
+{
+	(*i)++;
+	if (c == '?')
+		return (ft_strdup(get_key_value(*minishell->lev, "$")));
+	if (c == '$')
+		return (ft_itoa(getpid()));
+	return (NULL);
+}
+
+char	*handle_dollar(t_data *minishell, char *str, int *i)
+{
+	char	*curr;
+	char	*var_name;
+	char	*var_value;
+	char	*expanded;
+	int		len;
+
+	curr = str + 1;
+	if (*curr == '?' || *curr == '$')
+		return (handle_dollar_special_cases(minishell, *curr, i));
+	len = 0;
+	while (curr[len] && (ft_isalnum(curr[len]) || curr[len] == '_'))
+		len++;
+	*i += len;
+	if (len == 0)
+		return (ft_strdup("$"));
+	var_name = allocate_mem(len + 1, sizeof(char));
+	ft_strlcpy(var_name, curr, len + 1);
+	var_value = get_key_value(*minishell->lev, var_name);
+	if (!var_value)
+		expanded = ft_strdup("");
+	else
+		expanded = ft_strdup(var_value);
+	deallocate_mem(var_name);
+	return (expanded);
+}
+
 char	**expansor(t_data *minishell, char **tokens)
 {
 	char	*expanded;
@@ -145,9 +89,8 @@ char	**expansor(t_data *minishell, char **tokens)
 		expanded = remove_quotes(expanded);
 		deallocate_mem(tokens[i]);
 		tokens[i] = ft_strdup(expanded);
-		deallocate_mem(expanded);		
+		deallocate_mem(expanded);
 		i++;
 	}
 	return (tokens);
 }
-

@@ -65,11 +65,7 @@ int	check_syntax(t_token *token)
 		else if (token->id == PAREN_OPEN || token->id == PAREN_CLOSE)
 			flag = paren_rule(token);
 		if (!flag)
-		{
 			return (print_error(SYNTAX, 2, NULL, token->value));
-/* 			printf("%s\n", SYNTAX);
-			return (flag); */
-		}
 		token = token->next;
 	}
 	return (0);

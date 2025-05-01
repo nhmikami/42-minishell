@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 20:18:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 21:38:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_isspace(int c);
+int		ft_isnum(char *str);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
-int		ft_isnum(char *str);
 int		ft_arrlen(char **arr);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strcasecmp(const char *s1, const char *s2);
@@ -59,8 +59,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-int	    ft_putchar_fd(char c, int fd);
-int	    ft_putstr_fd(char *s, int fd);
+int		ft_putchar_fd(char c, int fd);
+int		ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *s);

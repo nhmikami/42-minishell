@@ -15,9 +15,9 @@
 
 void	handle_error(char *error)
 {
-    ft_printf_fd(2, "%s\n", error);
-    clear_mem();
-    exit(EXIT_FAILURE);
+	ft_printf_fd(2, "%s\n", error);
+	clear_mem();
+	exit(EXIT_FAILURE);
 }
 
 int	print_command_error(int res, char *args)

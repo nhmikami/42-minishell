@@ -45,6 +45,18 @@ t_token	*split_token_list(t_token *tokens, t_token *op)
 	return (right);
 }
 
+static t_token	*trim_parens(t_token *tokens, t_token *last)
+{
+	t_token	*new_start;
+
+	new_start = tokens->next;
+	new_start->prev = NULL;
+	tokens->next = NULL;
+	last->prev->next = NULL;
+	last->prev = NULL;
+	return (new_start);
+}
+
 t_token	*remove_outer_paren(t_token *tokens)
 {
 	t_token	*last;
@@ -70,10 +82,5 @@ t_token	*remove_outer_paren(t_token *tokens)
 			return (tokens);
 		curr = curr->next;
 	}
-	tokens = tokens->next;
-	tokens->prev->next = NULL;
-	tokens->prev = NULL;
-	last->prev->next = NULL;
-	last->prev = NULL;
-	return (remove_outer_paren(tokens));
+	return (remove_outer_paren(trim_parens(tokens, last)));
 }

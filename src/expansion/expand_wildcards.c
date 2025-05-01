@@ -22,7 +22,8 @@ static int	is_match(const char *str, const char *pattern)
 			return (0);
 	}
 	if (*pattern == '*')
-		return (is_match(str, pattern + 1) || (*str && is_match(str + 1, pattern)));
+		return (is_match(str, pattern + 1)
+			|| (*str && is_match(str + 1, pattern)));
 	else if (*pattern == *str)
 		return (is_match(str + 1, pattern + 1));
 	return (0);
@@ -63,7 +64,7 @@ static char	*arr_to_str(char **arr)
 
 	i = 0;
 	result = NULL;
-	while(arr[i])
+	while (arr[i])
 	{
 		if (!result)
 			result = ft_strdup(arr[i]);
@@ -79,19 +80,16 @@ static char	*arr_to_str(char **arr)
 	return (result);
 }
 
-char	*expand_wildcards(char *pattern)
+static char	**get_matches(char *pattern)
 {
 	DIR				*dir;
 	struct dirent	*entry;
-	char			*result;
 	char			**matches;
 
-	if (!pattern || !ft_strchr(pattern, '*'))
-		return (ft_strdup(pattern));
 	matches = allocate_mem(1, sizeof(char *));
 	dir = opendir(".");
 	if (!dir)
-		return (NULL);
+		return (matches);
 	entry = readdir(dir);
 	while (entry)
 	{
@@ -100,6 +98,17 @@ char	*expand_wildcards(char *pattern)
 		entry = readdir(dir);
 	}
 	closedir(dir);
+	return (matches);
+}
+
+char	*expand_wildcards(char *pattern)
+{
+	char	**matches;
+	char	*result;
+
+	if (!pattern || !ft_strchr(pattern, '*'))
+		return (ft_strdup(pattern));
+	matches = get_matches(pattern);
 	if (ft_arrlen(matches) == 0)
 	{
 		ft_free_arr(matches);

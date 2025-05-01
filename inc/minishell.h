@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 20:17:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/30 23:25:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void	update_exit_status(t_data *minishell, int status);
 /* ********************************** Input ********************************* */
 char	*get_input(t_data *minishell);
 int		check_input_syntax(char *str);
-//int		verify_input(char *input);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
@@ -182,7 +181,7 @@ t_token	*search_redir(t_token *tokens);
 char	**expansor(t_data *minishell, char **tokens);
 char	*expand_token(t_data *minishell, char *token);
 char	*expand_wildcards(char *pattern);
-char	*remove_quotes(char *str);
+char	*handle_dollar(t_data *minishell, char *str, int *i);
 char	*get_key_value(t_lev *lev, char *key);
 char	*ft_strjoin_free(char *s1, char *s2);
 char	**ft_arrappend(char **arr, char *new_str);
