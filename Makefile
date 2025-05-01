@@ -37,7 +37,7 @@ INCLUDES = -I inc/ -I $(LIBFT)
 # Source files and object files
 SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c main.c) \
 		$(addprefix $(SIG_DIR), signals.c) \
-		$(addprefix $(ENV_DIR), init_lev.c utils_lev.c print_lev.c) \
+		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
 		$(addprefix $(PRS_DIR), parser.c parser_ops.c parser_search.c parser_syntax.c parser_utils.c) \
 		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \

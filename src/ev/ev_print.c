@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_lev.c                                        :+:      :+:    :+:   */
+/*   ev_print.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -33,7 +33,7 @@ t_lev	**copy_lev(t_data *minishell)
 	t_lev	**lev_ord;
 	t_lev	*new_node;
 	t_lev	*temp;
-	char	*arr_ev[2];
+	char	*arr_ev[3];
 
 	lev_ord = allocate_mem(1, sizeof(t_lev *));
 	if (!lev_ord)
@@ -44,7 +44,8 @@ t_lev	**copy_lev(t_data *minishell)
 	{
 		arr_ev[0] = temp->key;
 		arr_ev[1] = temp->value;
-		new_node = levnew(arr_ev);
+		arr_ev[2] = NULL;
+		new_node = new_lev(arr_ev);
 		levadd_back(lev_ord, new_node);
 		temp = temp->next;
 	}

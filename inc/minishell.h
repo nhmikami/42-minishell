@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/01 16:27:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/01 18:28:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	finish(void);
 
 /* *********************************** Lev ********************************** */
 t_lev	**init_lev(t_data *minishell);
-t_lev	*levnew(char **arr_ev);
+t_lev	*new_lev(char **arr_ev);
 void	levadd_back(t_lev **lev, t_lev *new);
 t_lev	*findlev(t_lev *lev, char *key);
 int		levdel(t_lev **lev, char *key);

@@ -72,12 +72,12 @@ char	*find_command(t_data *minishell, char *cmd, int *res)
 		full_path = concatenate(paths[i], "/", cmd);
 		if (access(full_path, X_OK) == 0)
 		{
-			arrfree(paths);
+			ft_free_arr(paths);
 			return (full_path);
 		}
 		deallocate_mem(full_path);
 		i++;
 	}
-	arrfree(paths);
+	ft_free_arr(paths);
 	return (NULL);
 }
