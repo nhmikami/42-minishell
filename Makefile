@@ -39,7 +39,7 @@ SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c main.c) \
 		$(addprefix $(SIG_DIR), signals.c) \
 		$(addprefix $(ENV_DIR), init_lev.c utils_lev.c print_lev.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
-		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_search.c parser_syntax.c parser_utils.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_ops.c parser_search.c parser_syntax.c parser_utils.c) \
 		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \

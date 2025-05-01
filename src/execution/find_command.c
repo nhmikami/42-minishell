@@ -63,7 +63,7 @@ char	*find_command(t_data *minishell, char *cmd, int *res)
 	full_path = verify_cmd(cmd, res);
 	if (full_path)
 		return (full_path);
-	if (res)
+	if (*res != 0)
 		return (NULL);
 	paths = atribute_paths(minishell);
 	i = 0;

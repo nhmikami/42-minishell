@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 23:25:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:03:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
 t_ast	*build_tree(t_token *tokens, t_data	*minishell);
+t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell);
+t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell);
+t_ast	*parse_token(t_token *tokens);
 t_ast	*new_node(int id);
 void	free_ast(t_ast *node);
 int		check_syntax(t_token *token);
