@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/01 15:03:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:27:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@
 # define SYNTAX 12
 # define DIR_CMD 13
 # define INVALID_PERM 14
+
+#define YELLOW  "\001\033[0;33m\002"
+#define RESET   "\001\033[0m\002"
 
 /* ********************************* STRUCTS ********************************* */
 typedef enum e_id

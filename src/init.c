@@ -47,7 +47,7 @@ t_data	*init(char **ev)
 	t_data	*minishell;
 
 	minishell = allocate_mem(1, sizeof(t_data));
-	minishell->prompt = "minishell$ ";
+	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
 	init_exit_status(minishell);
