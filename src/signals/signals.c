@@ -29,7 +29,7 @@ void	handle_redo_line(int sig __attribute__((unused)))
 
 void	handle_heredoc(int sig __attribute__((unused)))
 {
-	//printf("received SIGINT\n");
+	printf("received SIGINT\n");
 	ft_putendl_fd("", STDOUT_FILENO);
 	close(STDIN_FILENO);
 	g_signal = SIGINT;

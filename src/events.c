@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/30 20:16:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:23:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	run(t_data *minishell)
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
-                //printf("g_signal2 = %d\n", g_signal);
+                printf("g_signal2 = %d\n", g_signal);
 				status = execute(minishell);
 				free_ast(root);
 				minishell->ast = NULL;

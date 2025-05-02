@@ -66,6 +66,7 @@ int	exec_path(t_data *minishell, char **args)
 	int		res;
 	char	*command;
 
+    res = 0;
 	command = find_command(minishell, args[0], &res);
 	if (!command)
 		return (print_command_error(res, args[0]));
