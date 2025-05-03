@@ -81,65 +81,74 @@
 // 	return (0);
 // }
 
+
+
 int	exec_pipe(t_data *minishell, t_ast *ast)
 {
 	int	pid;
-	int	status;
+	// int	status;
 	int	fd[2];
-	int	num[2];
+	// int	num[2];
 	int	old_fd[2];
 
 	//////////////////////////////////////////
 	pid = -1;
-	if (pipe(fd) == -1)
-		handle_error(PIPE_ERR);
-
-	old_fd[0] = dup(STDIN_FILENO);
-	old_fd[1] = dup(STDOUT_FILENO);
-	add_fd_list(minishell, old_fd[0]);
-	add_fd_list(minishell, old_fd[1]);
-
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
-
-	if (ast->left)
-		loop_tree(minishell, ast->left, TRUE);
-
-	// Comando da direita
-	// redir_back_old_fd_out();
-	dup2(old_fd[1], STDOUT_FILENO);
-	close(old_fd[1]);
-
-	// redir_in();
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-
-	if (ast->right)
-		pid = loop_tree(minishell, ast->right, TRUE);
-
-	// redir_back_old_fd_in();
-	dup2(old_fd[0], STDIN_FILENO);
-	close(old_fd[0]);
-
-	// return (pid);
-	///////////////////////////////////////////////
-
-	///////////////////////////////////////////////
-	status = 0;
-	num[0] = wait(&num[1]);
-
-	while (num[0] != -1)
+	if (ast->id == PIPE)
 	{
-		if (num[0] == pid)
-		{
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(num[1]);
-			else 
-				status = (128 + WTERMSIG(num[1]));
-		}
-		num[0] = wait(&num[1]);
+		if (pipe(fd) == -1)
+			handle_error(PIPE_ERR);
+		
+		add_fd_list(minishell, fd[0]);
+		add_fd_list(minishell, fd[1]);
+
+		old_fd[0] = dup(STDIN_FILENO);
+		old_fd[1] = dup(STDOUT_FILENO);
+		add_fd_list(minishell, old_fd[0]);
+		add_fd_list(minishell, old_fd[1]);
+
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+
+		if (ast->left)
+			exec_pipe(minishell, ast->left);
+
+		// Comando da direita
+		// redir_back_old_fd_out();
+		dup2(old_fd[1], STDOUT_FILENO);
+		close(old_fd[1]);
+
+		// redir_in();
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+
+		if (ast->right)
+			pid = exec_pipe(minishell, ast->right);
+
+		// redir_back_old_fd_in();
+		dup2(old_fd[0], STDIN_FILENO);
+		close(old_fd[0]);
 	}
+	else
+		pid = loop_tree(minishell, ast, TRUE);
+	return (pid);
 	///////////////////////////////////////////////
 
-	return (status);
+	///////////////////////////////////////////////
+	// status = 0;
+	// num[0] = wait(&num[1]);
+
+	// while (num[0] != -1)
+	// {
+	// 	if (num[0] == pid)
+	// 	{
+	// 		if (WIFEXITED(status))
+	// 			status = WEXITSTATUS(num[1]);
+	// 		else 
+	// 			status = (128 + WTERMSIG(num[1]));
+	// 	}
+	// 	num[0] = wait(&num[1]);
+	// }
+	///////////////////////////////////////////////
+
+	// return (status);
 }

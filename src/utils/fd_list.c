@@ -7,11 +7,28 @@ void    add_fd_list(t_data *minishell, int fd)
     new_node = malloc(sizeof(t_fd_list));
     new_node->fd = fd;
 
-    if (!*minishell->fd_list)
+	// if (minishell->fd_list == NULL)
+	// {
+	// 	minishell->fd_list = new_node;
+	// 	return ;
+	// }
+
+	new_node->next = minishell->fd_list;
+	minishell->fd_list = new_node;
+}
+
+void	clear_fd_list(t_data *minishell)
+{
+	t_fd_list	*tmp;
+	t_fd_list	*tmp2;
+
+	tmp = minishell->fd_list;
+	while (tmp)
 	{
-		*minishell->fd_list = new;
-		return ;
+		tmp2 = tmp->next;
+		close(tmp->fd);
+		free(tmp);
+		tmp = tmp2;
 	}
-	new->next = *minishell->fd_list;
-	*minishell->fd_list = new;
+	minishell->fd_list = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/02 17:59:42 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/02 22:25:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	exec_operators(t_data *minishell, t_ast *ast)
 {
 	int	res;
+	int	status;
+	int	num[2];
 
 	res = 0;
 	if (ast->id == AND)
@@ -32,7 +34,26 @@ int	exec_operators(t_data *minishell, t_ast *ast)
 			res = loop_tree(minishell, ast->right, FALSE);
 	}
 	else if (ast->id == PIPE)
+	{
 		res = exec_pipe(minishell, ast);
+		
+		status = 0;
+		num[0] = wait(&num[1]);
+
+		while (num[0] != -1)
+		{
+			if (num[0] == res)
+			{
+				if (WIFEXITED(status))
+					status = WEXITSTATUS(num[1]);
+				else 
+					status = (128 + WTERMSIG(num[1]));
+			}
+			num[0] = wait(&num[1]);
+		}
+		res = status;
+		clear_fd_list(minishell);
+	}
 	else if (ast->id == REDIR_OUT || ast->id == REDIR_IN || ast->id == APPEND)
 		res = exec_redirs(minishell, ast, ast->id);
 	return (res);

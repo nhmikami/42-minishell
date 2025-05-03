@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/02 21:18:08 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/02 21:42:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
 
 void	*print_error_and_return(char *error);
+void    add_fd_list(t_data *minishell, int fd);
+void	clear_fd_list(t_data *minishell);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);
