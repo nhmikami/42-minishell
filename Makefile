@@ -60,9 +60,6 @@ all: libft $(NAME)
 libft:
 	@make -C $(LIBFT) $(NO_PRINT)
 
-val: libft $(NAME)
-	@$(VALGRIND) ./$(NAME) > valgrind.log 2>&1
-
 norm:
 	@echo "\n$(BLUE)======= INCLUDES =======$(END)"
 	@norminette inc | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
@@ -91,6 +88,16 @@ fclean: clean
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
+
+val: re
+	@valgrind -q --suppressions=readline.supp \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				./${NAME}
 
 # Recompile everything
 re: fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/01 16:23:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/02 16:11:33 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	run(t_data *minishell)
 
 	while (1)
 	{
+		g_signal = 0;
 		interactive_signal();
 		minishell->input = get_input(minishell);
 		if (!minishell->input)
@@ -31,15 +32,17 @@ static void	run(t_data *minishell)
 			if (!tokens)
 				handle_error(MALLOC);
 			minishell->token = &tokens;
-            status = check_syntax(tokens);
+			status = check_syntax(tokens);
 			if (status == 0)
 			{
 				root = build_tree(tokens, minishell);
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
-                printf("g_signal2 = %d\n", g_signal);
-				status = execute(minishell);
+				if (g_signal == 0)
+					status = execute(minishell);
+				else
+					status = SIGINT + 128;
 				free_ast(root);
 				minishell->ast = NULL;
 			}
@@ -53,7 +56,7 @@ void	finish(void)
 {
     clear_mem();
 	//free_all(minishell);
-	exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS); //exit status
 }
 
 void	start(char **ev)

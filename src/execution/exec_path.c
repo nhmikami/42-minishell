@@ -38,6 +38,7 @@ void	exec_child(char *command, char **args, t_data *minishell)
 {
 	struct stat	file_stat;
 	int			len;
+	char		**envp;
 
 	len = ft_strlen(command);
 	if (stat(command, &file_stat) == 0)
@@ -45,7 +46,10 @@ void	exec_child(char *command, char **args, t_data *minishell)
 		if (len > 3 && ft_strncmp(command + len - 3, ".sh", 3) == 0)
 			exec_sh(command, args, minishell);
 		else
-			execve(command, args, lev_to_array(minishell));
+		{
+			envp = lev_to_array(minishell);
+			execve(command, args, envp);
+		}
 	}
 	print_error(EXECVE, -1, command, NULL);
 }
@@ -60,7 +64,7 @@ int	exec_parent(pid_t pid)
 	return (128 + WTERMSIG(status));
 }
 
-int	exec_path(t_data *minishell, char **args)
+int	exec_path(t_data *minishell, char **args, int is_pipe)
 {
 	pid_t	pid;
 	int		res;
@@ -73,11 +77,18 @@ int	exec_path(t_data *minishell, char **args)
 	pid = fork();
 	setup_signals(pid);
 	if (pid == 0)
+	{
+		clear_fd_list(minishell);
+		// ft_printf_fd(2, "filho comando - %d\n", getpid());
 		exec_child(command, args, minishell);
-	else if (pid > 0)
+	}
+	else if (pid > 0 && !is_pipe)
 		res = exec_parent(pid);
-	else
+	else if (pid == -1)
 		handle_error(FORK);
 	deallocate_mem(command);
+
+	if (is_pipe)
+		return (pid);
 	return (res);
 }
