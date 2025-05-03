@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_lev.c                                         :+:      :+:    :+:   */
+/*   ev_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,27 +12,36 @@
 
 #include "minishell.h"
 
-t_lev	*levnew(char **arr_ev)
+t_lev	*new_lev(char **arr_ev)
 {
 	t_lev	*new_node;
+	char	*value;
+	char	*temp;
+	int		i;
 
 	new_node = allocate_mem(1, sizeof(t_lev));
 	if (!new_node)
-	{
 		handle_error(MALLOC);
-		return (NULL);
-	}
 	new_node->key = ft_strdup(arr_ev[0]);
-	if (arr_ev[1])
-		new_node->value = ft_strdup(arr_ev[1]);
-	else
-		new_node->value = ft_strdup("");
+	new_node->value = ft_strdup("");
+	i = 1;
+	while (arr_ev[i])
+	{
+		value = ft_strdup(arr_ev[i]);
+		if (i > 1)
+			temp = ft_strjoin(new_node->value, "=");
+		else
+			temp = ft_strdup(new_node->value);
+		deallocate_mem(new_node->value);
+		new_node->value = ft_strjoin_free(temp, value);
+		i++;
+	}
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-t_lev	*levlast(t_lev *lev)
+static t_lev	*levlast(t_lev *lev)
 {
 	if (!lev)
 		return (0);
@@ -74,8 +83,8 @@ t_lev	**init_lev(t_data *minishell)
 	while (minishell->ev[i] != NULL)
 	{
 		arr_ev = ft_split(minishell->ev[i], '=');
-		node = levnew(arr_ev);
-		arrfree(arr_ev);
+		node = new_lev(arr_ev);
+		ft_free_arr(arr_ev);
 		levadd_back(lev, node);
 		i++;
 	}

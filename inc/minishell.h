@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/02 21:42:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/03 07:41:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@
 # define INVALID_PERM 14
 # define FALSE 0
 # define TRUE 1
+
+#define YELLOW  "\001\033[0;33m\002"
+#define RESET   "\001\033[0m\002"
 
 /* ********************************* STRUCTS ********************************* */
 typedef enum e_id
@@ -132,7 +135,7 @@ void	finish(void);
 
 /* *********************************** Lev ********************************** */
 t_lev	**init_lev(t_data *minishell);
-t_lev	*levnew(char **arr_ev);
+t_lev	*new_lev(char **arr_ev);
 void	levadd_back(t_lev **lev, t_lev *new);
 t_lev	*findlev(t_lev *lev, char *key);
 int		levdel(t_lev **lev, char *key);
@@ -177,6 +180,9 @@ void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
 t_ast	*build_tree(t_token *tokens, t_data	*minishell);
+t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell);
+t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell);
+t_ast	*parse_token(t_token *tokens);
 t_ast	*new_node(int id);
 void	free_ast(t_ast *node);
 int		check_syntax(t_token *token);

@@ -15,11 +15,12 @@
 void	init_exit_status(t_data *minishell)
 {
 	t_lev	*new;
-	char	*arr[2];
+	char	*arr[3];
 
 	arr[0] = "$";
 	arr[1] = "0";
-	new = levnew(arr);
+	arr[2] = NULL;
+	new = new_lev(arr);
 	levadd_back(minishell->lev, new);
 	minishell->ev_num++;
 }
@@ -47,7 +48,7 @@ t_data	*init(char **ev)
 	t_data	*minishell;
 
 	minishell = allocate_mem(1, sizeof(t_data));
-	minishell->prompt = "minishell$ ";
+	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
 	minishell->fd_list = NULL;

@@ -14,20 +14,22 @@
 
 static int	operators_rule(t_token *token)
 {
-	if (!token->prev || (token->prev->id != ARG
-			&& token->prev->id != PAREN_CLOSE))
-		return (0);
-	if (!token->next || (token->next->id != ARG
-			&& token->next->id != PAREN_OPEN))
-		return (0);
-	return (1);
+	if (!token->prev || !token->next)
+		return (print_error(SYNTAX, 2, NULL, token->value));
+	if (token->prev->id != ARG && token->prev->id != PAREN_CLOSE)
+		return (print_error(SYNTAX, 2, NULL, token->prev->value));
+	if (token->next->id != ARG && token->next->id != PAREN_OPEN)
+		return (print_error(SYNTAX, 2, NULL, token->next->value));
+	return (0);
 }
 
 static int	redir_rule(t_token *token)
 {
-	if (!token->next || token->next->id != ARG)
-		return (0);
-	return (1);
+	if (!token->next)
+		return (print_error(SYNTAX, 2, NULL, token->value));
+	if (token->next->id != ARG)
+		return (print_error(SYNTAX, 2, NULL, token->next->value));
+	return (0);
 }
 
 static int	paren_rule(t_token *token)
@@ -35,27 +37,28 @@ static int	paren_rule(t_token *token)
 	if (token->id == PAREN_OPEN)
 	{
 		if (token->prev && token->prev->id >= PAREN_CLOSE)
-			return (0);
+			return (print_error(SYNTAX, 2, NULL, token->prev->value));
 		if (!token->next || (token->next->id != ARG
 				&& token->next->id != PAREN_OPEN))
-			return (0);
+			return (print_error(SYNTAX, 2, NULL, token->next->value));
 	}
 	if (token->id == PAREN_CLOSE)
 	{
-		if (!token->prev || (token->prev->id != ARG
-				&& token->prev->id != PAREN_CLOSE))
-			return (0);
+		if (!token->prev)
+			return (print_error(SYNTAX, 2, NULL, token->value));
+		if (token->prev->id != ARG && token->prev->id != PAREN_CLOSE)
+			return (print_error(SYNTAX, 2, NULL, token->prev->value));
 		if (token->next && token->next->id == ARG)
-			return (0);
+			return (print_error(SYNTAX, 2, NULL, token->prev->value));
 	}
-	return (1);
+	return (0);
 }
 
 int	check_syntax(t_token *token)
 {
 	int	flag;
 
-	flag = 1;
+	flag = 0;
 	while (token)
 	{
 		if (token->id == AND || token->id == OR || token->id == PIPE)
@@ -64,9 +67,9 @@ int	check_syntax(t_token *token)
 			flag = redir_rule(token);
 		else if (token->id == PAREN_OPEN || token->id == PAREN_CLOSE)
 			flag = paren_rule(token);
-		if (!flag)
-			return (print_error(SYNTAX, 2, NULL, token->value));
+		if (flag)
+			return (flag);
 		token = token->next;
 	}
-	return (0);
+	return (flag);
 }
