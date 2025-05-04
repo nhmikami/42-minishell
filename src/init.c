@@ -51,6 +51,7 @@ t_data	*init(char **ev)
 	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
+	minishell->fd_list = NULL;
 	init_exit_status(minishell);
 	return (minishell);
 }

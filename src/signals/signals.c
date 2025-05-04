@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	handle_sigint(int sig __attribute__((unused)))
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	ft_putendl_fd("", STDOUT_FILENO);
@@ -29,11 +29,13 @@ void	handle_redo_line(int sig __attribute__((unused)))
 
 void	handle_heredoc(int sig __attribute__((unused)))
 {
-	//printf("received SIGINT\n");
+	// printf("received SIGINT\n");
 	ft_putendl_fd("", STDOUT_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	close(STDIN_FILENO);
 	g_signal = SIGINT;
-	exit(1);
+	// exit(1);
 }
 
 void	heredoc_signal(void)

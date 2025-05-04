@@ -43,7 +43,7 @@ SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c main.c) \
 		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redirs.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
-		$(addprefix $(UTILS_DIR), utils_error.c)
+		$(addprefix $(UTILS_DIR), utils_error.c fd_list.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Valgrind
@@ -59,9 +59,6 @@ all: libft $(NAME)
 
 libft:
 	@make -C $(LIBFT) $(NO_PRINT)
-
-val: libft $(NAME)
-	@$(VALGRIND) ./$(NAME) > valgrind.log 2>&1
 
 norm:
 	@echo "\n$(BLUE)======= INCLUDES =======$(END)"
@@ -91,6 +88,16 @@ fclean: clean
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
+
+val: re
+	@valgrind -q --suppressions=readline.supp \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				./${NAME}
 
 # Recompile everything
 re: fclean all

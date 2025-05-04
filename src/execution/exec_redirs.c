@@ -55,7 +55,7 @@ int	exec_redirs(t_data *minishell, t_ast *ast, int id)
 		if (dup2(file_fd, std) == -1)
 			handle_error(DUP_ERR);
 		close(file_fd);
-		exit(loop_tree(minishell, ast->left));
+		exit(loop_tree(minishell, ast->left, FALSE));
 	}
 	else
 	{

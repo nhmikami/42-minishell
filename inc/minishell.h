@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/01 18:28:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/03 07:41:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@
 # define SYNTAX 12
 # define DIR_CMD 13
 # define INVALID_PERM 14
+# define FALSE 0
+# define TRUE 1
 
 #define YELLOW  "\001\033[0;33m\002"
 #define RESET   "\001\033[0m\002"
@@ -102,15 +104,23 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
+typedef struct s_fd_list
+{
+	int					fd;
+	struct s_fd_list	*next;
+}	t_fd_list;
+
 typedef struct s_data
 {
 	char		*input;
 	const char	*prompt;
 	int			ev_num;
+	// int			fd_bk[2];
 	char		**ev;
 	t_lev		**lev;
 	t_token		**token;
 	t_ast		**ast;
+	t_fd_list	*fd_list;
 }	t_data;
 
 /* ********************************* GLOBAL ********************************* */
@@ -145,8 +155,8 @@ int		check_input_syntax(char *str);
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
 char	*exec_heredoc(char *delimiter, t_data *minishell);
-int		exec_path(t_data *minishell, char **args);
-int		loop_tree(t_data *minishell, t_ast *ast);
+int		exec_path(t_data *minishell, char **args, int is_pipe);
+int		loop_tree(t_data *minishell, t_ast *ast, int is_pipe);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redirs(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);
@@ -206,6 +216,8 @@ void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
 
 void	*print_error_and_return(char *error);
+void    add_fd_list(t_data *minishell, int fd);
+void	clear_fd_list(t_data *minishell);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);

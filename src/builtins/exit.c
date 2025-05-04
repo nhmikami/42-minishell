@@ -26,12 +26,11 @@ int	negative_exit_num(int num)
 	return (num);
 }
 
-
-
 int	exec_exit(t_data *minishell, char **args)
 {
 	int	exit_num;
 
+	(void) minishell;
 	exit_num = 0;
 	printf("exit\n");
 	if (args[1])
@@ -49,6 +48,6 @@ int	exec_exit(t_data *minishell, char **args)
 				exit_num = big_exit_num(exit_num);
 		}
 	}	
-	free_all(minishell);
+	clear_mem();
 	exit(exit_num);
 }

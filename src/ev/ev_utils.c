@@ -77,7 +77,7 @@ char	**lev_to_array(t_data *minishell)
 		return (NULL);
 	node = *minishell->lev;
 	i = 0;
-	arr = malloc((minishell->ev_num + 1) * sizeof(char *));
+	arr = allocate_mem((minishell->ev_num + 1), sizeof(char *));
 	if (!arr)
 		handle_error(MALLOC);
 	while (node)
