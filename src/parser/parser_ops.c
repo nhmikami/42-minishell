@@ -63,15 +63,13 @@ static t_ast	*parse_heredoc(t_token *tokens, char *delimiter,
 
 	node = new_node(ARG);
 	if (!tokens || tokens->id != ARG)
-		count = 1;
+		count = 0;
 	else
 		count = count_args(tokens);
 	node->args = allocate_mem(count + 2, sizeof(char *));
 	if (!node->args)
 		handle_error(MALLOC);
 	count = 0;
-	if (!tokens || tokens->id != ARG)
-		node->args[count++] = ft_strdup("cat");
 	while (tokens && tokens->id == ARG)
 	{
 		node->args[count] = ft_strdup(tokens->value);

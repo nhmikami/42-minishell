@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 23:25:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/03 23:55:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ static char	*remove_quotes(char *str)
 	return (aux);
 }
 
-static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
+/*static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
 {
 	(*i)++;
 	if (c == '?')
 		return (ft_strdup(get_key_value(*minishell->lev, "$")));
-	if (c == '$')
-		return (ft_itoa(getpid()));
+	//if (c == '$')
+	//	return (ft_strdup("$"));
 	return (NULL);
-}
+}*/
 
 char	*handle_dollar(t_data *minishell, char *str, int *i)
 {
@@ -57,8 +57,8 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	int		len;
 
 	curr = str + 1;
-	if (*curr == '?' || *curr == '$')
-		return (handle_dollar_special_cases(minishell, *curr, i));
+	if (*curr == '?')
+		return (ft_strdup(get_key_value(*minishell->lev, "$")));
 	len = 0;
 	while (curr[len] && (ft_isalnum(curr[len]) || curr[len] == '_'))
 		len++;
