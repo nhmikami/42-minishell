@@ -47,10 +47,10 @@ char	**atribute_paths(t_data *minishell)
 
 	path = findlev(*minishell->lev, "PATH");
 	if (!path)
-		handle_error(EV_NOTFOUND);
+		return (NULL);
 	paths = ft_split(path->value, ':');
 	if (!paths)
-		handle_error(EV_NOTFOUND);
+		return (NULL);
 	return (paths);
 }
 
@@ -66,6 +66,8 @@ char	*find_command(t_data *minishell, char *cmd, int *res)
 	if (*res != 0)
 		return (NULL);
 	paths = atribute_paths(minishell);
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{

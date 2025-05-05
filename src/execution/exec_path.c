@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	exec_sh(char *command, char **args, t_data *minishell)
+/* void	exec_sh(char *command, char **args, t_data *minishell)
 {
 	int			fd;
 	char		buf[2];
@@ -32,24 +32,24 @@ void	exec_sh(char *command, char **args, t_data *minishell)
 		close(fd);
 	}
 	execve("/bin/bash", new_args, lev_to_array(minishell));
-}
+} */
 
 void	exec_child(char *command, char **args, t_data *minishell)
 {
 	struct stat	file_stat;
-	int			len;
+	//int			len;
 	char		**envp;
 
-	len = ft_strlen(command);
+	//len = ft_strlen(command);
 	if (stat(command, &file_stat) == 0)
 	{
-		if (len > 3 && ft_strncmp(command + len - 3, ".sh", 3) == 0)
+		/* if (len > 3 && ft_strncmp(command + len - 3, ".sh", 3) == 0)
 			exec_sh(command, args, minishell);
 		else
-		{
-			envp = lev_to_array(minishell);
-			execve(command, args, envp);
-		}
+		{ */
+        envp = lev_to_array(minishell);
+        execve(command, args, envp);
+		//}
 	}
 	print_error(EXECVE, -1, command, NULL);
 }
