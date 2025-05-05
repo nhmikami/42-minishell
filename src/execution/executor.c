@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/02 22:25:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:59:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_operators(t_data *minishell, t_ast *ast)
 		clear_fd_list(minishell);
 	}
 	else if (ast->id == REDIR_OUT || ast->id == REDIR_IN || ast->id == APPEND)
-		res = exec_redirs(minishell, ast, ast->id);
+		res = exec_redir(minishell, ast, ast->id);
 	return (res);
 }
 
