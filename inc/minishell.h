@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 11:01:09 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:13:39 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 # define SYNTAX 12
 # define DIR_CMD 13
 # define INVALID_PERM 14
+# define AMBIGUOUS_REDIR 15
 # define FALSE 0
 # define TRUE 1
 
@@ -160,7 +161,7 @@ char	*exec_heredoc(char *delimiter, t_data *minishell);
 int		exec_path(t_data *minishell, char **args, int is_pipe);
 int		loop_tree(t_data *minishell, t_ast *ast, int is_pipe);
 int		exec_pipe(t_data *minishell, t_ast *ast);
-int		exec_redirs(t_data *minishell, t_ast *ast, int id);
+int		exec_redir(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);
 
 /* ********************************* Builtin ******************************** */

@@ -58,7 +58,7 @@ static void	ft_sort_str_arr(char **arr)
 static char	*arr_to_str(char **arr)
 {
 	char	*result;
-	char	*space;
+	char	*tab;
 	char	*str;
 	int		i;
 
@@ -70,9 +70,9 @@ static char	*arr_to_str(char **arr)
 			result = ft_strdup(arr[i]);
 		else
 		{
-			space = ft_strdup(" ");
+			tab = ft_strdup("\t");
 			str = ft_strdup(arr[i]);
-			result = ft_strjoin_free(result, space);
+			result = ft_strjoin_free(result, tab);
 			result = ft_strjoin_free(result, str);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/30 23:25:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/04 21:52:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
 	(*i)++;
 	if (c == '?')
 		return (ft_strdup(get_key_value(*minishell->lev, "$")));
-	if (c == '$')
-		return (ft_itoa(getpid()));
 	return (NULL);
 }
 
@@ -57,7 +55,7 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	int		len;
 
 	curr = str + 1;
-	if (*curr == '?' || *curr == '$')
+	if (*curr == '?')
 		return (handle_dollar_special_cases(minishell, *curr, i));
 	len = 0;
 	while (curr[len] && (ft_isalnum(curr[len]) || curr[len] == '_'))
@@ -78,6 +76,33 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 
 char	**expansor(t_data *minishell, char **tokens)
 {
+	char	**args;
+	char	**split;
+	char	*expanded;
+	int		i;
+	int		j;
+
+	args = allocate_mem(1, sizeof(char *));
+	i = 0;
+	while (tokens[i])
+	{
+		expanded = expand_token(minishell, tokens[i]);
+		expanded = expand_wildcards(expanded);
+		expanded = remove_quotes(expanded);
+		split = ft_split(expanded, '\t');
+		deallocate_mem(expanded);
+		j = 0;
+		while (split[j])
+			args = ft_arrappend(args, split[j++]);
+		ft_free_arr(split);
+		i++;
+	}
+	ft_free_arr(tokens);
+	return (args);
+}
+/*
+char	**expansor(t_data *minishell, char **tokens)
+{
 	char	*expanded;
 	int		i;
 
@@ -94,3 +119,4 @@ char	**expansor(t_data *minishell, char **tokens)
 	}
 	return (tokens);
 }
+*/

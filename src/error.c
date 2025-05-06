@@ -62,5 +62,7 @@ int	print_error(int error, int res_num, char *command, char *arg)
 		ft_printf_fd(2, " Is a directory\n");
 	else if (error == INVALID_PERM)
 		ft_printf_fd(2, " Permission denied\n");
+	else if (error == AMBIGUOUS_REDIR)
+		ft_printf_fd(2, "minishell: ambiguous redirect\n");
 	return (res_num);
 }

@@ -59,12 +59,10 @@ t_token	*search_pipe(t_token *tokens)
 t_token	*search_redir(t_token *tokens)
 {
 	t_token	*curr;
-	t_token	*last;
 	int		paren;
 
 	paren = 0;
 	curr = tokens;
-	last = NULL;
 	while (curr)
 	{
 		if (curr->id == PAREN_OPEN)
@@ -72,8 +70,8 @@ t_token	*search_redir(t_token *tokens)
 		else if (curr->id == PAREN_CLOSE)
 			paren--;
 		if ((curr->id >= REDIR_IN && curr->id <= APPEND) && paren == 0)
-			last = curr;
+			return (curr);
 		curr = curr->next;
 	}
-	return (last);
+	return (NULL);
 }
