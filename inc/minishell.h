@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/03 07:41:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/06 11:01:09 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ typedef struct s_data
 	char		*input;
 	const char	*prompt;
 	int			ev_num;
-	// int			fd_bk[2];
+	int			stdin_bk;
+	int			stdout_bk;
+	int			heredoc_num;
 	char		**ev;
 	t_lev		**lev;
 	t_token		**token;

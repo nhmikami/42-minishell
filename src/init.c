@@ -51,6 +51,11 @@ t_data	*init(char **ev)
 	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
+	minishell->stdin_bk = dup(STDIN_FILENO);
+	minishell->stdout_bk = dup(STDOUT_FILENO);
+	if (minishell->stdin_bk == -1 || minishell->stdout_bk == -1)
+		handle_error(DUP_ERR);
+	minishell->heredoc_num = 0;
 	minishell->fd_list = NULL;
     init_exit_status(minishell);
 	return (minishell);

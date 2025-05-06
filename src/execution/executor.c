@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/02 22:25:55 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:11:35 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,18 @@ int	loop_tree(t_data *minishell, t_ast *ast, int is_pipe)
 int	execute(t_data *minishell)
 {
 	int	res;
-	int	stdin_copy;
-	int	stdout_copy;
+	// int	stdin_copy;
+	// int	stdout_copy;
 
-	stdin_copy = dup(STDIN_FILENO);
-	stdout_copy = dup(STDOUT_FILENO);
-	if (stdin_copy == -1 || stdout_copy == -1)
-		handle_error(DUP_ERR);
+	// stdin_copy = dup(STDIN_FILENO);
+	// stdout_copy = dup(STDOUT_FILENO);
+	// if (stdin_copy == -1 || stdout_copy == -1)
+	// 	handle_error(DUP_ERR);
 	res = loop_tree(minishell, *minishell->ast, FALSE);
-	if (dup2(stdin_copy, STDIN_FILENO) == -1
-		|| dup2(stdout_copy, STDOUT_FILENO) == -1)
+	if (dup2(minishell->stdin_bk, STDIN_FILENO) == -1
+		|| dup2(minishell->stdout_bk, STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);
-	close(stdin_copy);
-	close(stdout_copy);
+	// close(stdin_copy);
+	// close(stdout_copy);
 	return (res);
 }

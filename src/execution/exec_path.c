@@ -12,44 +12,15 @@
 
 #include "minishell.h"
 
-/* void	exec_sh(char *command, char **args, t_data *minishell)
-{
-	int			fd;
-	char		buf[2];
-	char		*new_args[3];
-
-	new_args[0] = "/bin/bash";
-	new_args[1] = command;
-	new_args[2] = NULL;
-	fd = open(command, O_RDONLY);
-	if (fd != -1)
-	{
-		if (read(fd, buf, 2) == 2 && buf[0] == '#' && buf[1] == '!')
-		{
-			close(fd);
-			execve(command, args, lev_to_array(minishell));
-		}
-		close(fd);
-	}
-	execve("/bin/bash", new_args, lev_to_array(minishell));
-} */
-
 void	exec_child(char *command, char **args, t_data *minishell)
 {
 	struct stat	file_stat;
-	//int			len;
 	char		**envp;
 
-	//len = ft_strlen(command);
 	if (stat(command, &file_stat) == 0)
 	{
-		/* if (len > 3 && ft_strncmp(command + len - 3, ".sh", 3) == 0)
-			exec_sh(command, args, minishell);
-		else
-		{ */
         envp = lev_to_array(minishell);
         execve(command, args, envp);
-		//}
 	}
 	print_error(EXECVE, -1, command, NULL);
 }
@@ -79,7 +50,6 @@ int	exec_path(t_data *minishell, char **args, int is_pipe)
 	if (pid == 0)
 	{
 		clear_fd_list(minishell);
-		// ft_printf_fd(2, "filho comando - %d\n", getpid());
 		exec_child(command, args, minishell);
 	}
 	else if (pid > 0 && !is_pipe)
