@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 11:13:39 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:35:41 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	free_lev(t_lev **lev);
 char	**lev_to_array(t_data *minishell);
 int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
+char 	**separate_ev(char *str);
 
 /* ********************************** Init ********************************** */
 t_data	*init(char **ev);

@@ -58,6 +58,7 @@ int	exec_redir(t_data *minishell, t_ast *ast, int id)
 	int		file_fd;
 	int		std;
 
+	printf("redirecionando\n");
 	ast->right->args = expansor(minishell, ast->right->args);
 	if (ast->right && ast->right->args && ast->right->args[1])
 		return (print_error(AMBIGUOUS_REDIR, 1, NULL, NULL));

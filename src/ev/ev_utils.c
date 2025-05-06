@@ -21,7 +21,7 @@ t_lev	*findlev(t_lev *lev, char *key)
 		return (0);
 	while (lev)
 	{
-		if (!ft_strncmp(lev->key, key, len))
+		if (!ft_strncmp(lev->key, key, len + 1))
 			return (lev);
 		lev = lev->next;
 	}
