@@ -12,35 +12,9 @@
 
 #include "minishell.h"
 
-void	init_exit_status(t_data *minishell)
-{
-	t_lev	*new;
-	char	*arr[3];
-
-	arr[0] = "$";
-	arr[1] = "0";
-	arr[2] = NULL;
-	new = new_lev(arr);
-	levadd_back(minishell->lev, new);
-	minishell->ev_num++;
-}
-
 void	update_exit_status(t_data *minishell, int status)
 {
-	t_lev	*node;
-	char	*exit_status;
-	
-	node = findlev(*minishell->lev, "$");
-	
-	if (!node)
-		handle_error(EV_NOTFOUND);
-	else
-	{
-		deallocate_mem(node->value);
-		exit_status = ft_itoa(status);
-		node->value = ft_strdup(exit_status);
-		deallocate_mem(exit_status);
-	}
+	minishell->status = status;
 }
 
 t_data	*init(char **ev)
@@ -56,7 +30,7 @@ t_data	*init(char **ev)
 	if (minishell->stdin_bk == -1 || minishell->stdout_bk == -1)
 		handle_error(DUP_ERR);
 	minishell->heredoc_num = 0;
-	minishell->fd_list = NULL;
-    init_exit_status(minishell);
+	minishell->fd_list = NULL; //tirar quando pipe der fork
+	minishell->status = 0;
 	return (minishell);
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 15:35:41 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:51:12 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_data
 {
 	char		*input;
 	const char	*prompt;
+	int			status;
 	int			ev_num;
 	int			stdin_bk;
 	int			stdout_bk;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/04 21:52:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:57:11 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
 {
 	(*i)++;
 	if (c == '?')
-		return (ft_strdup(get_key_value(*minishell->lev, "$")));
+		return (ft_itoa(minishell->status));
 	return (NULL);
 }
 
