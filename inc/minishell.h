@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 15:51:12 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:10:23 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ int		check_input_syntax(char *str);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
-char	*exec_heredoc(char *delimiter, t_data *minishell);
 int		exec_path(t_data *minishell, char **args, int is_pipe);
 int		loop_tree(t_data *minishell, t_ast *ast, int is_pipe);
 int		exec_pipe(t_data *minishell, t_ast *ast);
@@ -184,19 +183,17 @@ void	append_token(t_token **tokens, t_token *new);
 void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
-t_ast	*build_tree(t_token *tokens, t_data	*minishell);
-t_ast	*parse_operators(t_token *tokens, t_token *op, t_data *minishell);
-t_ast	*parse_redir(t_token *tokens, t_token *op, t_data *minishell);
-t_ast	*parse_token(t_token *tokens);
+t_ast	*build_tree(t_data *minishell, t_token *tokens);
 t_ast	*new_node(int id);
-void	free_ast(t_ast *node);
-int		check_syntax(t_token *token);
-int		count_args(t_token *tokens);
 t_token	*split_token_list(t_token *tokens, t_token *op);
 t_token	*remove_outer_paren(t_token *tokens);
 t_token	*search_and_or(t_token *tokens);
 t_token	*search_pipe(t_token *tokens);
 t_token	*search_redir(t_token *tokens);
+void	parse_heredoc(t_data *minishell, t_token *op);
+void	free_ast(t_ast *node);
+int		check_syntax(t_token *token);
+int		count_args(t_token *tokens);
 
 /* ******************************** Expansor ******************************** */
 char	**expansor(t_data *minishell, char **tokens);
@@ -208,8 +205,8 @@ char	*ft_strjoin_free(char *s1, char *s2);
 char	**ft_arrappend(char **arr, char *new_str);
 
 /* ********************************* Signals ******************************** */
-void    interactive_signal(void);
-void    heredoc_signal(void);
+void	interactive_signal(void);
+void	heredoc_signal(void);
 void	setup_signals(int pid);
 
 /* ********************************** Main ********************************** */
@@ -220,13 +217,12 @@ int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
 
-void	*print_error_and_return(char *error);
-void    add_fd_list(t_data *minishell, int fd);
+void	add_fd_list(t_data *minishell, int fd);
 void	clear_fd_list(t_data *minishell);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);
 int		print_command_error(int res, char *args);
-int	    print_error(int error, int res_num, char *command, char *arg);
+int		print_error(int error, int res_num, char *command, char *arg);
 
 #endif

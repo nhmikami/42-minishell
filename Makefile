@@ -35,15 +35,15 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), utils.c error.c input.c init.c events.c main.c) \
+SRC = $(addprefix $(SRC_DIR), main.c input.c init.c events.c) \
 		$(addprefix $(SIG_DIR), signals.c) \
 		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
-		$(addprefix $(PRS_DIR), parser.c parser_ops.c parser_search.c parser_syntax.c parser_utils.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_syntax.c parser_utils.c) \
 		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
-		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_heredoc.c exec_pipe.c exec_redir.c executor.c) \
+		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \
 		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
-		$(addprefix $(UTILS_DIR), utils_error.c fd_list.c)
+		$(addprefix $(UTILS_DIR), utils.c utils_error.c utils_fd.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Valgrind

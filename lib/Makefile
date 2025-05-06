@@ -2,7 +2,7 @@ NAME		=	libft.a
 LIB			=	ar rcs
 RM			=	rm -f
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -fPIC
+CFLAGS		=	-Wall -Wextra -Werror
 
 SRCS		=	ft_arrlen.c \
 			ft_atoi.c \

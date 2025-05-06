@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/03 08:35:30 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:52:21 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	run(t_data *minishell)
 			status = check_syntax(tokens);
 			if (status == 0)
 			{
-				root = build_tree(tokens, minishell);
+				root = build_tree(minishell, tokens);
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
