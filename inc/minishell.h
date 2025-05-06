@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 15:51:12 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:18:38 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ void	free_all(t_data *minishell);
 int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
+void	close_pipe(int *pipe_fd);
 
 void	*print_error_and_return(char *error);
 void    add_fd_list(t_data *minishell, int fd);
