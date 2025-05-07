@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:28:39 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/07 14:45:08 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:51:54 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	run(t_data *minishell)
 			status = check_syntax(tokens);
 			if (status == 0)
 			{
-				root = build_tree(tokens, minishell);
+				root = build_tree(minishell, tokens);
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;

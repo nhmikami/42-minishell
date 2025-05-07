@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_heredoc.c                                     :+:      :+:    :+:   */
+/*   parser_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 11:36:11 by cayamash          #+#    #+#             */
-/*   Updated: 2025/04/09 11:36:11 by cayamash         ###   ########.fr       */
+/*   Created: 2025/05/06 18:45:00 by naharumi          #+#    #+#             */
+/*   Updated: 2025/05/06 18:45:00 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	heredoc_write(char *delimiter, int fd)
 	return ;
 }
 
-static char *generate_path(t_data *minishell)
+static char	*generate_path(t_data *minishell)
 {
 	char	*num;
 	char	*path;
@@ -49,8 +49,7 @@ static char *generate_path(t_data *minishell)
 	return (path);
 }
 
-
-char	*exec_heredoc(char *delimiter, t_data *minishell)
+void	parse_heredoc(t_data *minishell, t_token *op)
 {
 	char	*path;
 	int		fd;
@@ -60,9 +59,11 @@ char	*exec_heredoc(char *delimiter, t_data *minishell)
 		handle_error(MALLOC);
 	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	heredoc_signal();
-	heredoc_write(delimiter, fd);
+	heredoc_write(op->next->value, fd);
 	close(fd);
 	interactive_signal();
 	dup2(minishell->stdin_bk, STDIN_FILENO);
-	return (path);
+	deallocate_mem(op->next->value);
+	op->next->value = ft_strdup(path);
+	return ;
 }
