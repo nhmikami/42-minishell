@@ -3,14 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 15:57:11 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:50:48 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char *expand_tilde(t_data *minishell, char *str)
+{
+	char	*home;
+	char	*expanded;
+	
+	if (!str || str[0] != '~')
+		return (ft_strdup(str));
+	if (str[1] == '\0' || str[1] == '/')
+	{
+		home = get_key_value(*minishell->lev, "HOME");
+		if (!home)
+			return (ft_strdup(str));
+		expanded = ft_strjoin(home, str + 1);
+		return (expanded);
+	}
+	return (ft_strdup(str));
+}
+
+static char *remove_comments(char *str)
+{
+	int		i;
+	int		in_quote;
+	char	quote;
+
+	i = 0;
+	in_quote = 0;
+	quote = '\0';
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') && !in_quote)
+		{
+			quote = str[i];
+			in_quote = 1;
+		}
+		else if (str[i] == quote && in_quote)
+			in_quote = 0;
+		else if (str[i] == '#' && !in_quote)
+			break;
+		i++;
+	}
+	return (ft_substr(str, 0, i));
+}
 
 static char	*remove_quotes(char *str)
 {
@@ -87,6 +130,8 @@ char	**expansor(t_data *minishell, char **tokens)
 	while (tokens[i])
 	{
 		expanded = expand_token(minishell, tokens[i]);
+		expanded = expand_tilde(minishell, expanded);
+		expanded = remove_comments(expanded);
 		expanded = expand_wildcards(expanded);
 		expanded = remove_quotes(expanded);
 		split = ft_split(expanded, '\t');
