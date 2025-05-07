@@ -53,7 +53,7 @@ void	interactive_signal(void)
 void	setup_signals(int pid)
 {
 	//struct sigaction sa;
-
+	//printf("setting up signal for pid %d\n", pid);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);

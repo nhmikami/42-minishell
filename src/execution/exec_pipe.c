@@ -16,6 +16,7 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 {
 	int	status;
 
+	//printf("exec child %d\n", ast->id);
 	if (dup2(fd[index], index) == -1)
 		handle_error(DUP_ERR);
 	close_pipe(fd);
@@ -30,6 +31,7 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 static void	wait_status(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
+	//printf("receive status %d from pid %d\n", *status, pid);
 	if (WIFEXITED(*status))
 		*status = WEXITSTATUS(*status);
 	else if (*status == 1)
@@ -92,6 +94,7 @@ int	exec_pipe(t_data *minishell, t_ast *ast)
 	close_pipe(fd);
 	wait_status(child_pid[0], &status[0]);
 	wait_status(child_pid[1], &status[1]);
+	while (wait(NULL) > 0) ;
 	if (status[0] == SIGINT + 128)
 		return (status[0]);
 	return (status[1]);
