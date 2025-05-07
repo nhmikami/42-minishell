@@ -16,13 +16,12 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 {
 	int	status;
 
-	//printf("exec child %d\n", ast->id);
 	if (dup2(fd[index], index) == -1)
 		handle_error(DUP_ERR);
 	close_pipe(fd);
 	if (ast)
 	{
-		status = loop_tree(minishell, ast, TRUE);
+		status = loop_tree(minishell, ast);
 		clear_mem();
 	}
 	exit(status);
@@ -31,7 +30,6 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 static void	wait_status(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
-	//printf("receive status %d from pid %d\n", *status, pid);
 	if (WIFEXITED(*status))
 		*status = WEXITSTATUS(*status);
 	else if (*status == 1)
@@ -43,35 +41,6 @@ static void	wait_status(pid_t pid, int *status)
 		*status = WTERMSIG(*status) + 128;
 	}
 }
-
-// static int	pipe_parent(t_data *minishell, t_ast *ast,
-// 						int fd[2])
-// {
-// 	int	status;
-// 	int	num[2];
-// 	int	pid;
-//  close(fd[1]);
-// 	if (dup2(fd[0], STDIN_FILENO) == -1)
-// 		handle_error(DUP_ERR);
-// 	close(fd[0]);
-// 	if (ast->right)
-// 		pid = loop_tree(minishell, ast->right, TRUE);
-// 	status = 0;
-// 	num[0] = wait(&num[1]);
-// 	while (num[0] != -1)
-// 	{
-// 		if (num[0] == pid)
-// 		{
-// 			if (WIFEXITED(status))
-// 				status = WEXITSTATUS(num[1]);
-// 			else 
-// 				status = (128 + WTERMSIG(num[1]));
-// 		}
-// 		num[0] = wait(&num[1]);
-// 	}
-// 	return (status);
-// }
-
 
 int	exec_pipe(t_data *minishell, t_ast *ast)
 {
@@ -100,62 +69,3 @@ int	exec_pipe(t_data *minishell, t_ast *ast)
 	return (status[1]);
 }
 
-
-
-// int	exec_pipe(t_data *minishell, t_ast *ast)
-// {
-// 	int	pid;
-// 	// int	status;
-// 	int	fd[2];
-// 	// int	num[2];
-// 	int	old_fd[2];
-// 	//////////////////////////////////////////
-// 	pid = -1;
-// 	if (ast->id == PIPE)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			handle_error(PIPE_ERR);	
-// 		add_fd_list(minishell, fd[0]);
-// 		add_fd_list(minishell, fd[1]);
-// 		old_fd[0] = dup(STDIN_FILENO);
-// 		old_fd[1] = dup(STDOUT_FILENO);
-// 		add_fd_list(minishell, old_fd[0]);
-// 		add_fd_list(minishell, old_fd[1]);
-// 		dup2(fd[1], STDOUT_FILENO);
-// 		close(fd[1]);
-// 		if (ast->left)
-// 			exec_pipe(minishell, ast->left);
-// 		// Comando da direita
-// 		// redir_back_old_fd_out();
-// 		dup2(old_fd[1], STDOUT_FILENO);
-// 		close(old_fd[1]);
-// 		// redir_in();
-// 		dup2(fd[0], STDIN_FILENO);
-// 		close(fd[0]);
-// 		if (ast->right)
-// 			pid = exec_pipe(minishell, ast->right);
-// 		// redir_back_old_fd_in();
-// 		dup2(old_fd[0], STDIN_FILENO);
-// 		close(old_fd[0]);
-// 	}
-// 	else
-// 		pid = loop_tree(minishell, ast, TRUE);
-// 	return (pid);
-// 	///////////////////////////////////////////////
-// 	///////////////////////////////////////////////
-// 	// status = 0;
-// 	// num[0] = wait(&num[1]);
-// 	// while (num[0] != -1)
-// 	// {
-// 	// 	if (num[0] == pid)
-// 	// 	{
-// 	// 		if (WIFEXITED(status))
-// 	// 			status = WEXITSTATUS(num[1]);
-// 	// 		else 
-// 	// 			status = (128 + WTERMSIG(num[1]));
-// 	// 	}
-// 	// 	num[0] = wait(&num[1]);
-// 	// }
-// 	///////////////////////////////////////////////
-// 	// return (status);
-// }

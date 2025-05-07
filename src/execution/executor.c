@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/07 14:51:43 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:37:09 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int exec_and(t_data* minishell, t_ast *ast)
 
 	res = 0;
 	if (ast->left)
-		res = loop_tree(minishell, ast->left, FALSE);
+		res = loop_tree(minishell, ast->left);
 	if (res == 0 && ast->right)
-		res = loop_tree(minishell, ast->right, FALSE);
+		res = loop_tree(minishell, ast->right);
 	return (res);
 }
 
@@ -30,9 +30,9 @@ static int exec_or(t_data *minishell, t_ast *ast)
 
 	res = 0;
 	if (ast->left)
-		res = loop_tree(minishell, ast->left, FALSE);
+		res = loop_tree(minishell, ast->left);
 	if (res != 0 && ast->right)
-		res = loop_tree(minishell, ast->right, FALSE);
+		res = loop_tree(minishell, ast->right);
 	return (res);
 }
 
@@ -47,12 +47,12 @@ int	exec_operators(t_data *minishell, t_ast *ast)
 		res = exec_or(minishell, ast);
 	else if (ast->id == PIPE)
 		res = exec_pipe(minishell, ast);
-	else if (ast->id == REDIR_OUT || ast->id == REDIR_IN || ast->id == APPEND)
+	else if (ast->id >= REDIR_IN && ast->id <= APPEND)
 		res = exec_redir(minishell, ast, ast->id);
 	return (res);
 }
 
-int	loop_tree(t_data *minishell, t_ast *ast, int is_pipe)
+int	loop_tree(t_data *minishell, t_ast *ast)
 {
 	int	res;
 	int	i;
@@ -70,7 +70,7 @@ int	loop_tree(t_data *minishell, t_ast *ast, int is_pipe)
 			return (0);
 		res = is_builtin(minishell, ast->args + i);
 		if (res == -1)
-			res = exec_path(minishell, ast->args + i, is_pipe);
+			res = exec_path(minishell, ast->args + i);
 	}
 	else
 		res = exec_operators(minishell, ast);
@@ -87,7 +87,7 @@ int	execute(t_data *minishell)
 	// stdout_copy = dup(STDOUT_FILENO);
 	// if (stdin_copy == -1 || stdout_copy == -1)
 	// 	handle_error(DUP_ERR);
-	res = loop_tree(minishell, *minishell->ast, FALSE);
+	res = loop_tree(minishell, *minishell->ast);
 	if (dup2(minishell->stdin_bk, STDIN_FILENO) == -1
 		|| dup2(minishell->stdout_bk, STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);

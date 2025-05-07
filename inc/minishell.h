@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/07 14:51:17 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:36:15 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,8 @@ int		check_input_syntax(char *str);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
-int		exec_path(t_data *minishell, char **args, int is_pipe);
-int		loop_tree(t_data *minishell, t_ast *ast, int is_pipe);
+int		exec_path(t_data *minishell, char **args);
+int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redir(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);

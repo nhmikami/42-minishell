@@ -35,7 +35,7 @@ int	exec_parent(pid_t pid)
 	return (128 + WTERMSIG(status));
 }
 
-int	exec_path(t_data *minishell, char **args, int is_pipe)
+int	exec_path(t_data *minishell, char **args)
 {
 	pid_t	pid;
 	int		res;
@@ -52,13 +52,11 @@ int	exec_path(t_data *minishell, char **args, int is_pipe)
 		clear_fd_list(minishell);
 		exec_child(command, args, minishell);
 	}
-	else if (pid > 0 && !is_pipe)
+	else if (pid > 0)
 		res = exec_parent(pid);
 	else if (pid == -1)
 		handle_error(FORK);
 	deallocate_mem(command);
 
-	if (is_pipe)
-		return (pid);
 	return (res);
 }
