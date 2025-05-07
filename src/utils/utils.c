@@ -45,3 +45,11 @@ char	*concatenate(char *s1, char *s2, char *s3)
 	deallocate_mem(result1);
 	return (result2);
 }
+
+void	close_pipe(int *pipe_fd)
+{
+	if (pipe_fd[0] != -1)
+		close(pipe_fd[0]);
+	if (pipe_fd[1] != -1)
+		close(pipe_fd[1]);
+}

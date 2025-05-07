@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 19:10:23 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:36:15 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,8 @@ int		check_input_syntax(char *str);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
-int		exec_path(t_data *minishell, char **args, int is_pipe);
-int		loop_tree(t_data *minishell, t_ast *ast, int is_pipe);
+int		exec_path(t_data *minishell, char **args);
+int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redir(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);
@@ -216,6 +216,7 @@ void	free_all(t_data *minishell);
 int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
+void	close_pipe(int *pipe_fd);
 
 void	add_fd_list(t_data *minishell, int fd);
 void	clear_fd_list(t_data *minishell);
