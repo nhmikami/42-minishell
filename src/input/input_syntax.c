@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_syntax.c                                    :+:      :+:    :+:   */
+/*   input_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 19:53:56 by naharumi          #+#    #+#             */
-/*   Updated: 2025/04/08 17:23:12 by naharumi         ###   ########.fr       */
+/*   Created: 2025/05/08 14:51:31 by naharumi          #+#    #+#             */
+/*   Updated: 2025/05/08 14:51:31 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	operators_rule(t_token *token)
 	if (token->prev->id != ARG && token->prev->id != PAREN_CLOSE)
 		return (print_error(SYNTAX, 2, NULL, token->prev->value));
 	if (token->next->id != ARG && token->next->id != PAREN_OPEN
-			&& !(token->next->id >= REDIR_IN && token->next->id <= APPEND))
+		&& !(token->next->id >= REDIR_IN && token->next->id <= APPEND))
 		return (print_error(SYNTAX, 2, NULL, token->next->value));
 	return (0);
 }
@@ -55,22 +55,25 @@ static int	paren_rule(t_token *token)
 	return (0);
 }
 
-int	check_syntax(t_token *token)
+int	check_syntax(t_data *minishell, t_token *token)
 {
-	int	flag;
+	int	status;
 
-	flag = 0;
+	status = 0;
 	while (token)
 	{
 		if (token->id == AND || token->id == OR || token->id == PIPE)
-			flag = operators_rule(token);
+			status = operators_rule(token);
 		else if (token->id >= REDIR_IN && token->id <= APPEND)
-			flag = redir_rule(token);
+			status = redir_rule(token);
 		else if (token->id == PAREN_OPEN || token->id == PAREN_CLOSE)
-			flag = paren_rule(token);
-		if (flag)
-			return (flag);
+			status = paren_rule(token);
+		if (status)
+		{
+			update_exit_status(minishell, status);
+			return (status);
+		}
 		token = token->next;
 	}
-	return (flag);
+	return (status);
 }

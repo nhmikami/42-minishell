@@ -12,29 +12,6 @@
 
 #include "minishell.h"
 
-int	arrlen(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i] != NULL)
-		i++;
-	return (i);
-}
-
-void	arrfree(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i] != NULL)
-	{
-		deallocate_mem(arr[i]);
-		i++;
-	}
-	deallocate_mem(arr);
-}
-
 char	*concatenate(char *s1, char *s2, char *s3)
 {
 	char	*result1;

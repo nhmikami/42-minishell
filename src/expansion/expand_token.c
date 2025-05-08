@@ -44,8 +44,7 @@ static char	*expand_double_quotes(t_data *minishell, char *token,
 	return (expanded);
 }
 
-static char	*expand_unquoted_dollar(t_data *minishell, char *token,
-		int *i, int *start)
+char	*unquoted_dollar(t_data *minishell, char *token, int *i, int *start)
 {
 	char	*aux;
 	char	*var;
@@ -79,7 +78,7 @@ char	*expand_token(t_data *minishell, char *token)
 					expand_double_quotes(minishell, token, &i, &start));
 		else if (token[i] == '$')
 			expanded = ft_strjoin_free(expanded,
-					expand_unquoted_dollar(minishell, token, &i, &start));
+					unquoted_dollar(minishell, token, &i, &start));
 		if (token[i])
 			i++;
 	}

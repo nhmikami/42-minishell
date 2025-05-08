@@ -12,7 +12,31 @@
 
 #include "minishell.h"
 
-static void	heredoc_write(char *delimiter, int fd)
+static char	*expand_line(t_data *minishell, char *line)
+{
+	int		i;
+	int		start;
+	char	*expanded;
+	char	*aux;
+
+	i = 0;
+	start = 0;
+	expanded = ft_strdup("");
+	while (line [i])
+	{
+		if (line[i] == '$')
+			expanded = ft_strjoin_free(expanded,
+					unquoted_dollar(minishell, line, &i, &start));
+		if (line[i])
+			i++;
+	}
+	aux = ft_substr(line, start, i - start);
+	expanded = ft_strjoin_free(expanded, aux);
+	free (line);
+	return (expanded);
+}
+
+static void	heredoc_write(t_data *minishell, char *delimiter, int fd)
 {
 	char	*line;
 
@@ -31,9 +55,9 @@ static void	heredoc_write(char *delimiter, int fd)
 			free(line);
 			break ;
 		}
+		line = expand_line(minishell, line);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
-		free(line);
 	}
 	return ;
 }
@@ -59,7 +83,8 @@ void	parse_heredoc(t_data *minishell, t_token *op)
 		handle_error(MALLOC);
 	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	heredoc_signal();
-	heredoc_write(op->next->value, fd);
+	op->next->value = remove_quotes(op->next->value);
+	heredoc_write(minishell, op->next->value, fd);
 	close(fd);
 	interactive_signal();
 	dup2(minishell->fd_bk[0], STDIN_FILENO);
@@ -78,6 +103,10 @@ void	remove_heredoc_files(t_data *minishell)
 		num = ft_itoa(minishell->heredoc_num);
 		file_name = concatenate("heredoc", num, ".txt");
 		unlink(file_name);
+		deallocate_mem(num);
+		deallocate_mem(file_name);
+		if (minishell->heredoc_num == 0)
+			break;
 		minishell->heredoc_num--;
 	}
 }

@@ -71,9 +71,11 @@ int	ft_verify(char spec, va_list args, int fd)
 	else if (spec == 'u')
 		count = ft_putbase_fd(va_arg(args, unsigned int), "0123456789", 10, fd);
 	else if (spec == 'x')
-		count = ft_putbase_fd(va_arg(args, unsigned int), "0123456789abcdef", 16, fd);
+		count = ft_putbase_fd(va_arg(args, unsigned int),
+				"0123456789abcdef", 16, fd);
 	else if (spec == 'X')
-		count = ft_putbase_fd(va_arg(args, unsigned int), "0123456789ABCDEF", 16, fd);
+		count = ft_putbase_fd(va_arg(args, unsigned int),
+				"0123456789ABCDEF", 16, fd);
 	else if (spec == 'p')
 		count = ft_putpointer_fd(va_arg(args, unsigned long), fd);
 	else if (spec == '%')

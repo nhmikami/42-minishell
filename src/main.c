@@ -30,22 +30,18 @@ void	start_iteration(t_data *minishell)
 
 static void	run(t_data *minishell)
 {
-	t_token	*tokens;
 	t_ast	*root;
 
 	while (42)
 	{
 		start_iteration(minishell);
 		minishell->input = get_input(minishell);
-		if (minishell->input != NULL && minishell->input[0] != '\0')
+		if (minishell->input != NULL && !check_empty_input(minishell->input))
 		{
-			tokens = tokenizer(minishell->input);
-			if (!tokens)
-				handle_error(MALLOC);
-			minishell->token = &tokens;
-			if (check_syntax(tokens) == 0)
+			minishell->token = tokenizer(minishell->input);
+			if (check_syntax(minishell, *minishell->token) == 0)
 			{
-				root = build_tree(minishell, tokens);
+				root = build_tree(minishell, *minishell->token);
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;

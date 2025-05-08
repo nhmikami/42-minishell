@@ -12,6 +12,7 @@
 
 # Name of the program
 NAME = minishell
+NAME_BONUS = minishell_bonus
 
 # Compilers and flags
 CC = gcc
@@ -38,15 +39,15 @@ INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
 SRC = $(addprefix $(SRC_DIR), main.c) \
-		$(addprefix $(SIG_DIR), signals.c) \
-		$(addprefix $(BUT_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
-		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
-		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \
-		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_split.c expand_utils.c) \
 		$(addprefix $(INI_DIR), init.c) \
-		$(addprefix $(INP_DIR), input.c) \
-		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_syntax.c parser_utils.c) \
+		$(addprefix $(SIG_DIR), signals.c) \
+		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
+		$(addprefix $(INP_DIR), input.c input_check.c input_syntax.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_utils.c) \
+		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_split.c expand_utils.c) \
+		$(addprefix $(BUT_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
+		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \
 		$(addprefix $(UTI_DIR), utils.c utils_error.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -60,6 +61,8 @@ END = \033[0m
 
 # Rules
 all: libft $(NAME)
+
+bonus: libft $(NAME_BONUS)
 
 libft:
 	@make -C $(LIBFT) $(NO_PRINT)
@@ -80,6 +83,10 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Minishell Compiled!$(END)"
 
+$(NAME_BONUS): $(OBJ)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME_BONUS)
+	@echo "$(GREEN)Minishell Compiled!$(END)"
+
 # Clean objects
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -88,7 +95,7 @@ clean:
 
 # Clean all generated file
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) $(NAME_BONUS)
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
@@ -106,4 +113,4 @@ val: re
 # Recompile everything
 re: fclean all
 
-.PHONY: all clean fclean re val norm libft
+.PHONY: all bonus clean fclean re val norm libft

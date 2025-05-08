@@ -55,8 +55,9 @@ static int	get_std(int id)
 
 int	exec_redir(t_data *minishell, t_ast *ast, int id)
 {
-	int		file_fd;
-	int		std;
+	int	file_fd;
+	int	std;
+	int	status;
 
 	ast->right->args = expansor(minishell, ast->right->args);
 	if (ast->right && ast->right->args && ast->right->args[1])
@@ -73,5 +74,9 @@ int	exec_redir(t_data *minishell, t_ast *ast, int id)
 		handle_error(DUP_ERR);
 	}
 	close(file_fd);
-	return (loop_tree(minishell, ast->left));
+	status = loop_tree(minishell, ast->left);
+	if (dup2(minishell->fd_bk[0], STDIN_FILENO) == -1
+		|| dup2(minishell->fd_bk[1], STDOUT_FILENO) == -1)
+		handle_error(DUP_ERR);
+	return (status);
 }

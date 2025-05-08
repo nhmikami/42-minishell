@@ -37,20 +37,17 @@ int	export(t_data *minishell, char **args)
 	if (!validade_identifier(args[1]))
 		return (print_error(INVALID_ID, 1, "export", args[1]));
 	key_value = separate_ev(args[1]);
-	if (key_value[1])
+	node = findlev(*minishell->lev, key_value[0]);
+	if (node)
 	{
-		node = findlev(*minishell->lev, key_value[0]);
-		if (node)
-		{
-			deallocate_mem(node->value);
-			node->value = ft_strdup(key_value[1]);
-		}
-		else
-		{
-			node = new_lev(key_value);
-			levadd_back(minishell->lev, node);
-			minishell->ev_num++;
-		}
+		deallocate_mem(node->value);
+		node->value = ft_strdup(key_value[1]);
+	}
+	else
+	{
+		node = new_lev(key_value);
+		levadd_back(minishell->lev, node);
+		minishell->ev_num++;
 	}
 	ft_free_arr(key_value);
 	return (0);

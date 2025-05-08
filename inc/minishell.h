@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 11:20:24 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:16:16 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ void	update_exit_status(t_data *minishell, int status);
 /* ********************************** Input ********************************* */
 char	*get_input(t_data *minishell);
 int		check_input_syntax(char *str);
+int		check_empty_input(char *str);
+int		check_syntax(t_data *minishell, t_token *token);
 
 /* ******************************** Execution ******************************* */
 char	*find_command(t_data *minishell, char *cmd, int *res);
@@ -160,7 +162,6 @@ int		exec_redir(t_data *minishell, t_ast *ast, int id);
 int		execute(t_data *minishell);
 
 /* ********************************* Builtin ******************************** */
-int		hasflag(char **args);
 int		cd(t_lev **lev, char **args);
 int		echo(char **args);
 int		env(t_lev **lev, char **args);
@@ -169,9 +170,10 @@ int		export(t_data *minishell, char **args);
 int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
+int		hasflag(char **args);
 
 /* ******************************** Tokenizer ******************************* */
-t_token	*tokenizer(char *input);
+t_token	**tokenizer(char *input);
 t_token	*new_token(char *value, int id);
 void	append_token(t_token **tokens, t_token *new);
 void	free_tokens(t_token *tokens);
@@ -179,15 +181,14 @@ void	free_tokens(t_token *tokens);
 /* ********************************* Parser ********************************* */
 t_ast	*build_tree(t_data *minishell, t_token *tokens);
 t_ast	*new_node(int id);
-t_token	*split_token_list(t_token *tokens, t_token *op);
-t_token	*remove_outer_paren(t_token *tokens);
 t_token	*search_and_or(t_token *tokens);
 t_token	*search_pipe(t_token *tokens);
 t_token	*search_redir(t_token *tokens);
+t_token	*split_token_list(t_token *tokens, t_token *op);
+t_token	*remove_outer_paren(t_token *tokens);
 void	parse_heredoc(t_data *minishell, t_token *op);
 void	remove_heredoc_files(t_data *minishell);
 void	free_ast(t_ast *node);
-int		check_syntax(t_token *token);
 int		count_args(t_token *tokens);
 
 /* ******************************** Expansor ******************************** */
@@ -195,6 +196,8 @@ char	**expansor(t_data *minishell, char **tokens);
 char	*expand_token(t_data *minishell, char *token);
 char	*expand_wildcards(char *pattern);
 char	*handle_dollar(t_data *minishell, char *str, int *i);
+char	*unquoted_dollar(t_data *minishell, char *token,	int *i, int *start);
+char	*remove_quotes(char *str);
 char	*get_key_value(t_lev *lev, char *key);
 char	*ft_strjoin_free(char *s1, char *s2);
 char	**ft_arrappend(char **arr, char *new_str);
@@ -209,8 +212,6 @@ void	setup_signals(int pid);
 void	free_all(t_data *minishell);
 
 /* ********************************** Utils ********************************* */
-int		arrlen(char **arr);
-void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
 void	close_fds(int *pipe_fd);
 

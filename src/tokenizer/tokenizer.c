@@ -82,14 +82,17 @@ char	*get_token(char const *s, int id)
 	return (str);
 }
 
-t_token	*tokenizer(char *input)
+t_token	**tokenizer(char *input)
 {
 	int		id;
 	char	*value;
 	t_token	*new;
-	t_token	*tokens;
+	t_token	**tokens;
 
-	tokens = NULL;
+	tokens = allocate_mem(1, sizeof(t_token *));
+	if (!tokens)
+		handle_error(MALLOC);
+	*tokens = NULL;
 	while (*input)
 	{
 		while (*input && ft_isspace(*input))
@@ -98,13 +101,9 @@ t_token	*tokenizer(char *input)
 		{
 			id = get_id(input);
 			value = get_token(input, id);
-			if (!value)
-				handle_error(MALLOC);
 			new = new_token(value, id);
-			if (!new)
-				handle_error(MALLOC);
 			deallocate_mem(value);
-			append_token(&tokens, new);
+			append_token(tokens, new);
 		}
 		input += token_len(input, id);
 	}

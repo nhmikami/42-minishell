@@ -67,24 +67,26 @@ void	levadd_back(t_lev **lev, t_lev *new)
 	return ;
 }
 
-char **separate_ev(char *str)
+char	**separate_ev(char *str)
 {
-	int	len_key;
-	int	len_value;
-	char *key;
-	char *value;
-	char **ev;
+	int		len_key;
+	char	*key;
+	char	*value;
+	char	**ev;
 
 	len_key = 0;
-	while(str[len_key] != '=' && str[len_key] != '\0')
+	while (str[len_key] && str[len_key] != '=')
 		len_key++;
 	key = allocate_mem(len_key + 2, sizeof(char));
 	ft_strlcpy(key, str, len_key + 1);
-	len_value = 0;
-	while(str[len_key + 1 + len_value] != '\0')
-		len_value++;
-	value = allocate_mem(len_value + 2, sizeof(char));
-	ft_strlcpy(value, str + len_key + 1, len_value + 1);
+	if (str[len_key] == '=')
+	{
+		value = ft_strdup(str + len_key + 1);
+		if (!value)
+			handle_error(MALLOC);
+	}
+	else
+		value = NULL;
 	ev = allocate_mem(3, sizeof(char *));
 	ev[0] = key;
 	ev[1] = value;
@@ -100,7 +102,7 @@ t_lev	**init_lev(t_data *minishell)
 	t_lev	**lev;
 
 	i = 0;
-	minishell->ev_num = arrlen(minishell->ev);
+	minishell->ev_num = ft_arrlen(minishell->ev);
 	lev = allocate_mem(1, sizeof(t_lev *));
 	if (!lev)
 		handle_error(MALLOC);
