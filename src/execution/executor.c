@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/07 15:37:09 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:50:58 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int	loop_tree(t_data *minishell, t_ast *ast)
 			i++;
 		if (!ast->args[i])
 			return (0);
-		res = is_builtin(minishell, ast->args + i);
+		res = is_builtin(minishell, &ast->args[i]);
 		if (res == -1)
-			res = exec_path(minishell, ast->args + i);
+			res = exec_path(minishell, &ast->args[i]);
 	}
 	else
 		res = exec_operators(minishell, ast);

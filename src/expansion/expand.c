@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/07 15:50:48 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:01:21 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,99 @@ char	*handle_dollar(t_data *minishell, char *str, int *i)
 	return (expanded);
 }
 
+/*char	**smart_split(char *str)
+{
+	char	**split;
+	char	*aux;
+	int		i;
+	int		start;
+	char	quote;
+
+	i = 0;
+	start = 0;
+	quote = '\0';
+	split = allocate_mem(1, sizeof(char *));
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') && quote == '\0')
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = '\0';
+		else if (str[i] == ' ' && quote == '\0')
+		{
+			if (i > start)
+			{
+				aux = remove_quotes(ft_substr(str, start, i - start));
+				split = ft_arrappend(split, aux);
+				deallocate_mem(aux);
+			}
+			while (str[i] == ' ')
+				i++;
+			start = i;
+			continue ;
+		}
+		i++;
+	}
+	if (i > start)
+	{
+		aux = remove_quotes(ft_substr(str, start, i - start));
+		split = ft_arrappend(split, aux);
+		deallocate_mem(aux);
+	}
+	return (split);
+}*/
+
+static int	update_quote(char c, char quote)
+{
+	if ((c == '\'' || c == '\"') && quote == '\0')
+		return (c);
+	else if (c == quote)
+		return (0);
+	return (quote);
+}
+
+static void	append_split(char **split, char *str, int start, int end)
+{
+	char	*tmp;
+
+	if (end > start)
+	{
+		tmp = ft_substr(str, start, end - start);
+		tmp = remove_quotes(tmp);
+		split = ft_arrappend(split, tmp);
+		deallocate_mem(tmp);
+	}
+}
+
+char	**smart_split(char *str)
+{
+	char	**split;
+	int		i;
+	int		start;
+	char	quote;
+
+	split = allocate_mem(1, sizeof(char *));
+	i = 0;
+	start = 0;
+	quote = '\0';
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		quote = update_quote(str[i], quote);
+		if (str[i] == ' ' && quote == '\0')
+		{
+			append_split(split, str, start, i);
+			while (str[i] == ' ')
+				i++;
+			start = i;
+			continue ;
+		}
+		i++;
+	}
+	append_split(split, str, start, i);
+	return (split);
+}
+
 char	**expansor(t_data *minishell, char **tokens)
 {
 	char	**args;
@@ -133,8 +226,9 @@ char	**expansor(t_data *minishell, char **tokens)
 		expanded = expand_tilde(minishell, expanded);
 		expanded = remove_comments(expanded);
 		expanded = expand_wildcards(expanded);
-		expanded = remove_quotes(expanded);
-		split = ft_split(expanded, '\t');
+		printf("%s\n", expanded);
+		split = smart_split(expanded);
+		printf("saiu\n");
 		deallocate_mem(expanded);
 		j = 0;
 		while (split[j])
@@ -145,6 +239,7 @@ char	**expansor(t_data *minishell, char **tokens)
 	ft_free_arr(tokens);
 	return (args);
 }
+
 /*
 char	**expansor(t_data *minishell, char **tokens)
 {

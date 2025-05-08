@@ -43,8 +43,8 @@ int	cd(t_lev **lev, char **args)
 		return (print_error(INVALID_OPTION, 2, "cd", args[flag]));
 	if (!args[1])
 		res = chdir(getenv("HOME"));
-    else if (args[2] && ft_strlen(args[2]) > 0)
-        return (print_error(EXCEED_ARG, 1, "cd", NULL));
+	else if (args[2] && ft_strlen(args[2]) > 0)
+		return (print_error(EXCEED_ARG, 1, "cd", NULL));
 	else
 		res = chdir(args[1]);
 	if (!res)

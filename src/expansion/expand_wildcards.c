@@ -70,7 +70,7 @@ static char	*arr_to_str(char **arr)
 			result = ft_strdup(arr[i]);
 		else
 		{
-			tab = ft_strdup("\t");
+			tab = ft_strdup(" ");
 			str = ft_strdup(arr[i]);
 			result = ft_strjoin_free(result, tab);
 			result = ft_strjoin_free(result, str);
