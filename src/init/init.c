@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-void	update_exit_status(t_data *minishell, int status)
-{
-	minishell->status = status;
-}
-
 t_data	*init(char **ev)
 {
 	t_data	*minishell;
@@ -25,12 +20,11 @@ t_data	*init(char **ev)
 	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
-	minishell->stdin_bk = dup(STDIN_FILENO);
-	minishell->stdout_bk = dup(STDOUT_FILENO);
-	if (minishell->stdin_bk == -1 || minishell->stdout_bk == -1)
+	minishell->fd_bk[0] = dup(STDIN_FILENO);
+	minishell->fd_bk[1] = dup(STDOUT_FILENO);
+	if (minishell->fd_bk[0] == -1 || minishell->fd_bk[1] == -1)
 		handle_error(DUP_ERR);
 	minishell->heredoc_num = 0;
-	minishell->fd_list = NULL; //tirar quando pipe der fork
 	minishell->status = 0;
 	return (minishell);
 }

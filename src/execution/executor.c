@@ -6,15 +6,15 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/07 15:37:09 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:43:26 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int exec_and(t_data* minishell, t_ast *ast)
+static int	exec_and(t_data *minishell, t_ast *ast)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (ast->left)
@@ -24,9 +24,9 @@ static int exec_and(t_data* minishell, t_ast *ast)
 	return (res);
 }
 
-static int exec_or(t_data *minishell, t_ast *ast)
+static int	exec_or(t_data *minishell, t_ast *ast)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (ast->left)
@@ -80,18 +80,10 @@ int	loop_tree(t_data *minishell, t_ast *ast)
 int	execute(t_data *minishell)
 {
 	int	res;
-	// int	stdin_copy;
-	// int	stdout_copy;
 
-	// stdin_copy = dup(STDIN_FILENO);
-	// stdout_copy = dup(STDOUT_FILENO);
-	// if (stdin_copy == -1 || stdout_copy == -1)
-	// 	handle_error(DUP_ERR);
 	res = loop_tree(minishell, *minishell->ast);
-	if (dup2(minishell->stdin_bk, STDIN_FILENO) == -1
-		|| dup2(minishell->stdout_bk, STDOUT_FILENO) == -1)
+	if (dup2(minishell->fd_bk[0], STDIN_FILENO) == -1
+		|| dup2(minishell->fd_bk[1], STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);
-	// close(stdin_copy);
-	// close(stdout_copy);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/07 15:36:15 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:28:02 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,23 @@
 # define FALSE 0
 # define TRUE 1
 
-#define YELLOW  "\001\033[0;33m\002"
-#define RESET   "\001\033[0m\002"
+# define YELLOW  "\001\033[0;33m\002"
+# define RESET   "\001\033[0m\002"
 
-/* ********************************* STRUCTS ********************************* */
+/* ******************************* STRUCTS ******************************* */
 typedef enum e_id
 {
-	NONE,				// =0
-	AND,				// &&
-	OR,					// ||
-	PIPE,				// |
-	PAREN_OPEN,			// (
-	PAREN_CLOSE,		// )
-	REDIR_IN,			// <
-	REDIR_OUT,			// >
-	HEREDOC,			// <<
-	APPEND,				// >>
-	ARG,				// todos os textos
-	CMD,				// não estou usando
-	FD					// não estou usando
+	NONE,
+	AND,
+	OR,	
+	PIPE,
+	PAREN_OPEN,
+	PAREN_CLOSE,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	APPEND,
+	ARG,
 }	t_id;
 
 typedef struct s_lev
@@ -117,14 +115,13 @@ typedef struct s_data
 	const char	*prompt;
 	int			status;
 	int			ev_num;
-	int			stdin_bk;
-	int			stdout_bk;
+	int			fd_bk[2];
 	int			heredoc_num;
 	char		**ev;
 	t_lev		**lev;
 	t_token		**token;
 	t_ast		**ast;
-	t_fd_list	*fd_list;
+	//t_fd_list	*fd_list;
 }	t_data;
 
 /* ********************************* GLOBAL ********************************* */
@@ -135,7 +132,7 @@ extern volatile int g_signal;
 
 /* ********************************* Events ********************************* */
 void	start(char **ev);
-void	finish(void);
+void	finish(t_data *minishell);
 
 /* *********************************** Lev ********************************** */
 t_lev	**init_lev(t_data *minishell);
@@ -191,6 +188,7 @@ t_token	*search_and_or(t_token *tokens);
 t_token	*search_pipe(t_token *tokens);
 t_token	*search_redir(t_token *tokens);
 void	parse_heredoc(t_data *minishell, t_token *op);
+void	remove_heredoc_files(t_data *minishell);
 void	free_ast(t_ast *node);
 int		check_syntax(t_token *token);
 int		count_args(t_token *tokens);
@@ -216,10 +214,7 @@ void	free_all(t_data *minishell);
 int		arrlen(char **arr);
 void	arrfree(char **arr);
 char	*concatenate(char *s1, char *s2, char *s3);
-void	close_pipe(int *pipe_fd);
-
-void	add_fd_list(t_data *minishell, int fd);
-void	clear_fd_list(t_data *minishell);
+void	close_fds(int *pipe_fd);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);

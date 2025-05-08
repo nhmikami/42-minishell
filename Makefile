@@ -23,27 +23,31 @@ LIBFT = lib
 
 # Directories
 SRC_DIR = src/
+BUT_DIR = src/builtins/
+ENV_DIR = src/ev/
+EXE_DIR = src/execution/
+EXP_DIR = src/expansion/
+INI_DIR = src/init/
+INP_DIR = src/input/
+PRS_DIR = src/parser/
 SIG_DIR = src/signals/
 TOK_DIR = src/tokenizer/
-PRS_DIR = src/parser/
-EXP_DIR = src/expansion/
-EXE_DIR = src/execution/
-BUILTIN_DIR = src/builtins/
-ENV_DIR = src/ev/
-UTILS_DIR = src/utils/
+UTI_DIR = src/utils/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c input.c init.c events.c) \
+SRC = $(addprefix $(SRC_DIR), main.c) \
 		$(addprefix $(SIG_DIR), signals.c) \
+		$(addprefix $(BUT_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
-		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
-		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_syntax.c parser_utils.c) \
-		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \
-		$(addprefix $(BUILTIN_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
-		$(addprefix $(UTILS_DIR), utils.c utils_error.c utils_fd.c)
+		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
+		$(addprefix $(INI_DIR), init.c) \
+		$(addprefix $(INP_DIR), input.c) \
+		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_syntax.c parser_utils.c) \
+		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \
+		$(addprefix $(UTI_DIR), utils.c utils_error.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Valgrind

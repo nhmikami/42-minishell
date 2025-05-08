@@ -18,7 +18,7 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 
 	if (dup2(fd[index], index) == -1)
 		handle_error(DUP_ERR);
-	close_pipe(fd);
+	close_fds(fd);
 	if (ast)
 	{
 		status = loop_tree(minishell, ast);
@@ -60,12 +60,10 @@ int	exec_pipe(t_data *minishell, t_ast *ast)
 	setup_signals(child_pid[1]);
 	if (child_pid[1] == 0)
 		pipe_child(minishell, ast->right, fd, STDIN_FILENO);
-	close_pipe(fd);
+	close_fds(fd);
 	wait_status(child_pid[0], &status[0]);
 	wait_status(child_pid[1], &status[1]);
-	while (wait(NULL) > 0) ;
 	if (status[0] == SIGINT + 128)
 		return (status[0]);
 	return (status[1]);
 }
-

@@ -62,8 +62,22 @@ void	parse_heredoc(t_data *minishell, t_token *op)
 	heredoc_write(op->next->value, fd);
 	close(fd);
 	interactive_signal();
-	dup2(minishell->stdin_bk, STDIN_FILENO);
+	dup2(minishell->fd_bk[0], STDIN_FILENO);
 	deallocate_mem(op->next->value);
 	op->next->value = ft_strdup(path);
 	return ;
+}
+
+void	remove_heredoc_files(t_data *minishell)
+{
+	char	*num;
+	char	*file_name;
+
+	while (minishell->heredoc_num >= 0)
+	{
+		num = ft_itoa(minishell->heredoc_num);
+		file_name = concatenate("heredoc", num, ".txt");
+		unlink(file_name);
+		minishell->heredoc_num--;
+	}
 }

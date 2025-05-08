@@ -19,8 +19,8 @@ void	exec_child(char *command, char **args, t_data *minishell)
 
 	if (stat(command, &file_stat) == 0)
 	{
-        envp = lev_to_array(minishell);
-        execve(command, args, envp);
+		envp = lev_to_array(minishell);
+		execve(command, args, envp);
 	}
 	print_error(EXECVE, -1, command, NULL);
 }
@@ -41,22 +41,18 @@ int	exec_path(t_data *minishell, char **args)
 	int		res;
 	char	*command;
 
-    res = 0;
+	res = 0;
 	command = find_command(minishell, args[0], &res);
 	if (!command)
 		return (print_command_error(res, args[0]));
 	pid = fork();
 	setup_signals(pid);
 	if (pid == 0)
-	{
-		clear_fd_list(minishell);
 		exec_child(command, args, minishell);
-	}
 	else if (pid > 0)
 		res = exec_parent(pid);
 	else if (pid == -1)
 		handle_error(FORK);
 	deallocate_mem(command);
-
 	return (res);
 }
