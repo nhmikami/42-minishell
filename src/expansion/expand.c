@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 15:57:11 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 00:07:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*remove_quotes(char *str)
+static char	*expand_tilde(t_data *minishell, char *str)
 {
-	int		i;
-	int		j;
-	char	*aux;
-	char	quote;
+	char	*home;
+	char	*expanded;
 
-	i = 0;
-	j = 0;
-	quote = '\0';
-	aux = allocate_mem(ft_strlen(str) + 1, sizeof(char));
-	while (str[i])
-	{
-		if ((str[i] == '\"' || str[i] == '\'') && quote == str[i])
-			quote = '\0';
-		else if ((str[i] == '\"' || str[i] == '\'') && quote == '\0')
-			quote = str[i];
-		else
-			aux[j++] = str[i];
-		i++;
-	}
-	aux[j] = '\0';
+	if (!str || str[0] != '~')
+		return (str);
+	home = get_key_value(*minishell->lev, "HOME");
+	if (!home)
+		return (str);
+	if (str[1] == '\0')
+		expanded = ft_strdup(home);
+	else if (str[1] == '/')
+		expanded = ft_strjoin(home, str + 1);
 	deallocate_mem(str);
-	return (aux);
+	return (expanded);
+}
+
+static char	*remove_comments(char *str)
+{
+	if (str[0] == '#')
+		return (ft_strdup(""));
+	return (str);
 }
 
 static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
@@ -87,9 +86,10 @@ char	**expansor(t_data *minishell, char **tokens)
 	while (tokens[i])
 	{
 		expanded = expand_token(minishell, tokens[i]);
+		expanded = expand_tilde(minishell, expanded);
+		expanded = remove_comments(expanded);
 		expanded = expand_wildcards(expanded);
-		expanded = remove_quotes(expanded);
-		split = ft_split(expanded, '\t');
+		split = split_tokens(expanded);
 		deallocate_mem(expanded);
 		j = 0;
 		while (split[j])
@@ -100,23 +100,3 @@ char	**expansor(t_data *minishell, char **tokens)
 	ft_free_arr(tokens);
 	return (args);
 }
-/*
-char	**expansor(t_data *minishell, char **tokens)
-{
-	char	*expanded;
-	int		i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		expanded = expand_token(minishell, tokens[i]);
-		expanded = expand_wildcards(expanded);
-		expanded = remove_quotes(expanded);
-		deallocate_mem(tokens[i]);
-		tokens[i] = ft_strdup(expanded);
-		deallocate_mem(expanded);
-		i++;
-	}
-	return (tokens);
-}
-*/

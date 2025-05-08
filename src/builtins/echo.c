@@ -13,7 +13,7 @@
 #include "minishell.h"
 //falta colocar  lidar com " e ' + expansão de variável
 
-int	echo(char **args) 
+int	echo(char **args)
 {
 	int	i;
 	int	newline;

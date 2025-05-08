@@ -42,7 +42,7 @@ SRC = $(addprefix $(SRC_DIR), main.c) \
 		$(addprefix $(BUT_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \
-		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_utils.c) \
+		$(addprefix $(EXP_DIR), expand.c expand_token.c expand_wildcards.c expand_split.c expand_utils.c) \
 		$(addprefix $(INI_DIR), init.c) \
 		$(addprefix $(INP_DIR), input.c) \
 		$(addprefix $(PRS_DIR), parser.c parser_ast.c parser_heredoc.c parser_search.c parser_syntax.c parser_utils.c) \

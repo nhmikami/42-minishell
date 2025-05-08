@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 11:09:58 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:19:41 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ char	*handle_dollar(t_data *minishell, char *str, int *i);
 char	*get_key_value(t_lev *lev, char *key);
 char	*ft_strjoin_free(char *s1, char *s2);
 char	**ft_arrappend(char **arr, char *new_str);
+char	**split_tokens(char *str);
 
 /* ********************************* Signals ******************************** */
 void	interactive_signal(void);
