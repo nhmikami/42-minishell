@@ -20,9 +20,17 @@ int	print_lev(t_lev **lev, int ordered)
 	while (node)
 	{
 		if (ordered)
-			printf("declare -x %s=%s\n", node->key, node->value);
+		{
+			if (ft_strlen(node->value) > 0)
+				printf("declare -x %s=%s\n", node->key, node->value);
+			else
+				printf("declare -x %s\n", node->key);
+		}
 		else
-			printf("%s=%s\n", node->key, node->value);
+		{
+			if (ft_strlen(node->value) > 0)
+				printf("%s=%s\n", node->key, node->value);
+		}
 		node = node->next;
 	}
 	return (0);
