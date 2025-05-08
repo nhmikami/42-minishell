@@ -8,7 +8,7 @@ Minishell is a project that aims to recreate a simplified version of the Bash sh
 *  Execution: traverses the parsed structure, setting up input/output redirections, managing pipes between commands, and launching the appropriate built-in functions or external programs
 *  Signal handling: ensures the shell remains responsive and behaves correctly in interactive mode, handling user interruptions gracefully
 
-## Features:
+## Features
 *  Display a prompt when waiting for a new command
 *  Have a working history
 *  Execute commands (using a relative or an absolute path)
