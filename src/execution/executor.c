@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/07 16:50:58 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/08 00:08:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int exec_and(t_data* minishell, t_ast *ast)
+static int	exec_and(t_data* minishell, t_ast *ast)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (ast->left)
@@ -24,9 +24,9 @@ static int exec_and(t_data* minishell, t_ast *ast)
 	return (res);
 }
 
-static int exec_or(t_data *minishell, t_ast *ast)
+static int	exec_or(t_data *minishell, t_ast *ast)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (ast->left)
