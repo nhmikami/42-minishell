@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/08 11:18:58 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:34:44 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static int	exec_and(t_data *minishell, t_ast *ast)
 	res = 0;
 	if (ast->left)
 		res = loop_tree(minishell, ast->left);
+	if (dup2(minishell->fd_bk[0], STDIN_FILENO) == -1
+		|| dup2(minishell->fd_bk[1], STDOUT_FILENO) == -1)
+		handle_error(DUP_ERR);
 	if (res == 0 && ast->right)
 		res = loop_tree(minishell, ast->right);
 	return (res);
@@ -31,6 +34,9 @@ static int	exec_or(t_data *minishell, t_ast *ast)
 	res = 0;
 	if (ast->left)
 		res = loop_tree(minishell, ast->left);
+	if (dup2(minishell->fd_bk[0], STDIN_FILENO) == -1
+		|| dup2(minishell->fd_bk[1], STDOUT_FILENO) == -1)
+		handle_error(DUP_ERR);
 	if (res != 0 && ast->right)
 		res = loop_tree(minishell, ast->right);
 	return (res);

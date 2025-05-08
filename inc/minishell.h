@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 11:19:41 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:20:24 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define USAGE "Usage: ./minishell"
 # define INPUT "Error: When reading input"
-//# define SYNTAX "Error: Invalid syntax"
 # define EV "Error: Could not allocate memory to environment variables"
 # define MALLOC "Error: When using malloc"
 # define BUILTIN "Error: In Builtin function"

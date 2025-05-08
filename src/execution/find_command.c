@@ -54,36 +54,6 @@ char	**atribute_paths(t_data *minishell)
 	return (paths);
 }
 
-// char	*find_command(t_data *minishell, char *cmd, int *res)
-// {
-// 	char	**paths;
-// 	char	*full_path;
-// 	int		i;
-
-// 	full_path = verify_cmd(cmd, res);
-// 	if (full_path)
-// 		return (full_path);
-// 	if (*res != 0)
-// 		return (NULL);
-// 	paths = atribute_paths(minishell);
-// 	if (!paths)
-// 		return (NULL);
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		full_path = concatenate(paths[i], "/", cmd);
-// 		if (access(full_path, X_OK) == 0)
-// 		{
-// 			ft_free_arr(paths);
-// 			return (full_path);
-// 		}
-// 		deallocate_mem(full_path);
-// 		i++;
-// 	}
-// 	ft_free_arr(paths);
-// 	return (NULL);
-// }
-
 char	*find_command(t_data *minishell, char *cmd, int *res)
 {
 	char	**paths;
