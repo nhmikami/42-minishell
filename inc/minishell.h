@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 10:28:02 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:09:58 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,10 @@ typedef struct s_data
 	t_lev		**lev;
 	t_token		**token;
 	t_ast		**ast;
-	//t_fd_list	*fd_list;
 }	t_data;
 
 /* ********************************* GLOBAL ********************************* */
-extern volatile int g_signal;
-
+extern volatile int	g_signal;
 
 /* ******************************** FUNCTIONS ******************************* */
 
@@ -144,7 +142,7 @@ void	free_lev(t_lev **lev);
 char	**lev_to_array(t_data *minishell);
 int		print_lev(t_lev **lev, int ordered);
 int		print_lev_ord(t_data *minishell);
-char 	**separate_ev(char *str);
+char	**separate_ev(char *str);
 
 /* ********************************** Init ********************************** */
 t_data	*init(char **ev);
@@ -174,7 +172,7 @@ int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 
 /* ******************************** Tokenizer ******************************* */
-t_token *tokenizer(char *input);
+t_token	*tokenizer(char *input);
 t_token	*new_token(char *value, int id);
 void	append_token(t_token **tokens, t_token *new);
 void	free_tokens(t_token *tokens);

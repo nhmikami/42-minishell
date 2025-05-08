@@ -70,15 +70,6 @@ void	finish(t_data *minishell)
 	exit(exit_status);
 }
 
-// void	start(char **ev)
-// {
-// 	t_data	*minishell;
-
-// 	minishell = init(ev);
-// 	run(minishell);
-// 	finish(minishell);
-// }
-
 int	main(int ac, char **av, char **ev)
 {
 	t_data	*minishell;
