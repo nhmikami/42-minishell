@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 11:20:24 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:57:44 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,9 @@ char	**ft_arrappend(char **arr, char *new_str);
 char	**split_tokens(char *str);
 
 /* ********************************* Signals ******************************** */
+void	handle_sigint(int sig);
+void	handle_redo_line(int sig);
+void	handle_heredoc(int sig);
 void	interactive_signal(void);
 void	heredoc_signal(void);
 void	setup_signals(int pid);

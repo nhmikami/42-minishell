@@ -38,7 +38,7 @@ INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
 SRC = $(addprefix $(SRC_DIR), main.c) \
-		$(addprefix $(SIG_DIR), signals.c) \
+		$(addprefix $(SIG_DIR), handle_signal.c signals.c) \
 		$(addprefix $(BUT_DIR), builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c) \
 		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
 		$(addprefix $(EXE_DIR), find_command.c exec_path.c exec_pipe.c exec_redir.c executor.c) \

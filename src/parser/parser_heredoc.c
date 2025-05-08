@@ -78,6 +78,10 @@ void	remove_heredoc_files(t_data *minishell)
 		num = ft_itoa(minishell->heredoc_num);
 		file_name = concatenate("heredoc", num, ".txt");
 		unlink(file_name);
+		deallocate_mem(num);
+		deallocate_mem(file_name);
+		if (minishell->heredoc_num == 0)
+			break ;
 		minishell->heredoc_num--;
 	}
 }

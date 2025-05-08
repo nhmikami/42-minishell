@@ -47,8 +47,8 @@ int	exec_exit(t_data *minishell, char **args)
 			else if (exit_num > 255 || exit_num < 0)
 				exit_num = big_exit_num(exit_num);
 		}
+		update_exit_status(minishell, exit_num);
 	}
-	update_exit_status(minishell, exit_num);
 	finish(minishell);
 	return (exit_num);
 }
