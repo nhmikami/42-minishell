@@ -42,7 +42,7 @@ int	cd(t_lev **lev, char **args)
 	flag = hasflag(args);
 	if (flag)
 		return (print_error(INVALID_OPTION, 2, "cd", args[flag]));
-	if (!args[1])
+	if (!args[1] || !ft_strcmp(args[1], "~"))
 		res = chdir(getenv("HOME"));
 	else if (args[2] && ft_strlen(args[2]) > 0)
 		return (print_error(EXCEED_ARG, 1, "cd", NULL));
