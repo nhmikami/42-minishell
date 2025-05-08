@@ -21,7 +21,6 @@ void	update_exit_status(t_data *minishell, int status)
 
 void	start_iteration(t_data *minishell)
 {
-	g_signal = 0;
 	interactive_signal();
 	if (minishell->input)
 		free(minishell->input);
@@ -45,14 +44,18 @@ static void	run(t_data *minishell)
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
-				if (g_signal == 0)
-					update_exit_status(minishell, execute(minishell));
-				else
+				if (g_signal == SIGINT)
+				{
 					update_exit_status(minishell, SIGINT + 128);
+					g_signal = 0;
+				}
+				update_exit_status(minishell, execute(minishell));
 				free_ast(root);
 				minishell->ast = NULL;
 			}
 		}
+		else if (g_signal == SIGINT)
+			printf("signal int\n");
 	}
 }
 
@@ -60,7 +63,10 @@ void	finish(t_data *minishell)
 {
 	int	exit_status;
 
-	exit_status = minishell->status;
+	if (g_signal == SIGINT)
+		exit_status = 130;
+	else
+		exit_status = minishell->status;
 	close_fds(minishell->fd_bk);
 	clear_mem();
 	exit(exit_status);

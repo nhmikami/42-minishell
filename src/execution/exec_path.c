@@ -32,6 +32,11 @@ int	exec_parent(pid_t pid)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", STDOUT_FILENO);
+	}
 	return (128 + WTERMSIG(status));
 }
 

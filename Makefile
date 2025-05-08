@@ -40,7 +40,7 @@ INCLUDES = -I inc/ -I $(LIBFT)
 # Source files and object files
 SRC = $(addprefix $(SRC_DIR), main.c) \
 		$(addprefix $(INI_DIR), init.c) \
-		$(addprefix $(SIG_DIR), signals.c) \
+		$(addprefix $(SIG_DIR), signals.c handle_signal.c) \
 		$(addprefix $(ENV_DIR), ev_init.c ev_print.c ev_utils.c) \
 		$(addprefix $(INP_DIR), input.c input_check.c input_syntax.c) \
 		$(addprefix $(TOK_DIR), tokenizer.c token_utils.c) \

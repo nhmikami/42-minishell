@@ -35,11 +35,7 @@ static void	wait_status(pid_t pid, int *status)
 	else if (*status == 1)
 		return ;
 	else if (WIFSIGNALED(*status))
-	{
-		if (*status == SIGINT)
-			write(STDIN_FILENO, "\n", 1);
 		*status = WTERMSIG(*status) + 128;
-	}
 }
 
 int	exec_pipe(t_data *minishell, t_ast *ast)
