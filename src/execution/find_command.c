@@ -42,13 +42,13 @@ char	*verify_cmd(char *cmd, int *res)
 
 char	**atribute_paths(t_data *minishell)
 {
-	t_lev	*path;
+	char	*path;
 	char	**paths;
 
-	path = findlev(*minishell->lev, "PATH");
+	path = get_key_value(*minishell->lev, "PATH");
 	if (!path)
 		return (NULL);
-	paths = ft_split(path->value, ':');
+	paths = ft_split(path, ':');
 	if (!paths)
 		return (NULL);
 	return (paths);

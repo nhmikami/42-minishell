@@ -22,14 +22,14 @@ int	print_lev(t_lev **lev, int ordered)
 		if (ordered)
 		{
 			if (ft_strlen(node->value) > 0)
-				printf("declare -x %s=%s\n", node->key, node->value);
+				printf("declare -x %s%s\n", node->key, node->value);
 			else
 				printf("declare -x %s\n", node->key);
 		}
 		else
 		{
 			if (ft_strlen(node->value) > 0)
-				printf("%s=%s\n", node->key, node->value);
+				printf("%s%s\n", node->key, node->value);
 		}
 		node = node->next;
 	}

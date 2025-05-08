@@ -47,9 +47,16 @@ char	**ft_arrappend(char **arr, char *new_str)
 char	*get_key_value(t_lev *lev, char *key)
 {
 	t_lev	*env_var;
+	char	*tmp;
 
 	env_var = findlev(lev, key);
 	if (!env_var || !env_var->value)
 		return (NULL);
+	if (env_var->value[0] == '=')
+		tmp = ft_strdup(env_var->value + 1);
+	else
+		tmp = ft_strdup(env_var->value);
+	deallocate_mem(env_var->value);
+	env_var->value = tmp;
 	return (env_var->value);
 }
