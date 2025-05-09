@@ -49,8 +49,7 @@ static int	get_std(int id)
 {
 	if (id == REDIR_OUT || id == APPEND)
 		return (STDOUT_FILENO);
-	else
-		return (STDIN_FILENO);
+	return (STDIN_FILENO);
 }
 
 int	exec_redir(t_data *minishell, t_ast *ast, int id)

@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:01:31 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 15:34:04 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:00:27 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char	*expand_tilde(t_data *minishell, char *str)
 	char	*home;
 	char	*expanded;
 
+	expanded = NULL;
 	if (!str || str[0] != '~')
 		return (str);
 	home = get_key_value(*minishell->lev, "HOME");
@@ -26,15 +27,10 @@ static char	*expand_tilde(t_data *minishell, char *str)
 		expanded = ft_strdup(home);
 	else if (str[1] == '/')
 		expanded = ft_strjoin(home, str + 1);
+	else
+		return (str);
 	deallocate_mem(str);
 	return (expanded);
-}
-
-static char	*remove_comments(char *str)
-{
-	if (str[0] == '#')
-		return (ft_strdup(""));
-	return (str);
 }
 
 static char	*handle_dollar_special_cases(t_data *minishell, char c, int *i)
@@ -85,9 +81,10 @@ char	**expansor(t_data *minishell, char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
+		if (tokens[i][0] == '#')
+			break ;
 		expanded = expand_token(minishell, tokens[i]);
 		expanded = expand_tilde(minishell, expanded);
-		expanded = remove_comments(expanded);
 		expanded = expand_wildcards(expanded);
 		split = split_tokens(expanded);
 		deallocate_mem(expanded);

@@ -54,8 +54,6 @@ static void	run(t_data *minishell)
 				minishell->ast = NULL;
 			}
 		}
-		else if (g_signal == SIGINT)
-			printf("signal int\n");
 	}
 }
 

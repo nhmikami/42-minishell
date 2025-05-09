@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 20:22:55 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:21:20 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ char	**split_tokens(char *str);
 void	handle_sigint(int sig);
 void	handle_redo_line(int sig);
 void	handle_heredoc(int sig);
+void	handle_sigpipe(int sig);
 void	interactive_signal(void);
 void	heredoc_signal(void);
 void	setup_signals(int pid);

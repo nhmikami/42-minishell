@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:10:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/08 20:17:56 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:27:04 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,11 @@ void	handle_heredoc(int sig)
 	rl_on_new_line();
 	close(STDIN_FILENO);
 	g_signal = SIGINT;
+}
+
+void	handle_sigpipe(int sig)
+{
+	(void)sig;
+	clear_mem();
+	exit(128 + SIGPIPE);
 }

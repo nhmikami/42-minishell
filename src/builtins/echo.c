@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-//falta colocar  lidar com " e ' + expansão de variável
 
 int	echo(char **args)
 {

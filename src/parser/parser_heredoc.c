@@ -106,7 +106,7 @@ void	remove_heredoc_files(t_data *minishell)
 		deallocate_mem(num);
 		deallocate_mem(file_name);
 		if (minishell->heredoc_num == 0)
-			break;
+			break ;
 		minishell->heredoc_num--;
 	}
 }
