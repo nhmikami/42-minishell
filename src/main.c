@@ -17,6 +17,7 @@ volatile sig_atomic_t	g_signal;
 void	update_exit_status(t_data *minishell, int status)
 {
 	minishell->status = status;
+	g_signal = 0;
 }
 
 void	start_iteration(t_data *minishell)
@@ -45,17 +46,12 @@ static void	run(t_data *minishell)
 					handle_error(MALLOC);
 				minishell->ast = &root;
 				if (g_signal == SIGINT)
-				{
 					update_exit_status(minishell, SIGINT + 128);
-					g_signal = 0;
-				}
 				update_exit_status(minishell, execute(minishell));
 				free_ast(root);
 				minishell->ast = NULL;
 			}
 		}
-		else if (g_signal == SIGINT)
-			printf("signal int\n");
 	}
 }
 

@@ -31,6 +31,7 @@ t_token	*split_token_list(t_token *tokens, t_token *op)
 {
 	t_token	*right;
 
+	right = NULL;
 	if (!tokens || !op)
 		return (NULL);
 	if (op->next)

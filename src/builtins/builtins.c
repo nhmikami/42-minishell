@@ -26,6 +26,21 @@ int	hasflag(char **args)
 	return (0);
 }
 
+int	validade_identifier(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '_' || ft_isalpha(str[i]))
+	{
+		while (str[i] && str[i] != '=' && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
+		if (str[i] == '=' || !str[i])
+			return (1);
+	}
+	return (0);
+}
+
 int	is_builtin(t_data *minishell, char **args)
 {
 	if (!ft_strncmp(args[0], "echo", 4))

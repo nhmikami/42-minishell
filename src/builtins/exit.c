@@ -37,7 +37,7 @@ int	exec_exit(t_data *minishell, char **args)
 	{
 		if (args[2])
 			return (print_error(EXCEED_ARG, 1, "exit", NULL));
-		else if (!ft_isnum(args[1]))
+		else if (!ft_isnum(args[1]) || ft_strlen(args[1]) > 18)
 			exit_num = print_error(NUMERIC_ARG, 2, "exit", args[1]);
 		else
 		{

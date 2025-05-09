@@ -15,8 +15,8 @@ NAME = minishell
 NAME_BONUS = minishell_bonus
 
 # Compilers and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lncurses
 
 # Library

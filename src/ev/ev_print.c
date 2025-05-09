@@ -28,7 +28,7 @@ int	print_lev(t_lev **lev, int ordered)
 		}
 		else
 		{
-			if (node->value)
+			if (ft_strlen(node->value) > 0)
 				printf("%s=%s\n", node->key, node->value);
 		}
 		node = node->next;

@@ -17,11 +17,13 @@ void	exec_child(char *command, char **args, t_data *minishell)
 	struct stat	file_stat;
 	char		**envp;
 
+	close_fds(minishell->fd_bk);
 	if (stat(command, &file_stat) == 0)
 	{
 		envp = lev_to_array(minishell);
 		execve(command, args, envp);
 	}
+	restore_fds(minishell->fd_bk);
 	print_error(EXECVE, -1, command, NULL);
 }
 

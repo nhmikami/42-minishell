@@ -12,31 +12,12 @@
 
 #include "minishell.h"
 
-int	validade_identifier(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '_' || ft_isalpha(str[i]))
-	{
-		while (str[i] && str[i] != '=' && (ft_isalnum(str[i]) || str[i] == '_'))
-			i++;
-		if (str[i] == '=' || !str[i])
-			return (1);
-	}
-	return (0);
-}
-
-int	export(t_data *minishell, char **args)
+static void	exec_export(t_data *minishell, char *arg)
 {
 	t_lev	*node;
 	char	**key_value;
 
-	if (!args[1] || !args[1][0])
-		return (print_lev_ord(minishell));
-	if (!validade_identifier(args[1]))
-		return (print_error(INVALID_ID, 1, "export", args[1]));
-	key_value = separate_ev(args[1]);
+	key_value = separate_ev(arg);
 	node = findlev(*minishell->lev, key_value[0]);
 	if (node)
 	{
@@ -50,5 +31,24 @@ int	export(t_data *minishell, char **args)
 		minishell->ev_num++;
 	}
 	ft_free_arr(key_value);
-	return (0);
+}
+
+int	export(t_data *minishell, char **args)
+{
+	int		i;
+	int		res;
+
+	i = 1;
+	res = 0;
+	if (!args[i] || !args[i][0])
+		return (print_lev_ord(minishell));
+	while (args[i] && args[i][0])
+	{
+		if (!validade_identifier(args[i]))
+			res = print_error(INVALID_ID, 1, "export", args[i]);
+		else
+			exec_export(minishell, args[i]);
+		i++;
+	}
+	return (res);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 20:22:55 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:13:12 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		pwd(void);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 int		hasflag(char **args);
+int		validade_identifier(char *str);
 
 /* ******************************** Tokenizer ******************************* */
 t_token	**tokenizer(char *input);
@@ -217,6 +218,7 @@ void	free_all(t_data *minishell);
 /* ********************************** Utils ********************************* */
 char	*concatenate(char *s1, char *s2, char *s3);
 void	close_fds(int *pipe_fd);
+void	restore_fds(int *fd);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);
