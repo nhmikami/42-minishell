@@ -81,7 +81,7 @@ char	**separate_ev(char *str)
 	ft_strlcpy(key, str, len_key + 1);
 	if (str[len_key] == '=')
 	{
-		value = ft_strdup(str + len_key);
+		value = ft_strdup(str + len_key + 1);
 		if (!value)
 			handle_error(MALLOC);
 	}
