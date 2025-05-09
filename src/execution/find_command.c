@@ -75,10 +75,9 @@ char	*find_command(t_data *minishell, char *cmd, int *res)
 		if (access(full_path, X_OK) == 0)
 			break ;
 		deallocate_mem(full_path);
+		full_path = NULL;
 		i++;
 	}
 	ft_free_arr(paths);
-	if (!paths[i])
-		return (NULL);
 	return (full_path);
 }
