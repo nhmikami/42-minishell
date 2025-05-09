@@ -20,6 +20,7 @@ static void	pipe_child(t_data *minishell, t_ast *ast, int fd[2], int index)
 		handle_error(DUP_ERR);
 	close_fds(fd);
 	status = loop_tree(minishell, ast);
+	close_fds(minishell->fd_bk);
 	clear_mem();
 	exit(status);
 }
