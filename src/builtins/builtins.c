@@ -48,7 +48,7 @@ int	is_builtin(t_data *minishell, char **args)
 	if (!ft_strncmp(args[0], "cd", 2))
 		return (cd(minishell->lev, args));
 	if (!ft_strncmp(args[0], "pwd", 3))
-		return (pwd());
+		return (pwd(minishell));
 	if (!ft_strncmp(args[0], "export", 6))
 		return (export(minishell, args));
 	if (!ft_strncmp(args[0], "unset", 5))

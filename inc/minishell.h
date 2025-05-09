@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:12 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:42:21 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int		echo(char **args);
 int		env(t_lev **lev, char **args);
 int		exec_exit(t_data *minishell, char **args);
 int		export(t_data *minishell, char **args);
-int		pwd(void);
+int		pwd(t_data *minishell);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 int		hasflag(char **args);

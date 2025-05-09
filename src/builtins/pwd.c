@@ -12,12 +12,20 @@
 
 #include "minishell.h"
 
-int	pwd(void)
+int	pwd(t_data *minishell)
 {
-	char	path[1024];
+	char	path1[1024];
+	char	*path2;
 
-	if (!getcwd(path, 1024))
-		return (print_error(INVALID_PATH, 1, "pwd", NULL));
-	printf("%s\n", path);
+	if (!getcwd(path1, 1024))
+	{
+		path2 = get_key_value(*minishell->lev, "PWD");
+		if (!path2)
+			return (print_error(INVALID_PATH, 1, "pwd", NULL));
+		else
+			printf("%s\n", path2);
+	}
+	else
+		printf("%s\n", path1);
 	return (0);
 }
