@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/12 10:44:03 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:15:21 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void	free_all(t_data *minishell);
 char	*concatenate(char *s1, char *s2, char *s3);
 void	close_fds(int *pipe_fd);
 void	restore_fds(int *fd);
+int		skip_zeros(char *str);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);

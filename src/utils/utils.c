@@ -38,3 +38,13 @@ void	restore_fds(int *fd)
 	if (fd[0] == -1 || fd[1] == -1)
 		handle_error(DUP_ERR);
 }
+
+int	skip_zeros(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] == '0')
+		i++;
+	return (ft_strlen(&str[i]));
+}

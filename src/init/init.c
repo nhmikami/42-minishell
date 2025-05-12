@@ -20,8 +20,10 @@ t_data	*init(char **ev)
 	minishell->prompt = YELLOW "minishell$ " RESET;
 	minishell->ev = ev;
 	minishell->lev = init_lev(minishell);
-	minishell->fd_bk[0] = -1;
-	minishell->fd_bk[1] = -1;
+	minishell->fd_bk[0] = dup(STDIN_FILENO);
+	minishell->fd_bk[1] = dup(STDOUT_FILENO);
+	if (minishell->fd_bk[0] == -1 || minishell->fd_bk[1] == -1)
+		handle_error(DUP_ERR);
 	minishell->heredoc_num = 0;
 	minishell->status = 0;
 	return (minishell);

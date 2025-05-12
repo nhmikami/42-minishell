@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/09 18:27:41 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:39:32 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ int	execute(t_data *minishell)
 {
 	int	res;
 
-	restore_fds(minishell->fd_bk);
 	res = loop_tree(minishell, *minishell->ast);
 	if (dup2(minishell->fd_bk[0], STDIN_FILENO) == -1
 		|| dup2(minishell->fd_bk[1], STDOUT_FILENO) == -1)
 		handle_error(DUP_ERR);
 	close_fds(minishell->fd_bk);
+	restore_fds(minishell->fd_bk);
 	return (res);
 }
