@@ -44,6 +44,8 @@ int	skip_zeros(char *str)
 	int i;
 
 	i = 0;
+	if (str[i] == '-')
+		i++;
 	while (str[i] == '0')
 		i++;
 	return (ft_strlen(&str[i]));
