@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/09 17:21:20 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/12 10:44:03 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,11 @@ int		echo(char **args);
 int		env(t_lev **lev, char **args);
 int		exec_exit(t_data *minishell, char **args);
 int		export(t_data *minishell, char **args);
-int		pwd(void);
+int		pwd(t_data *minishell);
 int		unset(t_data *minishell, char **args);
 int		is_builtin(t_data *minishell, char **args);
 int		hasflag(char **args);
+int		validade_identifier(char *str);
 
 /* ******************************** Tokenizer ******************************* */
 t_token	**tokenizer(char *input);
@@ -218,6 +219,7 @@ void	free_all(t_data *minishell);
 /* ********************************** Utils ********************************* */
 char	*concatenate(char *s1, char *s2, char *s3);
 void	close_fds(int *pipe_fd);
+void	restore_fds(int *fd);
 
 /* ********************************** Error ********************************* */
 void	handle_error(char *error);

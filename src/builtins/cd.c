@@ -29,7 +29,7 @@ int	update_pwds(t_lev *lev)
 	old_pwd->value = ft_strdup(pwd->value);
 	getcwd(path, 1024);
 	deallocate_mem(pwd->value);
-	pwd->value = ft_strjoin("=", path);
+	pwd->value = ft_strdup(path);
 	deallocate_mem(path);
 	return (0);
 }

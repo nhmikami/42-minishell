@@ -30,3 +30,11 @@ void	close_fds(int *fd)
 	if (fd[1] != -1)
 		close(fd[1]);
 }
+
+void	restore_fds(int *fd)
+{
+	fd[0] = dup(STDIN_FILENO);
+	fd[1] = dup(STDOUT_FILENO);
+	if (fd[0] == -1 || fd[1] == -1)
+		handle_error(DUP_ERR);
+}
