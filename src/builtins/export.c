@@ -40,8 +40,10 @@ int	export(t_data *minishell, char **args)
 
 	i = 1;
 	res = 0;
-	if (!args[i] || !args[i][0])
+	if (!args[i])
 		return (print_lev_ord(minishell));
+	if (args[1] && args[1][0] == 0)
+		return (print_error(INVALID_ID, 1, "export", args[1]));
 	while (args[i] && args[i][0])
 	{
 		if (!validade_identifier(args[i]))

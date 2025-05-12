@@ -32,7 +32,7 @@ void	setup_signals(int pid)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		signal(SIGPIPE, SIG_IGN);
+		signal(SIGPIPE, handle_sigpipe);
 	}
 	else
 	{

@@ -20,7 +20,20 @@ void	update_exit_status(t_data *minishell, int status)
 	g_signal = 0;
 }
 
-void	start_iteration(t_data *minishell)
+void	finish(t_data *minishell)
+{
+	int	exit_status;
+
+	if (g_signal == SIGINT)
+		exit_status = 130;
+	else
+		exit_status = minishell->status;
+	close_fds(minishell->fd_bk);
+	clear_mem();
+	exit(exit_status);
+}
+
+static void	start_iteration(t_data *minishell)
 {
 	interactive_signal();
 	if (minishell->input)
@@ -53,19 +66,6 @@ static void	run(t_data *minishell)
 			}
 		}
 	}
-}
-
-void	finish(t_data *minishell)
-{
-	int	exit_status;
-
-	if (g_signal == SIGINT)
-		exit_status = 130;
-	else
-		exit_status = minishell->status;
-	close_fds(minishell->fd_bk);
-	clear_mem();
-	exit(exit_status);
 }
 
 int	main(int ac, char **av, char **ev)
