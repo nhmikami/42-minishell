@@ -24,15 +24,15 @@ LIBFT = lib
 
 # Directories
 SRC_DIR = src/
-BUT_DIR = src/builtins/
-ENV_DIR = src/ev/
-EXE_DIR = src/execution/
-EXP_DIR = src/expansion/
 INI_DIR = src/init/
-INP_DIR = src/input/
-PRS_DIR = src/parser/
 SIG_DIR = src/signals/
+ENV_DIR = src/ev/
+INP_DIR = src/input/
 TOK_DIR = src/tokenizer/
+PRS_DIR = src/parser/
+EXP_DIR = src/expansion/
+BUT_DIR = src/builtins/
+EXE_DIR = src/execution/
 UTI_DIR = src/utils/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:10:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/12 17:35:44 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:41:19 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ void	handle_heredoc(int sig)
 	rl_on_new_line();
 	close(STDIN_FILENO);
 	g_signal = SIGINT;
+}
+
+void	handle_sigpipe(int sig)
+{
+	(void)sig;
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/12 12:15:21 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:41:30 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,51 +127,37 @@ extern volatile int	g_signal;
 
 /* ******************************** FUNCTIONS ******************************* */
 
-/* ********************************* Events ********************************* */
-void	start(char **ev);
-void	finish(t_data *minishell);
-
-/* *********************************** Lev ********************************** */
-t_lev	**init_lev(t_data *minishell);
-t_lev	*new_lev(char **arr_ev);
-void	levadd_back(t_lev **lev, t_lev *new);
-t_lev	*findlev(t_lev *lev, char *key);
-int		levdel(t_lev **lev, char *key);
-void	free_lev(t_lev **lev);
-char	**lev_to_array(t_data *minishell);
-int		print_lev(t_lev **lev, int ordered);
-int		print_lev_ord(t_data *minishell);
-char	**separate_ev(char *str);
-
 /* ********************************** Init ********************************** */
 t_data	*init(char **ev);
 void	update_exit_status(t_data *minishell, int status);
+void	finish(t_data *minishell);
+
+/* ********************************* Signals ******************************** */
+void	handle_sigint(int sig);
+void	handle_redo_line(int sig);
+void	handle_heredoc(int sig);
+void	handle_sigpipe(int sig);
+void	interactive_signal(void);
+void	heredoc_signal(void);
+void	setup_signals(int pid);
+
+/* *********************************** Env ********************************** */
+t_lev	**init_lev(t_data *minishell);
+t_lev	*new_lev(char **arr_ev);
+t_lev	*findlev(t_lev *lev, char *key);
+void	levadd_back(t_lev **lev, t_lev *new);
+void	free_lev(t_lev **lev);
+int		levdel(t_lev **lev, char *key);
+int		print_lev(t_lev **lev, int ordered);
+int		print_lev_ord(t_data *minishell);
+char	**lev_to_array(t_data *minishell);
+char	**separate_ev(char *str);
 
 /* ********************************** Input ********************************* */
 char	*get_input(t_data *minishell);
 int		check_input_syntax(char *str);
 int		check_empty_input(char *str);
 int		check_syntax(t_data *minishell, t_token *token);
-
-/* ******************************** Execution ******************************* */
-char	*find_command(t_data *minishell, char *cmd, int *res);
-int		exec_path(t_data *minishell, char **args);
-int		loop_tree(t_data *minishell, t_ast *ast);
-int		exec_pipe(t_data *minishell, t_ast *ast);
-int		exec_redir(t_data *minishell, t_ast *ast, int id);
-int		execute(t_data *minishell);
-
-/* ********************************* Builtin ******************************** */
-int		cd(t_lev **lev, char **args);
-int		echo(char **args);
-int		env(t_lev **lev, char **args);
-int		exec_exit(t_data *minishell, char **args);
-int		export(t_data *minishell, char **args);
-int		pwd(t_data *minishell);
-int		unset(t_data *minishell, char **args);
-int		is_builtin(t_data *minishell, char **args);
-int		hasflag(char **args);
-int		validade_identifier(char *str);
 
 /* ******************************** Tokenizer ******************************* */
 t_token	**tokenizer(char *input);
@@ -204,17 +190,25 @@ char	*ft_strjoin_free(char *s1, char *s2);
 char	**ft_arrappend(char **arr, char *new_str);
 char	**split_tokens(char *str);
 
-/* ********************************* Signals ******************************** */
-void	handle_sigint(int sig);
-void	handle_redo_line(int sig);
-void	handle_heredoc(int sig);
-void	handle_sigpipe(int sig);
-void	interactive_signal(void);
-void	heredoc_signal(void);
-void	setup_signals(int pid);
+/* ******************************** Execution ******************************* */
+char	*find_command(t_data *minishell, char *cmd, int *res);
+int		exec_path(t_data *minishell, char **args);
+int		loop_tree(t_data *minishell, t_ast *ast);
+int		exec_pipe(t_data *minishell, t_ast *ast);
+int		exec_redir(t_data *minishell, t_ast *ast, int id);
+int		execute(t_data *minishell);
 
-/* ********************************** Main ********************************** */
-void	free_all(t_data *minishell);
+/* ********************************* Builtin ******************************** */
+int		cd(t_lev **lev, char **args);
+int		echo(char **args);
+int		env(t_lev **lev, char **args);
+int		exec_exit(t_data *minishell, char **args);
+int		export(t_data *minishell, char **args);
+int		pwd(t_data *minishell);
+int		unset(t_data *minishell, char **args);
+int		is_builtin(t_data *minishell, char **args);
+int		hasflag(char **args);
+int		validade_identifier(char *str);
 
 /* ********************************** Utils ********************************* */
 char	*concatenate(char *s1, char *s2, char *s3);
