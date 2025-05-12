@@ -41,7 +41,7 @@ void	restore_fds(int *fd)
 
 int	skip_zeros(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '-')
