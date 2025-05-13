@@ -59,6 +59,8 @@ int	exec_redir(t_data *minishell, t_ast *ast, int id)
 	int	status;
 
 	ast->right->args = expansor(minishell, ast->right->args);
+	if (!ast->right || (ast->right && !ast->right->args[0]))
+		return (print_error(INVALID_FILE, 1, "open", ast->right->args[0]));
 	if (ast->right && ast->right->args && ast->right->args[1])
 		return (print_error(AMBIGUOUS_REDIR, 1, NULL, NULL));
 	if (!check_file_permission(ast, id))
