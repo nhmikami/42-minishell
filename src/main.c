@@ -41,27 +41,6 @@ static void	start_iteration(t_data *minishell)
 	remove_heredoc_files(minishell);
 }
 
-// void print_postorder(t_ast *node) // para printar o parser, pode apagar depois
-// {
-// 	if (!node)
-// 		return;
-// 	print_postorder(node->left);
-// 	print_postorder(node->right);
-// 	printf("Node ID: %d\n", node->id);
-// 	if (node->left) {
-// 		printf("left: id %i", node->left->id);
-// 		if (node->left->id == ARG)
-// 			printf(", value %s", node->left->args[0]);
-// 		printf("\n");
-// 	}
-// 	if (node->right) {
-// 		printf("right: id %i", node->right->id);
-// 		if (node->right->id == ARG)
-// 			printf(", value %s", node->right->args[0]);
-// 		printf("\n");
-// 	}
-// }
-
 static void	run(t_data *minishell)
 {
 	t_ast	*root;
@@ -79,8 +58,6 @@ static void	run(t_data *minishell)
 				if (!root)
 					handle_error(MALLOC);
 				minishell->ast = &root;
-				// printf("\nparser\n"); // apagar
-				// print_postorder(root); // apagar
 				if (g_signal == SIGINT)
 					update_exit_status(minishell, SIGINT + 128);
 				update_exit_status(minishell, execute(minishell));

@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exec_submodule.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:53:12 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/13 14:32:52 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:26:15 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exec_submodule(t_data *minishell, t_ast *ast)
+int	exec_submodule(t_data *minishell, t_ast *ast)
 {
 	pid_t	submod_pid;
 	int		status;
 	
 	submod_pid = fork();
 	if (submod_pid == 0)
-		loop_tree(minishell, ast);
+	{
+		status = loop_tree(minishell, ast);
+		close_fds(minishell->fd_bk);
+		clear_mem();
+		exit(status);
+	}
 	else
 	{
 		waitpid(submod_pid, &status, 0);

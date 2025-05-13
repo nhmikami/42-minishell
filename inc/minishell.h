@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/13 14:31:06 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:30:01 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,10 @@ void	free_tokens(t_token *tokens);
 
 /* ********************************* Parser ********************************* */
 t_ast	*build_tree(t_data *minishell, t_token *tokens);
+t_ast	*parse_token(t_token *tokens);
+t_ast	*parse_operators(t_data *minishell, t_token *tokens, t_token *op);
+t_ast	*parse_redir(t_data *minishell, t_token *tokens, t_token *op);
+t_ast	*parse_subshell(t_data *minishell, t_token *tokens);
 t_ast	*new_node(int id);
 t_token	*search_and_or(t_token *tokens);
 t_token	*search_pipe(t_token *tokens);
@@ -198,7 +202,7 @@ int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redir(t_data *minishell, t_ast *ast, int id);
-int 	exec_submodule(t_data *minishell, t_ast *ast);
+int		exec_submodule(t_data *minishell, t_ast *ast);
 int		execute(t_data *minishell);
 
 /* ********************************* Builtin ******************************** */

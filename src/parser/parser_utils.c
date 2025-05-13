@@ -89,6 +89,8 @@ t_token	*remove_outer_paren(t_token *tokens)
 int	is_subshell(t_token *tokens)
 {
 	t_token	*last;
+	t_token	*curr;
+	int		paren;
 
 	if (!tokens || tokens->id != PAREN_OPEN)
 		return (0);
@@ -97,5 +99,17 @@ int	is_subshell(t_token *tokens)
 		last = last->next;
 	if (last->id != PAREN_CLOSE)
 		return (0);
+	paren = 0;
+	curr = tokens;
+	while (curr)
+	{
+		if (curr->id == PAREN_OPEN)
+			paren++;
+		else if (curr->id == PAREN_CLOSE)
+			paren--;
+		if (paren == 0 && curr != last)
+			return (0);
+		curr = curr->next;
+	}
 	return (1);
 }
