@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/13 11:50:48 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:28:10 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void	parse_heredoc(t_data *minishell, t_token *op);
 void	remove_heredoc_files(t_data *minishell);
 void	free_ast(t_ast *node);
 int		count_args(t_token *tokens);
+int		is_subshell(t_token *tokens);
 
 /* ******************************** Expansor ******************************** */
 char	**expansor(t_data *minishell, char **tokens);
