@@ -12,19 +12,22 @@
 
 #include "minishell.h"
 
-static int	has_n_flag(char *arg)
+static int	has_n_flags(char **args)
 {
 	int i;
+	int	j;
 
 	i = 1;
-	if (arg && arg[0] == '-')
+	while (args[i] && args[i][0] == '-')
 	{
-		while(arg[i] == 'n')
-			i++;
-		if (arg[i] == '\0')
-			return (1);
+		j = 1;
+		while(args[i][j] == 'n')
+			j++;
+		if (args[i][j] != '\0')
+			break ;
+		i++;
 	}
-	return (0);
+	return (i);
 }
 
 int	echo(char **args)
@@ -32,13 +35,10 @@ int	echo(char **args)
 	int	i;
 	int	newline;
 
-	i = 1;
+	i = has_n_flags(args);
 	newline = 1;
-	if (has_n_flag(args[i]) == 1)
-	{
+	if (i > 1)
 		newline = 0;
-		i++;
-	}
 	while (args[i])
 	{
 		printf("%s", args[i]);
