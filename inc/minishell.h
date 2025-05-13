@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/13 14:28:10 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:31:06 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int		exec_path(t_data *minishell, char **args);
 int		loop_tree(t_data *minishell, t_ast *ast);
 int		exec_pipe(t_data *minishell, t_ast *ast);
 int		exec_redir(t_data *minishell, t_ast *ast, int id);
+int 	exec_submodule(t_data *minishell, t_ast *ast);
 int		execute(t_data *minishell);
 
 /* ********************************* Builtin ******************************** */

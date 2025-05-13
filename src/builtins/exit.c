@@ -28,20 +28,22 @@ int	negative_exit_num(int num)
 
 int	exec_exit(t_data *minishell, char **args)
 {
-	int	exit_num;
+	int		exit_num;
+	char	*arg_trim;
 
 	(void) minishell;
 	exit_num = 0;
 	printf("exit\n");
 	if (args[1])
 	{
-		if (!ft_isnum(args[1]) || skip_zeros(args[1]) > 19)
-			exit_num = print_error(NUMERIC_ARG, 2, "exit", args[1]);
+		arg_trim = ft_strtrim(args[1], " ");
+		if (!ft_isnum(arg_trim) || skip_zeros(arg_trim) > 18)
+			exit_num = print_error(NUMERIC_ARG, 2, "exit", arg_trim);
 		else if (args[2])
 			return (print_error(EXCEED_ARG, 1, "exit", NULL));
 		else
 		{
-			exit_num = ft_atoi(args[1]);
+			exit_num = ft_atoi(arg_trim);
 			if (exit_num < 0)
 				exit_num = negative_exit_num(exit_num);
 			else if (exit_num > 255 || exit_num < 0)

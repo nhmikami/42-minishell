@@ -19,6 +19,8 @@ char	*verify_cmd(char *cmd, int *res)
 
 	if (!cmd || !cmd[0])
 		return (NULL);
+	// if (cmd[0] == '.' && cmd[1] == '\n')
+	// 	return (pri)
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
 		errno = 0;

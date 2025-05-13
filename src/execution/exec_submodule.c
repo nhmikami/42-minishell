@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:53:12 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/13 11:59:16 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:32:52 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ int exec_submodule(t_data *minishell, t_ast *ast)
 			return (WEXITSTATUS(status));
 		return (128 + WTERMSIG(status));
 	}
+	return (0);
 }
