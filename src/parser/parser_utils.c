@@ -85,3 +85,17 @@ t_token	*remove_outer_paren(t_token *tokens)
 	}
 	return (remove_outer_paren(trim_parens(tokens, last)));
 }
+
+int	is_subshell(t_token *tokens)
+{
+	t_token	*last;
+
+	if (!tokens || tokens->id != PAREN_OPEN)
+		return (0);
+	last = tokens;
+	while (last->next)
+		last = last->next;
+	if (last->id != PAREN_CLOSE)
+		return (0);
+	return (1);
+}

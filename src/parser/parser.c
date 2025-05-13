@@ -102,11 +102,24 @@ static t_ast	*parse_token(t_token *tokens)
 	return (node);
 }
 
+t_ast *parse_subshell(t_data *minishell, t_token *tokens)
+{
+	t_ast *node;
+
+	tokens = remove_outer_paren(tokens);
+	node = new_node(SUBSHELL);
+	if (!node)
+		handle_error(MALLOC);
+	node->left = build_tree(minishell, tokens);
+	return (node);
+}
+
 t_ast	*build_tree(t_data *minishell, t_token *tokens)
 {
 	t_token	*op;
 
-	tokens = remove_outer_paren(tokens);
+	if (is_subshell(tokens))
+		return (parse_subshell(minishell, tokens));
 	op = search_and_or(tokens);
 	if (op)
 		return (parse_operators(minishell, tokens, op));
