@@ -6,25 +6,25 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:07:06 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/13 16:30:01 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:38:14 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include <dirent.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/stat.h>
-# include <errno.h>
 # include "libft.h"
 
 /* ********************************* MACROS ********************************* */
