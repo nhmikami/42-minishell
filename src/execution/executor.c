@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:36:44 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/12 18:39:32 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:52:55 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	exec_operators(t_data *minishell, t_ast *ast)
 		res = exec_pipe(minishell, ast);
 	else if (ast->id >= REDIR_IN && ast->id <= APPEND)
 		res = exec_redir(minishell, ast, ast->id);
+	else if (ast->id == SUBSHELL)
+		res = exec_submodule(minishell, ast->left);
 	return (res);
 }
 
