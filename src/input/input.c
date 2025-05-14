@@ -18,6 +18,8 @@ char	*get_input(t_data *minishell)
 	int		status;
 
 	input = readline(minishell->prompt);
+	if (g_signal == SIGINT)
+		update_exit_status(minishell, SIGINT + 128);
 	if (!input)
 	{
 		ft_putstr_fd("exit\n", 1);
