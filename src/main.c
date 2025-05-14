@@ -60,7 +60,8 @@ static void	run(t_data *minishell)
 				minishell->ast = &root;
 				if (g_signal == SIGINT)
 					update_exit_status(minishell, SIGINT + 128);
-				update_exit_status(minishell, execute(minishell));
+				else
+					update_exit_status(minishell, execute(minishell));
 				free_ast(root);
 				minishell->ast = NULL;
 			}
