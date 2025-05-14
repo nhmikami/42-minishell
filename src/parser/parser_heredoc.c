@@ -40,8 +40,6 @@ static void	heredoc_write(t_data *minishell, char *delimiter, int fd)
 {
 	char	*line;
 
-	if (fd == -1)
-		handle_error(TEMP_ERR);
 	while (1)
 	{
 		line = readline("> ");
@@ -52,6 +50,10 @@ static void	heredoc_write(t_data *minishell, char *delimiter, int fd)
 		}
 		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
+			if (!line)
+				ft_printf_fd(2,
+					"warning: heredoc delimited by end-of-file (wanted `%s')\n",
+					delimiter);
 			free(line);
 			break ;
 		}
@@ -82,6 +84,8 @@ void	parse_heredoc(t_data *minishell, t_token *op)
 	if (!path)
 		handle_error(MALLOC);
 	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (fd == -1)
+		handle_error(TEMP_ERR);
 	heredoc_signal();
 	op->next->value = remove_quotes(op->next->value);
 	heredoc_write(minishell, op->next->value, fd);
