@@ -18,6 +18,8 @@ static int	has_n_flags(char **args)
 	int	j;
 
 	i = 1;
+	if (args[i] && args[i][0] == '-' && !args[i][1])
+		return (i);
 	while (args[i] && args[i][0] == '-')
 	{
 		j = 1;
