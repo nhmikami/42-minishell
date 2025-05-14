@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:53:12 by cayamash          #+#    #+#             */
-/*   Updated: 2025/05/13 17:28:40 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:55:39 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_submodule(t_data *minishell, t_ast *ast)
 {
 	pid_t	submod_pid;
 	int		status;
-	
+
 	submod_pid = fork();
 	if (submod_pid == 0)
 	{

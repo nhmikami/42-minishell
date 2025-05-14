@@ -14,14 +14,14 @@
 
 static int	has_n_flags(char **args)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 1;
 	while (args[i] && args[i][0] == '-')
 	{
 		j = 1;
-		while(args[i][j] == 'n')
+		while (args[i][j] == 'n')
 			j++;
 		if (args[i][j] != '\0')
 			break ;
