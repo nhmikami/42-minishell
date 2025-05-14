@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strupcase.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 17:54:54 by naharumi          #+#    #+#             */
 /*   Updated: 2024/08/22 13:00:54 by naharumi         ###   ########.fr       */
@@ -23,14 +23,3 @@ char	*ft_strupcase(char *str)
 	}
 	return (str);
 }
-/*
-#include <stdio.h>
-
-int     main(void)
-{
-        char    str[] = "abcde";
-        printf("string original:  %s\n", str);
-	ft_strupcase(str);
-        printf("string retornada: %s\n", str);
-}
-*/

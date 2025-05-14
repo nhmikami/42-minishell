@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:05:14 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/06 19:16:50 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:31:26 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	collect_mem(void *content);
 void	deallocate_mem(void *content);
 void	clear_mem(void);
 
-//printf_fd
+// printf_fd
 int		ft_printf_fd(int fd, const char *str, ...);
 
 #endif

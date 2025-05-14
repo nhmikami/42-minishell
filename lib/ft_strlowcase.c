@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlowcase.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 18:01:35 by naharumi          #+#    #+#             */
 /*   Updated: 2024/08/22 13:02:42 by naharumi         ###   ########.fr       */
@@ -23,14 +23,3 @@ char	*ft_strlowcase(char *str)
 	}
 	return (str);
 }
-/*
-#include <stdio.h>
-
-int     main(void)
-{
-        char    str[] = "ABCDE";
-        printf("string original:  %s\n", str);
-	ft_strlowcase(str);
-        printf("string retornada: %s\n", str);
-}
-*/
