@@ -1,6 +1,10 @@
 # 42-minishell
 This project is about creating a simple shell. Yes, our very own little bash.
 
+<p>
+  <img src="gif/mini.gif"><br />
+</p>
+
 ## Description
 Minishell is a project that aims to recreate a simplified version of the Bash shell, providing users with a functional command-line interface.
 *  Tokenizer: splits the user input into meaningful units (tokens) like commands, arguments, operators and redirection symbols 
