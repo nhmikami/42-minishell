@@ -73,9 +73,9 @@ libft:
 norm:
 	@echo "\n$(BLUE)======= INCLUDES =======$(END)"
 	@norminette inc | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
-	@echo "\n$(YELLOW)======= LIB =======$(END)"
+	@echo "\n$(YELLOW)========= LIB =========$(END)"
 	@norminette lib | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
-	@echo "\n$(MAGENTA)======= SRC =======$(END)"
+	@echo "\n$(MAGENTA)========= SRC =========$(END)"
 	@norminette src | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 
 # Compile object files
