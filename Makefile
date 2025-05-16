@@ -56,11 +56,11 @@ VALGRIND = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all 
 
 # Style
 NO_PRINT = --no-print-directory
-GREEN = \033[1;32m
+GREEN	= \033[1;32m
 BLUE	= \033[1;36m
 YELLOW	= \033[1;33m
 MAGENTA	= \033[1;35m
-END = \033[0m
+END		= \033[0m
 
 # Rules
 all: libft $(NAME)
