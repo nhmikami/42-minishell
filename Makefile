@@ -56,8 +56,11 @@ VALGRIND = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all 
 
 # Style
 NO_PRINT = --no-print-directory
-GREEN = \033[1;32m
-END = \033[0m
+GREEN	= \033[1;32m
+BLUE	= \033[1;36m
+YELLOW	= \033[1;33m
+MAGENTA	= \033[1;35m
+END		= \033[0m
 
 # Rules
 all: libft $(NAME)
@@ -70,6 +73,8 @@ libft:
 norm:
 	@echo "\n$(BLUE)======= INCLUDES =======$(END)"
 	@norminette inc | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
+	@echo "\n$(YELLOW)======= LIB =======$(END)"
+	@norminette lib | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 	@echo "\n$(MAGENTA)======= SRC =======$(END)"
 	@norminette src | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/Error/\x1b[1;31m&\x1b[0m/g'
 
