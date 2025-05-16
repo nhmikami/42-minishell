@@ -104,8 +104,8 @@ t_token	**tokenizer(char *input)
 			new = new_token(value, id);
 			deallocate_mem(value);
 			append_token(tokens, new);
+			input += token_len(input, id);
 		}
-		input += token_len(input, id);
 	}
 	return (tokens);
 }
