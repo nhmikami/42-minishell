@@ -30,13 +30,13 @@ Minishell is a project that aims to recreate a simplified version of the Bash sh
     *  `>` redirects output in truncate mode
     *  `<<` reads user's input in heredoc mode
     *  `>>` redirects output in append mode
-*  Environment variables
+*  Environment variables:
     *  `$` followed by a variable name, expands to the environment variable's value
     *  `$?` expands to the exit status of the most recently executed command
     *  `'` (single quotes) prevent the shell from interpreting the metacharacters 
     *  `"` (double quotes) prevent the shell from interpreting the metacharacters, but allow variable expansion
     *  `*` (wildcards) expand files and directories that matches a certain pattern
-*  Logical operators
+*  Logical operators:
     *  `&&` executes the next command only if the previous one succeeded
     *  `||` executes the next command only if the previous one failed
 *  Signals in interactive mode:
