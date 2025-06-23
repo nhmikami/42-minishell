@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:42:12 by naharumi          #+#    #+#             */
-/*   Updated: 2025/05/08 18:23:39 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:45:44 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	print_command_error(int res, char *args)
 static void	print_error2(int error, char *cmd, char *arg)
 {
 	if (error == DIR_CMD)
-		ft_printf_fd(2, " Is a directory\n");
+		ft_printf_fd(2, "minishell: Is a directory\n");
 	else if (error == INVALID_PERM)
-		ft_printf_fd(2, " Permission denied\n");
+		ft_printf_fd(2, "minishell: Permission denied\n");
 	else if (error == AMBIGUOUS_REDIR)
 		ft_printf_fd(2, "minishell: ambiguous redirect\n");
 	else if (error == QUOTES)
