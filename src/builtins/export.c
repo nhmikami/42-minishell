@@ -21,8 +21,11 @@ static void	exec_export(t_data *minishell, char *arg)
 	node = findlev(*minishell->lev, key_value[0]);
 	if (node)
 	{
-		deallocate_mem(node->value);
-		node->value = ft_strdup(key_value[1]);
+		if (key_value[1])
+		{
+			deallocate_mem(node->value);
+			node->value = ft_strdup(key_value[1]);
+		}
 	}
 	else
 	{
